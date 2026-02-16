@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>トップページ</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; text-align:center; }
+        a { display: inline-block; margin-top: 20px; padding: 8px 16px; text-decoration: none; background-color: #4CAF50; color: white; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h2>ログイン成功！</h2>
+    <p>ようこそ、アプリへ！</p>
+    <a th:href="@{/logout}">ログアウト</a>
+</body>
+</html>
