@@ -16,18 +16,27 @@ public class AuthController {
     public AuthController(InMemoryUserDetailsManager userDetailsManager) {
         this.userDetailsManager = userDetailsManager;
     }
+    
+    // ルート / へのアクセスでログイン画面にリダイレクト
+    @GetMapping("/")
+    public String root() {
+        return "redirect:/auth/login";
+    }
 
+    // ログイン画面
     @GetMapping("/auth/login")
     public String loginForm() {
         return "/auth/login";
     }
 
-    @GetMapping("/register")
+    // 新規登録画面
+    @GetMapping("/auth/register")
     public String registerForm() {
         return "/auth/register";
     }
-
-    @PostMapping("auth/register")
+    
+    // 新規登録 POST
+    @PostMapping("/auth/register")
     public String registerUser(@RequestParam String username, @RequestParam String password) {
         UserDetails newUser = User.withDefaultPasswordEncoder()
                 .username(username)
@@ -35,7 +44,7 @@ public class AuthController {
                 .roles("USER")
                 .build();
         userDetailsManager.createUser(newUser);
-        return "redirect:/auth/login";
+        return "redirect:/auth/login";	// 登録後にログイン画面へ
     }
 
     @GetMapping("/auth/top")

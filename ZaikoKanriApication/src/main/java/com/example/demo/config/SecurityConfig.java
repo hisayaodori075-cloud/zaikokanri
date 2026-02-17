@@ -20,7 +20,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/auth/login")
-                .defaultSuccessUrl("/auth/top")
+                .defaultSuccessUrl("/product/newproduct",true)
                 .permitAll()
             )
             .logout(logout -> logout

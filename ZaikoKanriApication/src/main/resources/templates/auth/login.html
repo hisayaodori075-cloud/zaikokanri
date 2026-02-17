@@ -8,18 +8,16 @@
         form { max-width: 300px; margin: auto; }
         input { display: block; width: 100%; padding: 8px; margin: 10px 0; }
         button { padding: 8px 16px; }
-        a { display: block; margin-top: 10px; text-align: center; }
+        h2 { text-align: center; }
     </style>
 </head>
 <body>
-    <h2 style="text-align:center;">ログイン</h2>
+    <h2>ログイン</h2>
 
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/auth/login}" method="post">
         <input type="text" name="username" placeholder="ユーザー名" required>
         <input type="password" name="password" placeholder="パスワード" required>
         <button type="submit">ログイン</button>
     </form>
-
-    <a th:href="@{/register}">新規登録はこちら</a>
 </body>
 </html>
