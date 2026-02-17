@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品新規登録</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        form { max-width: 400px; margin: auto; }
+        input, textarea { display: block; width: 100%; padding: 8px; margin: 10px 0; }
+        button { padding: 8px 16px; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>商品新規登録</h2>
+
+    <form th:action="@{/product/save}" method="post">
+        <input type="text" name="name" placeholder="商品名" required>
+        <input type="number" name="price" placeholder="価格" required>
+        <input type="number" name="stock" placeholder="在庫数" required>
+        <textarea name="description" placeholder="商品説明"></textarea>
+        <button type="submit">登録</button>
+    </form>
+</body>
+</html>
