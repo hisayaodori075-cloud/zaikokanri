@@ -15,7 +15,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
+            	///auth/loginと/auth/registerはHttpで入力したら表示される
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
+                
+              //それ以外は許可しない
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -24,6 +27,8 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/product/newproduct",true)
                 .permitAll()
             )
+            
+            
             .logout(logout -> logout
                 .logoutSuccessUrl("/auth/login")
             );
