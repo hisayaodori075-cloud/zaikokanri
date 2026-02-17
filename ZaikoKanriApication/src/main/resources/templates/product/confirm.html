@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>確認画面</title>
+</head>
+<body>
+	<h2>登録内容確認</h2>
+
+	商品名: <span th:text="${product.name}"></span><br>
+	価格: <span th:text="${product.price}"></span><br>
+
+	<form th:action="@{/product/save}" th:object="${product}" method="post">
+	    <input type="hidden" th:field="*{name}" />
+	    <input type="hidden" th:field="*{price}" />
+	    <button type="submit">登録する</button>
+	</form>
+
+	<form th:action="@{/product/newproduct}" method="get">
+	    <button type="submit">戻る</button>
+	</form>
+
+
+</body>
+</html>

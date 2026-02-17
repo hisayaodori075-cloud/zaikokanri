@@ -13,13 +13,20 @@
 </head>
 <body>
     <h2>商品新規登録</h2>
+	
+	<form th:action="@{/logout}" method="post">
+	        <button type="submit">ログアウト</button>
+	</form>
 
-    <form th:action="@{/product/save}" method="post">
-        <input type="text" name="name" placeholder="商品名" required>
-        <input type="number" name="price" placeholder="価格" required>
-        <input type="number" name="stock" placeholder="在庫数" required>
-        <textarea name="description" placeholder="商品説明"></textarea>
-        <button type="submit">登録</button>
-    </form>
+	<form th:action="@{/product/confirm}" 
+	      th:object="${product}" 
+	      method="post">
+
+	    <input type="text" th:field="*{name}" placeholder="商品名" required>
+	    <input type="number" th:field="*{price}" placeholder="価格" required>
+	    <input type="number" th:field="*{stock}" placeholder="在庫数" required>
+
+	    <button type="submit">確認へ</button>
+	</form>
 </body>
 </html>

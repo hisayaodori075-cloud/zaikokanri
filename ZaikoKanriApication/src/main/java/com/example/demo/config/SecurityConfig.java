@@ -20,6 +20,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/auth/login")
+                .loginProcessingUrl("/auth/login") 
                 .defaultSuccessUrl("/product/newproduct",true)
                 .permitAll()
             )
