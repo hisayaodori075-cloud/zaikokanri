@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.model.FirstPage;
 import com.example.demo.model.Product;
 
 @Controller
@@ -18,6 +19,18 @@ public class ProductController {
     public String showForm(Model model) {
         model.addAttribute("product", new Product());
         return "product/newproduct";
+    }
+    
+    // 商品管理アプリ最初の画面表示
+    @GetMapping("/FirstMenu")
+    public String FirstPage(Model model) {
+        model.addAttribute("First", new FirstPage());
+        return "menu/FirstMenu";
+    }
+    
+    @GetMapping("/back")
+    public String back() {
+        return "menu/FirstMenu";
     }
 
     // 確認画面へ

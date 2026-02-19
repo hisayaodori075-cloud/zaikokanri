@@ -17,14 +17,25 @@
 	<form th:action="@{/logout}" method="post">
 	        <button type="submit">ログアウト</button>
 	</form>
+	
+	<button type="button" th:onclick="|location.href='@{/menu/FirstMenu}'|">
+		戻る
+	</button>
+	
+	
+	
 
 	<form th:action="@{/product/confirm}" 
 	      th:object="${product}" 
 	      method="post">
 
+	    <input type="number" th:field="*{jan}" placeholder="JANコード" required>
+	    <input type="text" th:field="*{MakerName}" placeholder="メーカー名" required>
 	    <input type="text" th:field="*{name}" placeholder="商品名" required>
-	    <input type="number" th:field="*{price}" placeholder="価格" required>
-	    <input type="number" th:field="*{stock}" placeholder="在庫数" required>
+		<input type="number" th:field="*{PurchasePrice}" placeholder="仕入価格" required>
+		<input type="number" th:field="*{price}" placeholder="売価" required>
+		<input type="text" th:field="*{SalesStatus}" placeholder="販売状況" required>
+		
 
 	    <button type="submit">確認へ</button>
 	</form>

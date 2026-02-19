@@ -35,6 +35,11 @@ public class AuthController {
         return "/auth/register";
     }
     
+    @GetMapping("/menu/FirstMenu")
+    public String FirstMenuForm() {
+        return "/menu/FirstMenu";
+    }
+    
     // 新規登録 POST
     @PostMapping("/auth/register")
     public String registerUser(@RequestParam String username, @RequestParam String password) {

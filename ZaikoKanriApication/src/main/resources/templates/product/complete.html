@@ -5,11 +5,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>登録が完了しました</h2>
-
-	商品名: <span th:text="${product.name}"></span><br>
-	価格: <span th:text="${product.price}"></span><br>
-
-	<a th:href="@{/product/newproduct}">新規登録画面へ戻る</a>
+	<h2>登録が完了しました</h2>	
+	<br><a th:href="@{/product/newproduct}">続けて登録する</a></br>
+	<br><a th:href="@{/menu/FirstMenu}">商品管理アプリへ戻る</a></br>
 </body>
 </html>

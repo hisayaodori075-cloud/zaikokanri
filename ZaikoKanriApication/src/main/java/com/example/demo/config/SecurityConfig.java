@@ -24,7 +24,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/auth/login") 
-                .defaultSuccessUrl("/product/newproduct",true)
+                .defaultSuccessUrl("/menu/FirstMenu",true)
                 .permitAll()
             )
             
@@ -32,6 +32,10 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/auth/login")
             );
+        
+        
+        
+        		
         return http.build();
     }
 
