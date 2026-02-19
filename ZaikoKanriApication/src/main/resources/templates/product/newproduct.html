@@ -18,12 +18,9 @@
 	        <button type="submit">ログアウト</button>
 	</form>
 	
-	<button type="button" th:onclick="|location.href='@{/menu/FirstMenu}'|">
-		戻る
-	</button>
-	
-	
-	
+	<form th:action="@{/menu/FirstMenu}" method="get">
+		    <button type="submit">戻る</button>
+	</form>
 
 	<form th:action="@{/product/confirm}" 
 	      th:object="${product}" 
