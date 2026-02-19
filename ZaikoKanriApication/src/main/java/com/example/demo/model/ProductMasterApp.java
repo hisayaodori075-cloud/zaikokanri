@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
-public class FirstPage {
+public class ProductMasterApp {
 
     // コンストラクタ（空）
-    public FirstPage() {
+    public ProductMasterApp() {
     }
 }

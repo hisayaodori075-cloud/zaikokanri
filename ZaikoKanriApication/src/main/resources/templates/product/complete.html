@@ -6,7 +6,13 @@
 </head>
 <body>
 	<h2>登録が完了しました</h2>	
-	<br><a th:href="@{/product/newproduct}">続けて登録する</a></br>
-	<br><a th:href="@{/menu/FirstMenu}">商品管理アプリへ戻る</a></br>
+	
+	<form th:action="@{/product/newproduct}" method="get">
+			    <button type="submit">続けて登録する</button>
+	</form>
+	
+	<form th:action="@{/menu/ProductMasterList}" method="get">
+			    <button type="submit">商品マスタ一覧へ戻る</button>
+	</form>
 </body>
 </html>

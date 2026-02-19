@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>商品マスタ一覧</h2>
+		<form th:action="@{/menu/ProductMasterList}" method="get">
+			<button type="submit">商品マスタ</button>
+		</form>	
+		
+		<form th:action="@{/product/newproduct}" method="get">
+			<button type="submit">アラート設定</button>
+		</form>	
+		
+		<form th:action="@{/menu/ProductMasterApp}" method="get">
+		    <button type="submit">商品管理アプリへ戻る</button>
+		</form>
+
+</body>
+</html>

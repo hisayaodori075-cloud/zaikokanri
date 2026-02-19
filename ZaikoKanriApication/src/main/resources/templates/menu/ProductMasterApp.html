@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>商品管理アプリ</h2>
+			<form th:action="@{/menu/ProductMasterKanri}" method="get">
+				<button type="submit">マスタ管理</button>
+			</form>	
+			
+			<form th:action="@{/product/newproduct}" method="get">
+				<button type="submit">在庫管理</button>
+			</form>	
+			
+			<form th:action="@{/product/newproduct}" method="get">
+			    <button type="submit">アラート：〇件</button>
+			</form>
+			
+			<form th:action="@{/logout}" method="post">
+				        <button type="submit">ログアウト</button>
+			</form>
+
+</body>
+</html>

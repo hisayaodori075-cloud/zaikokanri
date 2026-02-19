@@ -24,7 +24,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/auth/login") 
-                .defaultSuccessUrl("/menu/FirstMenu",true)
+                .defaultSuccessUrl("/menu/ProductMasterApp",true)
                 .permitAll()
             )
             
