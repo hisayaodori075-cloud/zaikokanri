@@ -1,6 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.product;
 
-public class Product {
+public class ProductModel {
 
     private int jan;
     private String MakerName;   
@@ -11,7 +11,7 @@ public class Product {
     
 
     // コンストラクタ（空）
-    public Product() {
+    public ProductModel() {
     }
 
     // getter

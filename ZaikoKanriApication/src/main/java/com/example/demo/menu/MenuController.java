@@ -1,11 +1,9 @@
-package com.example.demo.controller.MenuController;
+package com.example.demo.menu;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.example.demo.model.ProductMasterList;
 
 @RequestMapping("/menu")
 @Controller
@@ -23,7 +21,7 @@ public class MenuController {
     
     @GetMapping("/ProductMasterList")
     public String ProductMasterListForm(Model model) {
-        model.addAttribute("ProductMasterList", new ProductMasterList());
+        model.addAttribute("ProductMasterList", new MenuProductMasterList());
         return "menu/ProductMasterList";
     }
 }

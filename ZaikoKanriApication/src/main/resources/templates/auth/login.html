@@ -14,13 +14,16 @@
 <body>
     <h2>ログイン</h2>
 
-    <form th:action="@{/auth/login}" method="post">
-        <input type="text" name="username" placeholder="ユーザー名" required>
-        <input type="password" name="password" placeholder="パスワード" required>
-		<input type="hidden" th:name="${_csrf.parameterName}" 
-		           th:value="${_csrf.token}" />
-		
-        <button type="submit">ログイン</button>
-    </form>
+	<form th:action="@{/auth/login}" method="post">
+	    <div>
+	        ユーザー名：
+	        <input type="text" name="username" />
+	    </div>
+	    <div>
+	        パスワード：
+	        <input type="password" name="password" />
+	    </div>
+	    <button type="submit">ログイン</button>
+	</form>
 </body>
 </html>
