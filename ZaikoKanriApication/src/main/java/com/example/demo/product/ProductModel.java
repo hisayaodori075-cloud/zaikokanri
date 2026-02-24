@@ -2,11 +2,12 @@ package com.example.demo.product;
 
 public class ProductModel {
 
-    private int jan;
+    private String jan;
     private String MakerName;   
 	private String name;
 	private int PurchasePrice;
     private int price;
+    private String Status;
     private String SalesStatus;
     
 
@@ -15,7 +16,7 @@ public class ProductModel {
     }
 
     // getter
-    public int getJan() {
+    public String getJan() {
         return jan;
     }
     
@@ -34,13 +35,17 @@ public class ProductModel {
     public int getPrice() {
         return price;
     }
+    
+    public String getStatus() {
+		return Status;
+	}
 
     public String getSalesStatus() {
         return SalesStatus;
     }
 
     // setter
-    public void setJan(int jan) {
+    public void setJan(String jan) {
     		this.jan = jan;
     }
     
@@ -60,9 +65,17 @@ public class ProductModel {
     public void setPrice(int price) {
         this.price = price;
     }
+    
+    public void setStatus(String status) {
+		Status = status;
+	}
 
     public void setSalesStatus(String SalesStatus) {
         this.SalesStatus = SalesStatus;
     }
+
+	
+
+	
 }
 

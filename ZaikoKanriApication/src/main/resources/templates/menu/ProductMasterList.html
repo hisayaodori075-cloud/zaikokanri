@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
 	<meta charset="UTF-8">
 	<title>最初の画面</title>
@@ -21,7 +20,29 @@
 	
 	<form th:action="@{/menu/ProductMasterKanri}" method="get">
 		<button type="submit">マスタ管理へ戻る</button>
-	</form>				        
+	</form>		
+	
+	<table border="1">
+	    <tr>
+	        <th>ID</th>
+	        <th>JAN</th>
+	        <th>メーカー</th>
+	        <th>商品名</th>
+	        <th>売価</th>
+	        <th>ステータス</th>
+	        <th>販売状況</th>
+	    </tr>
+
+	    <tr th:each="product : ${productList}">
+	        <td th:text="${product.id}"></td>
+	        <td th:text="${product.janCode}"></td>
+	        <td th:text="${product.makerName}"></td>
+	        <td th:text="${product.productName}"></td>
+	        <td th:text="${product.price}"></td>
+	        <td th:text="${product.status}"></td>
+	        <td th:text="${product.salesStatus}"></td>
+	    </tr>
+	</table>		        
 	
 	
 </body>
