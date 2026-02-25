@@ -39,5 +39,15 @@ public class MenuController {
         return "menu/ProductMasterList";
     }
     
+    @GetMapping("/ZaikoKanri")
+    public String ZaikoKanriForm() {
+        return "menu/ZaikoKanri";
+    }
+    
+    @GetMapping("/ZaikoConfirm")
+    public String ZaikoConfirmForm() {
+        return "menu/ZaikoConfirm";
+    }
+    
     
 }

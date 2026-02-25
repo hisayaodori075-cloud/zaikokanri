@@ -7,18 +7,22 @@
 </head>
 <body>
 	<h2>商品管理アプリ</h2>
+			<!-- OK -->
 			<form th:action="@{/menu/ProductMasterKanri}" method="get">
 				<button type="submit">マスタ管理</button>
 			</form>	
 			
-			<form th:action="@{/product/newproduct}" method="get">
+			<!-- OK -->
+			<form th:action="@{/menu/ZaikoKanri}" method="get">
 				<button type="submit">在庫管理</button>
 			</form>	
 			
+			<!-- アラート画面を作ったらURLを変える -->
 			<form th:action="@{/product/newproduct}" method="get">
 			    <button type="submit">アラート：〇件</button>
 			</form>
 			
+			<!-- OK -->
 			<form th:action="@{/logout}" method="post">
 				        <button type="submit">ログアウト</button>
 			</form>

@@ -5,15 +5,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>商品マスタ一覧</h2>
+	<h2>マスタ管理</h2>
+		<!-- OK -->
 		<form th:action="@{/menu/ProductMasterList}" method="get">
 			<button type="submit">商品マスタ</button>
 		</form>	
 		
+		<!-- アラート設定のHTML作ったらURL替える（これはすぐできる） -->
 		<form th:action="@{/product/newproduct}" method="get">
 			<button type="submit">アラート設定</button>
 		</form>	
 		
+		<!-- OK -->
 		<form th:action="@{/menu/ProductMasterApp}" method="get">
 		    <button type="submit">商品管理アプリへ戻る</button>
 		</form>

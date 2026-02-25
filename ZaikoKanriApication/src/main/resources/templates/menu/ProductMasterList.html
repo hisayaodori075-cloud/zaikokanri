@@ -6,18 +6,22 @@
 </head>
 <body>
 	<h2>商品マスタ一覧</h2>
+	<!-- OK -->
 	<form th:action="@{/product/newproduct}" method="get">
 		<button type="submit">新規商品登録</button>
 	</form>	
 	
+	<!-- 商品検索画面作ったらURL替える（これは少し時間かかる） -->
 	<form th:action="@{/product/newproduct}" method="get">
 		<button type="submit">商品検索</button>
 	</form>	
 	
+	<!-- 商品並び替え画面作ったらURL替える（これは少し時間かかる） -->
 	<form th:action="@{/product/newproduct}" method="get">
 	    <button type="submit">商品を並び替える</button>
 	</form>
 	
+	<!-- OK -->
 	<form th:action="@{/menu/ProductMasterKanri}" method="get">
 		<button type="submit">マスタ管理へ戻る</button>
 	</form>		
