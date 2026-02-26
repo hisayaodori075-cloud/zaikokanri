@@ -21,10 +21,10 @@ public class ProductSearchController {
     @GetMapping("/inputForm/ProductSearch")
     public String showSearchForm(Model model) {
         model.addAttribute("productSearchForm", new ProductSearchForm());
-        return "productSearch";
+        return "inputForm/ProductSearch";
     }
 
-    @PostMapping("/inputForm/ProductSearch")
+    @PostMapping("/inputForm/ProductSearchConfirm")
     public String search(
             @ModelAttribute ProductSearchForm form,
             Model model) {
@@ -32,6 +32,6 @@ public class ProductSearchController {
         List<ProductEntity> result = productService.search(form);
         model.addAttribute("productList", result);
 
-        return "productList";
+        return "inputForm/ProductSearchConfirm";
     }
 }

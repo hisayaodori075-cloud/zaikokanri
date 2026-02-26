@@ -1,36 +1,31 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>商品検索</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        form { max-width: 400px; margin: auto; }
-        input, textarea { display: block; width: 100%; padding: 8px; margin: 10px 0; }
-        button { padding: 8px 16px; }
-        h2 { text-align: center; }
-    </style>
-</head>
-<body>
-    <h2>商品検索</h2>
+<div class="result-container">
 	
-	<form th:action="@{/menu/ProductMasterList}" method="get">
-		    <button type="submit">戻る</button>
-	</form>
+	<h1>商品検索結果</h1>
+<table border="1">
+    <tr>
+        <th>JAN</th>
+        <th>メーカー</th>
+        <th>商品名</th>
+        <th>売価</th>
+        <th>ステータス</th>
+        <th>販売状況</th>
+    </tr>
 
-	<form th:action="@{/product/confirm}" 
-	      th:object="${product}" 
-	      method="post">
+    <tr th:each="product : ${productList}">
+        <td th:text="${product.janCode}"></td>
+        <td th:text="${product.makerName}"></td>
+        <td th:text="${product.productName}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.status}"></td>
+        <td th:text="${product.salesStatus}"></td>
+    </tr>
+</table>
 
-	    <input type="number" th:field="*{jan}" placeholder="JANコード" required>
-	    <input type="text" th:field="*{MakerName}" placeholder="メーカー名" required>
-	    <input type="text" th:field="*{name}" placeholder="商品名" required>
-		<input type="number" th:field="*{PurchasePrice}" placeholder="仕入価格" required>
-		<input type="number" th:field="*{price}" placeholder="売価" required>
-		<input type="text" th:field="*{SalesStatus}" placeholder="販売状況" required>
-		
+<!-- 戻るボタン -->
+    <div style="margin-top:20px;">
+        <form th:action="@{/inputForm/ProductSearch}" method="get">
+            <button type="submit">検索画面に戻る</button>
+        </form>
+    </div>
 
-	    <button type="submit">確認へ</button>
-	</form>
-</body>
-</html>
+</div>

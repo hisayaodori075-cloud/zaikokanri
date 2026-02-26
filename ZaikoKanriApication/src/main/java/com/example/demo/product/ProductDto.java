@@ -2,7 +2,7 @@ package com.example.demo.product;
 
 public class ProductDto {
 
-	private int jan;
+	private String jan;
     private String MakerName;   
 	private String name;
 	private int PurchasePrice;
@@ -10,7 +10,7 @@ public class ProductDto {
     private String SalesStatus;
     
     // getter
-    public int getjan() {
+    public String getjan() {
         return jan;
     }
     
@@ -35,7 +35,7 @@ public class ProductDto {
     }
 
     // setter
-    public void setjan(int jan) {
+    public void setjan(String jan) {
     		this.jan = jan;
     }
     

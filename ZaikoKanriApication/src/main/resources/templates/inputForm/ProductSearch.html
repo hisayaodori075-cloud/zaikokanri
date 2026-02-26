@@ -1,13 +1,73 @@
-<form th:action="@{/inputForm/ProductSearch}" 
-      th:object="${productSearchForm}" 
-      method="post">
+<style>
+body {
+    background-color: #f3f3f3;
+    font-family: Arial, sans-serif;
+}
 
-    <input type="number" th:field="*{jan}" placeholder="JANコード">
-    <input type="text" th:field="*{makerName}" placeholder="メーカー名">
-    <input type="text" th:field="*{name}" placeholder="商品名">
-    <input type="number" th:field="*{purchasePrice}" placeholder="仕入価格">
-    <input type="number" th:field="*{price}" placeholder="売価">
-    <input type="text" th:field="*{salesStatus}" placeholder="販売状況">
+.container {
+    width: 500px;
+    margin: 80px auto;
+    text-align: center;
+}
 
-    <button type="submit">検索</button>
-</form>
+h1 {
+    margin-bottom: 30px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-box input {
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 4px;
+}
+
+.button-area {
+    margin-top: 20px;
+}
+
+button {
+    padding: 8px 20px;
+    border: 1px solid #999;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #dcdcdc;
+}
+</style>
+
+
+<div class="container">
+
+    <h1>商品検索</h1>
+
+    <div>
+        <button type="button" onclick="history.back()">戻る</button>
+    </div>
+
+    <form th:action="@{/inputForm/ProductSearchConfirm}" 
+          th:object="${productSearchForm}" 
+          method="post">
+
+        <div class="form-box">
+            <input type="number" th:field="*{jan}" placeholder="JANコード">
+            <input type="text" th:field="*{makerName}" placeholder="メーカー名">
+            <input type="text" th:field="*{name}" placeholder="商品名">
+            <input type="number" th:field="*{purchasePrice}" placeholder="仕入価格">
+            <input type="number" th:field="*{price}" placeholder="売価">
+            <input type="text" th:field="*{salesStatus}" placeholder="販売状況">
+        </div>
+
+        <div class="button-area">
+            <button type="submit">検索</button>
+        </div>
+
+    </form>
+
+</div>

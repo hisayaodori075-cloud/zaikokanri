@@ -17,12 +17,22 @@ public class ProductService {
 
     public List<ProductEntity> search(ProductSearchForm form) {
 
-        // nullチェック（検索画面では重要）
-        if (form.getJan() == null) {
-            return productRepository.findAll();
-        }
+        String janCode = emptyToNull(form.getJan());
+        String makerName = emptyToNull(form.getMakerName());
+        String productName = emptyToNull(form.getName());
+        Integer price = form.getPrice();
+        String salesStatus = emptyToNull(form.getSalesStatus());
 
-        // Integer → String に変換
-        return productRepository.findByJanCode(String.valueOf(form.getJan()));
+        return productRepository.search(
+                janCode,
+                makerName,
+                productName,
+                price,
+                salesStatus
+        );
+    }
+
+    private String emptyToNull(String value) {
+        return (value == null || value.isBlank()) ? null : value;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.demo.form;
 
 public class ProductSearchForm {	
-	    private Integer jan;
+	    private String jan;
 	    private String makerName;
 	    private String name;
 	    private Integer purchasePrice;
@@ -10,10 +10,10 @@ public class ProductSearchForm {
 	    
 	    
 	    // jan
-		public Integer getJan() {
+		public String getJan() {
 			return jan;
 		}
-		public void setJan(Integer jan) {
+		public void setJan(String jan) {
 			this.jan = jan;
 		}
 		
