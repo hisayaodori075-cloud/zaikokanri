@@ -49,5 +49,25 @@ public class MenuController {
         return "menu/ZaikoConfirm";
     }
     
+    @GetMapping("/ArrivalControll")
+    public String ArrivalControllForm() {
+        return "menu/ArrivalControll";
+    }
+    
+    @GetMapping("/SalesManegement")
+    public String SalesManegementForm() {
+        return "menu/SalesManegement";
+    }
+    
+    @GetMapping("/AlertScreen")
+    public String AlertScreenForm() {
+        return "menu/AlertScreen";
+    }
+    
+    @GetMapping("/AlertSetting")
+    public String AlertSettingForm() {
+        return "menu/AlertSetting";
+    }
+    
     
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>販売管理</h2>
+			<!-- 販売数入力画面作ったらURL替える（これは少し時間かかる） -->
+			<form th:action="@{/menu/ProductMasterKanri}" method="get">
+				<button type="submit">販売数入力</button>
+			</form>	
+			
+			<!-- 販売数入力画面作ったらURL替える（これは少し時間かかる） -->
+			<form th:action="@{/product/newproduct}" method="get">
+				<button type="submit">販売数取消</button>
+			</form>	
+			
+			<!-- OK -->
+			<form th:action="@{/menu/ZaikoKanri}" method="get">
+				        <button type="submit">在庫管理へ戻る</button>
+			</form>
+
+</body>
+</html>

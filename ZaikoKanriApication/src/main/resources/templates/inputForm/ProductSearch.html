@@ -1,0 +1,13 @@
+<form th:action="@{/inputForm/ProductSearch}" 
+      th:object="${productSearchForm}" 
+      method="post">
+
+    <input type="number" th:field="*{jan}" placeholder="JANコード">
+    <input type="text" th:field="*{makerName}" placeholder="メーカー名">
+    <input type="text" th:field="*{name}" placeholder="商品名">
+    <input type="number" th:field="*{purchasePrice}" placeholder="仕入価格">
+    <input type="number" th:field="*{price}" placeholder="売価">
+    <input type="text" th:field="*{salesStatus}" placeholder="販売状況">
+
+    <button type="submit">検索</button>
+</form>

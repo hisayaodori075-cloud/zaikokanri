@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>アラート画面</h2>
+			<!-- 発注最低数アラート設定画面作ったらURL替える（これは少し時間かかる） -->
+			<form th:action="@{/menu/ProductMasterKanri}" method="get">
+				<button type="submit">発注最低数アラート設定</button>
+			</form>	
+			
+			<!-- 回転数悪化アラート設定画面作ったらURL替える（これは少し時間かかる） -->
+			<form th:action="@{/product/newproduct}" method="get">
+				<button type="submit">回転数悪化アラート設定</button>
+			</form>	
+			
+			<!-- OK -->
+			<form th:action="@{/menu/ProductMasterKanri}" method="get">
+				        <button type="submit">マスタ管理画面へ戻る</button>
+			</form>
+
+</body>
+</html>
