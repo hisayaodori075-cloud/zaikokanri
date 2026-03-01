@@ -1,20 +1,20 @@
 package com.example.demo.form;
 
 public class ProductSearchForm {	
-	    private String jan;
+	    private String janCode;
 	    private String makerName;
-	    private String name;
-	    private Integer purchasePrice;
+	    private String productName;
+	    private Integer PurchasePrice;
 	    private Integer price;
 	    private String salesStatus;
 	    
 	    
 	    // jan
-		public String getJan() {
-			return jan;
+		public String getJanCode() {
+			return janCode;
 		}
-		public void setJan(String jan) {
-			this.jan = jan;
+		public void setJanCode(String janCode) {
+			this.janCode = janCode;
 		}
 		
 		// makerName
@@ -26,19 +26,19 @@ public class ProductSearchForm {
 		}
 		
 		// Name
-		public String getName() {
-			return name;
+		public String getProductName() {
+			return productName;
 		}
-		public void setName(String name) {
-			this.name = name;
+		public void setName(String productName) {
+			this.productName = productName;
 		}
 		
 		// PurchasePrice
 		public Integer getPurchasePrice() {
-			return purchasePrice;
+			return PurchasePrice;
 		}
-		public void setPurchasePrice(Integer purchasePrice) {
-			this.purchasePrice = purchasePrice;
+		public void setPurchasePrice(Integer PurchasePrice) {
+			this.PurchasePrice = PurchasePrice;
 		}
 		
 		// Price

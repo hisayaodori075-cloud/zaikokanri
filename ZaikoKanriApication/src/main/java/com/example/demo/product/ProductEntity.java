@@ -24,8 +24,13 @@ public class ProductEntity {
     @Column(name = "product_name")
     private String productName;
 
+    @Column(name = "purchase_price")
+    private Integer PurchasePrice;
+    
+    @Column(name = "price")
     private Integer price;
 
+    @Column(name = "status")
     private String status;
 
     @Column(name = "sales_status")
@@ -47,6 +52,10 @@ public class ProductEntity {
     public String getProductName() {
         return productName;
     }
+    
+    public Integer getPurchasePrice() {
+		return PurchasePrice;
+	}
 
     public Integer getPrice() {
         return price;
@@ -88,4 +97,8 @@ public class ProductEntity {
     public void setSalesStatus(String salesStatus) {
         this.salesStatus = salesStatus;
     }
+
+	public void setPurchasePrice(Integer purchasePrice) {
+		PurchasePrice = purchasePrice;
+	}
 }

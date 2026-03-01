@@ -7,18 +7,18 @@
 <body>
 	<h2>登録内容確認</h2>
 
-	JANコード: <span th:text="${product.jan}"></span><br>
+	JANコード: <span th:text="${product.janCode}"></span><br>
 	メーカー名: <span th:text="${product.makerName}"></span><br>
-	商品名: <span th:text="${product.name}"></span><br>
-	仕入価格: <span th:text="${product.purchasePrice}"></span><br>
+	商品名: <span th:text="${product.ProductName}"></span><br>
+	仕入価格: <span th:text="${product.PurchasePrice}"></span><br>
 	売価: <span th:text="${product.price}"></span><br>
 	販売状況: <span th:text="${product.salesStatus}"></span><br>
 
 	<form th:action="@{/product/save}" th:object="${product}" method="post">
-	    <input type="hidden" th:field="*{jan}" />
+	    <input type="hidden" th:field="*{janCode}" />
 	    <input type="hidden" th:field="*{makerName}" />
-		<input type="hidden" th:field="*{name}" />
-		<input type="hidden" th:field="*{purchasePrice}" />
+		<input type="hidden" th:field="*{productName}" />
+		<input type="hidden" th:field="*{PurchasePrice}" />
 		<input type="hidden" th:field="*{price}" />
 		<input type="hidden" th:field="*{salesStatus}" />
 	    <button type="submit">登録する</button>

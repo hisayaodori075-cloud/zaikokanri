@@ -17,9 +17,9 @@ public class ProductService {
 
     public List<ProductEntity> search(ProductSearchForm form) {
 
-        String janCode = emptyToNull(form.getJan());
+        String janCode = emptyToNull(form.getJanCode());
         String makerName = emptyToNull(form.getMakerName());
-        String productName = emptyToNull(form.getName());
+        String productName = emptyToNull(form.getMakerName());
         Integer price = form.getPrice();
         String salesStatus = emptyToNull(form.getSalesStatus());
 

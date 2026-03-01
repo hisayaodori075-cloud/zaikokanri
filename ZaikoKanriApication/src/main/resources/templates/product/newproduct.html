@@ -22,12 +22,12 @@
 	      th:object="${product}" 
 	      method="post">
 
-	    <input type="number" th:field="*{jan}" placeholder="JANコード" required>
-	    <input type="text" th:field="*{MakerName}" placeholder="メーカー名" required>
-	    <input type="text" th:field="*{name}" placeholder="商品名" required>
+	    <input type="number" th:field="*{janCode}" placeholder="JANコード" required>
+	    <input type="text" th:field="*{makerName}" placeholder="メーカー名" required>
+	    <input type="text" th:field="*{productName}" placeholder="商品名" required>
 		<input type="number" th:field="*{PurchasePrice}" placeholder="仕入価格" required>
 		<input type="number" th:field="*{price}" placeholder="売価" required>
-		<input type="text" th:field="*{SalesStatus}" placeholder="販売状況" required>
+		<input type="text" th:field="*{salesStatus}" placeholder="販売状況" required>
 		
 
 	    <button type="submit">確認へ</button>

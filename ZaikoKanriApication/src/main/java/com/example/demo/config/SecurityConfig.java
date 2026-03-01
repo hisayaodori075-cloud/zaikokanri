@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+	// ログインの最初の状況設定
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -31,6 +32,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // パスワード設定
     @Bean
     public UserDetailsService users() {
         return new InMemoryUserDetailsManager(

@@ -20,27 +20,28 @@ public class ProductController {
     // 新規登録画面表示
     @GetMapping("/newproduct")
     public String showForm(Model model) {
-        model.addAttribute("product", new ProductModel());
+        model.addAttribute("product", new ProductEntity());
         return "product/newproduct";
     }
     
 
     // 確認画面へ
     @PostMapping("/confirm")
-    public String confirm(@ModelAttribute ProductModel product, Model model) {
+    public String confirm(@ModelAttribute ProductEntity product, Model model) {
         model.addAttribute("product", product);
         return "product/confirm";
     }
 
     // 登録処理
     @PostMapping("/save")
-    public String save(@ModelAttribute ProductModel product, Model model) {
+    public String save(@ModelAttribute ProductEntity product, Model model) {
 
         // 🔽 Model → Entity に変換
         ProductEntity entity = new ProductEntity();
-        entity.setJanCode(product.getJan());
+        entity.setJanCode(product.getJanCode());
         entity.setMakerName(product.getMakerName());
-        entity.setProductName(product.getName());
+        entity.setProductName(product.getProductName());
+        entity.setPurchasePrice(product.getPurchasePrice());
         entity.setPrice(product.getPrice());
         entity.setStatus(product.getStatus());
         entity.setSalesStatus(product.getSalesStatus());
