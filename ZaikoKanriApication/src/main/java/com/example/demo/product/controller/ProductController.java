@@ -1,5 +1,7 @@
 package com.example.demo.product.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,20 @@ public class ProductController {
         model.addAttribute("product", product);
         return "product/confirm";
     }
+    
+    
+    
+ // ✅ 商品マスタ一覧表示（DBから取得）
+    @GetMapping("/ProductMasterList")
+    public String ProductMasterListForm(Model model) {
+
+        List<ProductEntity> productList = productRepository.findAll();
+
+        model.addAttribute("productList", productList);
+
+        return "product/ProductMasterList";
+    }
+    
 
     // 登録処理
     @PostMapping("/save")

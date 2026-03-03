@@ -18,13 +18,13 @@ public class ProductSearchController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/inputForm/ProductSearch")
+    @GetMapping("/product/ProductSearch")
     public String showSearchForm(Model model) {
         model.addAttribute("productSearchForm", new ProductSearchForm());
-        return "inputForm/ProductSearch";
+        return "product/ProductSearch";
     }
 
-    @GetMapping("/inputForm/ProductSearchConfirm")
+    @GetMapping("/product/ProductSearchConfirm")
     public String search(
             @ModelAttribute ProductSearchForm form,
             Model model) {
@@ -32,6 +32,6 @@ public class ProductSearchController {
         List<ProductEntity> result = productService.search(form);
         model.addAttribute("productList", result);
 
-        return "inputForm/ProductSearchConfirm";
+        return "product/ProductSearchConfirm";
     }
 }
