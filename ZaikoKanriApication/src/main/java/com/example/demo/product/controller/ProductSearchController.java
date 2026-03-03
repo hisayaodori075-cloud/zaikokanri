@@ -1,4 +1,4 @@
-package com.example.demo.form.controller;
+package com.example.demo.product.controller;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.form.ProductSearchForm;
-import com.example.demo.product.ProductEntity;
+import com.example.demo.product.entity.ProductEntity;
+import com.example.demo.product.form.ProductSearchForm;
+import com.example.demo.product.service.ProductService;
 
 @Controller
 public class ProductSearchController {
@@ -24,7 +24,7 @@ public class ProductSearchController {
         return "inputForm/ProductSearch";
     }
 
-    @PostMapping("/inputForm/ProductSearchConfirm")
+    @GetMapping("/inputForm/ProductSearchConfirm")
     public String search(
             @ModelAttribute ProductSearchForm form,
             Model model) {

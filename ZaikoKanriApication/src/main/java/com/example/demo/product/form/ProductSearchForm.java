@@ -1,4 +1,4 @@
-package com.example.demo.form;
+package com.example.demo.product.form;
 
 public class ProductSearchForm {	
 	    private String janCode;

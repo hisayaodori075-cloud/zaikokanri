@@ -20,10 +20,15 @@ h1 {
     gap: 15px;
 }
 
+.form-box select,
 .form-box input {
-    padding: 10px;
+    width:100%;
+	padding: 10px 12px;
     border: 1px solid #999;
     border-radius: 4px;
+	font-size:14px;
+	box-sizing:border-box;
+	
 }
 
 .button-area {
@@ -47,13 +52,13 @@ button:hover {
 
     <h1>商品検索</h1>
 
-    <div>
-        <button type="button" onclick="history.back()">戻る</button>
-    </div>
+	<a th:href="@{/menu/ProductMasterList}">
+	    <button type="button">戻る</button>
+	</a>
 
     <form th:action="@{/inputForm/ProductSearchConfirm}" 
           th:object="${productSearchForm}" 
-          method="post">
+          method="get">
 
         <div class="form-box">
             <input type="number" th:field="*{janCode}" placeholder="JANコード">
@@ -61,7 +66,12 @@ button:hover {
             <input type="text" th:field="*{productName}" placeholder="商品名">
             <input type="number" th:field="*{PurchasePrice}" placeholder="仕入価格">
             <input type="number" th:field="*{price}" placeholder="売価">
-            <input type="text" th:field="*{salesStatus}" placeholder="販売状況">
+			<select name="salesStatus">	
+				<option value=""></option>	
+				<option value="販売中">販売中</option>
+				<option value="販売停止">販売停止</option>
+				<option value="販売終了">販売終了</option>
+			</select>
         </div>
 
         <div class="button-area">

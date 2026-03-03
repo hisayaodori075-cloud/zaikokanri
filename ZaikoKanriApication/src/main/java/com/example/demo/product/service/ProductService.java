@@ -1,19 +1,19 @@
-package com.example.demo.form.controller;
+package com.example.demo.product.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.form.ProductSearchForm;
-import com.example.demo.menu.MenuProductRepository;
-import com.example.demo.product.ProductEntity;
+import com.example.demo.product.entity.ProductEntity;
+import com.example.demo.product.form.ProductSearchForm;
+import com.example.demo.product.repository.ProductRepository;
 
 @Service
 public class ProductService {
 
     @Autowired
-    private MenuProductRepository productRepository;
+    private ProductRepository productRepository;
 
     public List<ProductEntity> search(ProductSearchForm form) {
 

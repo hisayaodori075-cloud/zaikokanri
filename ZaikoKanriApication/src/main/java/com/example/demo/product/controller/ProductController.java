@@ -1,4 +1,4 @@
-package com.example.demo.product;
+package com.example.demo.product.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.menu.MenuProductRepository;
+import com.example.demo.product.entity.ProductEntity;
+import com.example.demo.product.repository.ProductRepository;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
     @Autowired
-    private MenuProductRepository productRepository;
+    private ProductRepository productRepository;
 
     // 新規登録画面表示
     @GetMapping("/newproduct")

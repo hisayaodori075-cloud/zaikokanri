@@ -6,7 +6,7 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         form { max-width: 400px; margin: auto; }
-        input, textarea { display: block; width: 100%; padding: 8px; margin: 10px 0; }
+        input, textarea, select { display: block; width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
         button { padding: 8px 16px; }
         h2 { text-align: center; }
     </style>
@@ -27,8 +27,12 @@
 	    <input type="text" th:field="*{productName}" placeholder="商品名" required>
 		<input type="number" th:field="*{PurchasePrice}" placeholder="仕入価格" required>
 		<input type="number" th:field="*{price}" placeholder="売価" required>
-		<input type="text" th:field="*{salesStatus}" placeholder="販売状況" required>
-		
+		<select name="salesStatus">	
+			<option value="ステータス変更指示" disabled hidden>ステータスを選択してください</option>	
+			<option value="販売中">販売中</option>
+			<option value="販売停止">販売停止</option>
+			<option value="販売終了">販売終了</option>
+		</select>
 
 	    <button type="submit">確認へ</button>
 	</form>

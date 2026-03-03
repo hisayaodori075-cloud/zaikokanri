@@ -1,4 +1,4 @@
-package com.example.demo.menu;
+package com.example.demo.product.repository;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.example.demo.product.ProductEntity;
+import com.example.demo.product.entity.ProductEntity;
 
-public interface MenuProductRepository 
+public interface ProductRepository 
         extends JpaRepository<ProductEntity, Integer> {
 
 	@Query("""
