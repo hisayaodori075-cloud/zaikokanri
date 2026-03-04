@@ -36,6 +36,7 @@ public class ProductController {
         return "product/confirm";
     }
     
+    // 編集画面へ
     @GetMapping("/ProductEdit/{id}")
     public String editForm(@PathVariable Integer id, Model model) {
 
@@ -47,11 +48,19 @@ public class ProductController {
     }
     
     @PostMapping("/ProductEdit/{id}")
-    public String editSubmit(@ModelAttribute ProductEntity product) {
+    public String editSubmit(@ModelAttribute ProductEntity product, Model model) {
+
+    	model.addAttribute("product", product);
+
+        return "/product/ProductEditConfirm";
+    }
+    
+    @PostMapping("/ProductEditComplete")
+    public String editComplete(@ModelAttribute ProductEntity product) {
 
         productRepository.save(product);
 
-        return "redirect:/product/ProductMasterList";
+        return "/product/ProductEditComplete";
     }
     
     
