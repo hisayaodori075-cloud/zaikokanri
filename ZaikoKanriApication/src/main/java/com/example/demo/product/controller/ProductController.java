@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,6 +34,32 @@ public class ProductController {
     public String confirm(@ModelAttribute ProductEntity product, Model model) {
         model.addAttribute("product", product);
         return "product/confirm";
+    }
+    
+    @GetMapping("/ProductEdit/{id}")
+    public String editForm(@PathVariable Integer id, Model model) {
+
+        ProductEntity product = productRepository.findById(id).orElse(null);
+
+        model.addAttribute("product", product);
+
+        return "product/ProductEdit";
+    }
+    
+    @PostMapping("/ProductEdit/{id}")
+    public String editSubmit(@ModelAttribute ProductEntity product) {
+
+        productRepository.save(product);
+
+        return "redirect:/product/ProductMasterList";
+    }
+    
+    
+    
+    // 削除画面遷移
+    @GetMapping("/ProductDelete/{id}")
+    public String ProductDeleteForm(Model model) {
+        return "product/ProductDelete";
     }
     
     

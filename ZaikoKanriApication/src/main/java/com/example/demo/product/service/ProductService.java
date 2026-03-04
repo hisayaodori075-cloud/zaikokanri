@@ -35,4 +35,8 @@ public class ProductService {
     private String emptyToNull(String value) {
         return (value == null || value.isBlank()) ? null : value;
     }
+    
+    public ProductEntity findById(Integer id) {
+        return productRepository.findById(id).orElse(null);
+    }
 }

@@ -45,8 +45,8 @@
 	        <td th:text="${product.productName}"></td>
 	        <td th:text="${product.price}"></td>
 			<td>
-			    <a th:href="@{/product/edit/{id}(id=${product.id})}">編集</a><br>
-			    <a th:href="@{/product/delete/{id}(id=${product.id})}">削除</a>
+			    <a th:href="@{/product/ProductEdit/{id}(id=${product.id})}">編集</a><br>
+			    <a th:href="@{/product/ProductDelete/{id}(id=${product.id})}">削除</a>
 			</td>
 	        <td th:text="${product.status}"></td>
 	        <td th:text="${product.salesStatus}"></td>
