@@ -7,6 +7,7 @@
         <th>メーカー</th>
         <th>商品名</th>
         <th>売価</th>
+	    <th>操作</th>
         <th>ステータス</th>
         <th>販売状況</th>
     </tr>
@@ -16,6 +17,10 @@
         <td th:text="${product.makerName}"></td>
         <td th:text="${product.productName}"></td>
         <td th:text="${product.price}"></td>
+		<td>
+			<a th:href="@{/product/ProductEdit/{id}(id=${product.id})}">編集</a><br>
+			<a th:href="@{/product/ProductDelete/{id}(id=${product.id})}">削除</a>
+		</td>
         <td th:text="${product.status}"></td>
         <td th:text="${product.salesStatus}"></td>
     </tr>

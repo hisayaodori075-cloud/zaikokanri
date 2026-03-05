@@ -19,7 +19,7 @@ public class ProductService {
 
         String janCode = emptyToNull(form.getJanCode());
         String makerName = emptyToNull(form.getMakerName());
-        String productName = emptyToNull(form.getMakerName());
+        String productName = emptyToNull(form.getProductName());
         Integer price = form.getPrice();
         String salesStatus = emptyToNull(form.getSalesStatus());
 
@@ -38,5 +38,17 @@ public class ProductService {
     
     public ProductEntity findById(Integer id) {
         return productRepository.findById(id).orElse(null);
+    }
+    
+    public List<ProductEntity> findAll() {
+        return productRepository.findAll();
+    }
+
+    public void save(ProductEntity product) {
+        productRepository.save(product);
+    }
+    
+    public void deleteProduct(Integer id) {
+        productRepository.deleteById(id);
     }
 }
