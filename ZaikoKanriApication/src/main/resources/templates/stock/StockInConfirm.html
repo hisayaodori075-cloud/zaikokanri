@@ -1,0 +1,30 @@
+	<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登録内容確認</title>
+</head>
+<body>
+	<h2>登録内容確認</h2>
+
+	商品名: <span th:text="${product.productName}"></span><br>
+	入荷数: <span th:text="${stock.quantity}"></span><br>
+	入荷日: <span th:text="${stock.arrivalDate}"></span><br>
+
+	<form th:action="@{/stock/save}" th:object="${stock}" method="post">
+
+	    <input type="hidden" th:field="*{productId}" />
+	    <input type="hidden" th:field="*{quantity}" />
+	    <input type="hidden" th:field="*{arrivalDate}" />
+
+	    <button type="submit">登録する</button>
+
+	</form>
+
+	<form th:action="@{/stock/StockIn}" method="get">
+	    <button type="submit">戻る</button>
+	</form>
+
+
+</body>
+</html>

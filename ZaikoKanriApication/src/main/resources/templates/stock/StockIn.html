@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>入荷処理</title>
+</head>
+
+<body>
+
+<h2>入荷処理登録</h2>
+
+<form th:action="@{/stock/ArrivalControll}" method="get">
+    <button type="submit">戻る</button>
+</form>
+
+<form th:action="@{/stock/StockInConfirm}" 
+      th:object="${stock}" 
+      method="post">
+
+    <!-- 商品選択 -->
+    <select th:field="*{productId}" required>
+        <option value="">商品を選択</option>
+
+        <option th:each="product : ${productList}"
+                th:value="${product.id}"
+                th:text="${product.productName}">
+        </option>
+
+    </select>
+
+    <!-- 入荷数 -->
+    <input type="number" th:field="*{quantity}" placeholder="入荷数" required>
+
+    <!-- 入荷日 -->
+    <input type="date" th:field="*{arrivalDate}" required>
+
+    <button type="submit">確認へ</button>
+
+</form>
+
+</body>
+</html>
