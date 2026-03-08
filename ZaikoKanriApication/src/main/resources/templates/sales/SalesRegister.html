@@ -1,0 +1,87 @@
+<style>
+body {
+    background-color: #f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 500px;
+    margin: 80px auto;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-box select,
+.form-box input {
+    width:100%;
+	padding: 10px 12px;
+    border: 1px solid #999;
+    border-radius: 4px;
+	font-size:14px;
+	box-sizing:border-box;
+	
+}
+
+.button-area {
+    margin-top: 20px;
+}
+
+button {
+    padding: 8px 20px;
+    border: 1px solid #999;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #dcdcdc;
+}
+</style>
+
+
+<div class="container">
+
+    <h1>販売数登録</h1>
+	
+	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+
+	<a th:href="@{/sales/SalesManagement}">
+	    <button type="button">戻る</button>
+	</a>
+	
+	<h3>商品名またはJANコードを入力してください</h3>
+
+	<form th:action="@{/sales/SalesRegister}" 
+		  th:object="${sales}"
+		  method="post">
+
+		<!-- 商品 -->
+		
+		
+		<select th:field="*{productId}">
+			<option value="">選択してください</option>
+			
+			<option th:each="product : ${productList}"
+				    th:value="${product.id}"
+				    th:text="${product.productName}">
+			</option>
+		</select>
+		
+		<!-- JANコード検索 -->
+		 <p>JANコード</p>
+		 <input type="text" name="janCode" placeholder="JANコードを入力">
+
+	    <button type="submit">検索</button>
+
+	</form>
+
+</div>

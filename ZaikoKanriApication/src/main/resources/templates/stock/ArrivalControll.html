@@ -7,18 +7,18 @@
 </head>
 <body>
 	<h2>入荷処理</h2>
-			<!-- 在庫確認検索画面作ったらURL替える（これは少し時間かかる） -->
+			<!-- OK -->
 			<form th:action="@{/stock/StockIn}" method="get">
 				<button type="submit">入荷新規登録</button>
 			</form>	
 			
-			<!-- 在庫調整検索画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/product/newproduct}" method="get">
+			<!-- OK -->
+			<form th:action="@{/stock/StockInEditSearch}" method="get">
 				<button type="submit">入荷登録修正</button>
 			</form>	
 			
-			<!-- 在庫調整検索画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/product/newproduct}" method="get">
+			<!-- OK -->
+			<form th:action="@{/stock/StockInDeleteSearch}" method="get">
 				<button type="submit">入荷登録削除</button>
 			</form>	
 			

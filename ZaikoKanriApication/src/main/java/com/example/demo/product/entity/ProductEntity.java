@@ -1,5 +1,7 @@
 package com.example.demo.product.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,13 @@ public class ProductEntity {
 
     @Column(name = "sales_status")
     private String salesStatus;
+    
+ // ---------------- 論理削除用 ----------------
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     // ===== getter =====
     public Integer getId() {
@@ -67,6 +76,14 @@ public class ProductEntity {
 
     public String getSalesStatus() {
         return salesStatus;
+    }
+    
+    public boolean isDeleted() {
+        return deleted;
+    }
+    
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
     }
 
     // ===== setter =====
@@ -101,4 +118,12 @@ public class ProductEntity {
 	public void setPurchasePrice(Integer purchasePrice) {
 		PurchasePrice = purchasePrice;
 	}
+	
+	public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+	
+	public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 }

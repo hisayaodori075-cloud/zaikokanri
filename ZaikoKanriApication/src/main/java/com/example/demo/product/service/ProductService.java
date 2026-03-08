@@ -41,7 +41,8 @@ public class ProductService {
     }
     
     public List<ProductEntity> findAll() {
-        return productRepository.findAll();
+    	// 論理削除されていないものだけ取得
+        return productRepository.findByDeletedFalse();
     }
 
     public void save(ProductEntity product) {
@@ -49,6 +50,12 @@ public class ProductService {
     }
     
     public void deleteProduct(Integer id) {
-        productRepository.deleteById(id);
+        productRepository.logicallyDeleteById(id); // ← 論理削除に変更
     }
+    
+    public ProductEntity findByJanCode(String janCode) {
+        return productRepository.findByJanCode(janCode);
+    }
+    
+    
 }

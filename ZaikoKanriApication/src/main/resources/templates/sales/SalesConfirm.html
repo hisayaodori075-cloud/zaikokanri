@@ -1,0 +1,31 @@
+	<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登録内容確認</title>
+</head>
+<body>
+	<h2>商品登録内容確認</h2>
+
+	商品名: <span th:text="${product.productName}"></span><br>
+	JANコード: <span th:text="${product.janCode}"></span><br>
+	
+	<h2>販売数と販売日を入力してください</h2>
+	<form th:action="@{/sales/SalesConfirm2}" th:object="${sales}" method="post">
+
+	    <input type="hidden" th:field="*{productId}" />
+
+	    <input type="number" th:field="*{salesQuantity}" placeholder="販売数" />
+	    <input type="date" th:field="*{salesDate}" />
+
+	    <button type="submit">登録確認へ</button>
+
+	</form>
+	
+
+	<form th:action="@{/sales/SalesRegister}" method="get">
+	    <button type="submit">戻る</button>
+	</form>
+
+</body>
+</html>

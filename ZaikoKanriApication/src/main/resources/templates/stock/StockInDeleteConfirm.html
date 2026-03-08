@@ -1,0 +1,72 @@
+<style>
+body {
+    background-color: #dcdcdc;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 500px;
+    margin: 60px auto;
+    text-align: left;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.back-area {
+    margin-bottom: 15px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-box input,
+.form-box select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #888;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f7f7f7;
+}
+
+.button-area {
+    margin-top: 15px;
+}
+
+button {
+    padding: 8px 20px;
+    border: 1px solid #888;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #d0d0d0;
+}
+</style>
+
+<div class="container">
+
+    <h1>次の項目を削除しますか？</h1>
+
+    <div class="back-area">
+        <a th:href="@{/stock/StockInDeleteSearch}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
+
+	商品名: <span th:text="${product.productName}"></span><br>
+	入荷数: <span th:text="${stock.quantity}"></span><br>
+	入荷日: <span th:text="${stock.arrivalDate}"></span><br>
+	
+	<form th:action="@{/stock/StockInDeleteComplete/{id}(id=${stock.id})}" method="post">	    
+		<button type="submit">削除する</button>
+	</form>
+
+</div>

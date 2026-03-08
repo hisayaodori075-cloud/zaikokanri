@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>入荷処理完了</title>
+</head>
+<body>
+	<h2>入荷処理編集が完了しました</h2>	
+	
+	<form th:action="@{/stock/StockInEditSearch}" method="get">
+			<button type="submit">入荷処理登録修正を続ける</button>
+	</form>
+	
+	<form th:action="@{/stock/ArrivalControll}" method="get">
+		<button type="submit">入荷処理編集へ戻る</button>
+	</form>
+	
+</body>
+</html>
