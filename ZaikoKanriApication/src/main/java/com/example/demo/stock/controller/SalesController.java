@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -160,5 +161,78 @@ public class SalesController {
     public String salesSave(@ModelAttribute SalesEntity sales) {
         salesService.save(sales);
         return "sales/SalesComplete";
+    }
+    
+    // 販売数修正
+    @GetMapping("/SalesEditSearch")
+    public String salesEditSearchForm(Model model) {  
+        return "sales/SalesEditSearch";
+    }
+    
+    @PostMapping("/SalesEdit")
+    public String salesInEdit(@RequestParam Integer id, Model model) {
+        SalesEntity sales = salesService.findById(id);
+        // ★ここ追加
+        if (sales == null) {
+            model.addAttribute("errorMessage", "そのIDの販売数データは存在しません");
+            model.addAttribute("sales", new SalesEntity());
+            return "sales/SalesEditSearch";
+        }
+
+        List<ProductEntity> productList = productService.findAll();
+
+        model.addAttribute("sales", sales);
+        model.addAttribute("productList", productList);
+        return "sales/SalesEdit";
+    }
+    
+    @PostMapping("/SalesEditConfirm")
+    public String salesEditConfirm(@ModelAttribute SalesEntity sales, Model model) {
+
+        ProductEntity product = productService.findById(sales.getProductId());
+
+        model.addAttribute("sales", sales);
+        model.addAttribute("product", product);
+
+        return "sales/SalesEditConfirm";
+    }
+    
+    @GetMapping("/SalesDeleteSearch")
+    public String salesDeleteSearchForm(Model model) {
+        return "sales/SalesDeleteSearch";
+    }
+    
+    @PostMapping("/SalesDeleteSearch")
+    public String salesDeleteConfirm(@RequestParam Integer id, Model model) {
+        SalesEntity sales = salesService.findById(id);
+
+        if (sales == null || sales.isDeleted()) {  // ← 論理削除済みも存在しない扱い
+            model.addAttribute("errorMessage", "そのIDの販売数データは存在しません");
+            return "sales/SalesDeleteSearch";
+        }
+
+        ProductEntity product = productService.findById(sales.getProductId());
+
+        model.addAttribute("sales", sales);
+        model.addAttribute("product", product);
+
+        return "sales/SalesDeleteConfirm";
+    }
+    
+    @PostMapping("/SalesDeleteBack")
+    public String salesDeleteBack() {
+        return "sales/SalesDeleteSearch";
+    }
+    
+    @PostMapping("/SalesDeleteComplete/{id}")
+    public String deleteComplete(@PathVariable Integer id) {
+        salesService.delete(id); // ← Service 側で論理削除処理
+        return "sales/SalesDeleteComplete";
+    }
+    
+    @PostMapping("/SalesEditSave")
+    public String salesEditSave(@ModelAttribute SalesEntity sales) {
+        salesService.save(sales);
+        return "sales/SalesEditComplete";
     }
 }

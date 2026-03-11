@@ -1,0 +1,70 @@
+<style>
+body {
+    background-color: #f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 500px;
+    margin: 80px auto;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-box select,
+.form-box input {
+    width:100%;
+	padding: 10px 12px;
+    border: 1px solid #999;
+    border-radius: 4px;
+	font-size:14px;
+	box-sizing:border-box;
+	
+}
+
+.button-area {
+    margin-top: 20px;
+}
+
+button {
+    padding: 8px 20px;
+    border: 1px solid #999;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #dcdcdc;
+}
+</style>
+
+
+<div class="container">
+
+    <h1>販売数処理修正検索</h1>
+	
+	<p style="color:red;" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+	<a th:href="@{/sales/SalesManagement}">
+	    <button type="button">戻る</button>
+	</a>
+
+	<form th:action="@{/sales/SalesEdit}" method="post">
+
+	    販売数ID
+	    <input type="number" name="id" required>
+
+	    <button type="submit">検索</button>
+
+	</form>
+
+</div>

@@ -7,18 +7,18 @@
 </head>
 <body>
 	<h2>販売管理</h2>
-			<!-- 販売数入力画面作ったらURL替える（これは少し時間かかる） -->
+			<!-- OK -->
 			<form th:action="@{/sales/SalesRegister}" method="get">
 				<button type="submit">販売数入力</button>
 			</form>	
 			
-			<!-- 販売数入力画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/product/newproduct}" method="get">
+			<!-- OK -->
+			<form th:action="@{/sales/SalesEditSearch}" method="get">
 				<button type="submit">販売数編集</button>
 			</form>	
 			
 			<!-- 販売数入力画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/product/newproduct}" method="get">
+			<form th:action="@{/sales/SalesDeleteSearch}" method="get">
 				<button type="submit">販売数取消</button>
 			</form>	
 			

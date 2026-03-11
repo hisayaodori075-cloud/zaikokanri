@@ -22,7 +22,7 @@ public class StockService {
         return stockRepository.findById(id).orElse(null);
     }
     
- // 論理削除用
+    // 論理削除用
     public void delete(Integer id) {
         stockRepository.logicallyDeleteById(id); // ← 物理削除ではなく論理削除を呼ぶ
     }
