@@ -2,18 +2,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>入荷処理完了</title>
+<title>販売登録完了</title>
 </head>
 <body>
-	<h2>入荷処理が完了しました</h2>	
+	<h2>販売登録完了</h2>
 	
-	<form th:action="@{/sales/SalesRegister}" method="get">
-		<button type="submit">販売数入力を続ける</button>
-	</form>
+	<p>販売登録が完了しました。</p>
 	
-	<form th:action="@{/sales/SalesManagement}" method="get">
-			<button type="submit">販売管理へ戻る</button>
-	</form>
+	<a th:href="@{/sales/SalesRegister}">
+	    <button type="button">販売登録へ戻る</button>
+	</a>
 	
+	<a th:href="@{/stock/ZaikoKanri}">
+	    <button type="button">在庫確認へ</button>
+	</a>
+
 </body>
 </html>

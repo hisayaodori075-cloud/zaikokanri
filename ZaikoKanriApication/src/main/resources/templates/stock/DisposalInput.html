@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>廃棄商品入力</title>
+</head>
+<body>
+
+	<h1>廃棄商品入力</h1>
+	
+	<p>商品名: <span th:text="${product.productName}"></span></p>
+	<p>JANコード: <span th:text="${product.janCode}"></span></p>
+	
+	<form th:action="@{/stock/DisposalConfirm}" th:object="${disposal}" method="post">
+	
+	    <input type="hidden" th:field="*{productId}" th:value="${product.id}" />
+	
+	    廃棄数：
+	    <input type="number" th:field="*{quantity}" min="1" required /><br><br>
+	
+	    廃棄日：
+	    <input type="date" th:field="*{disposalDate}" required /><br><br>
+	
+	    <button type="submit">廃棄登録内容確認へ</button>
+	
+	</form>
+	
+	<a th:href="@{/stock/DisposalRegister}">戻る</a>
+
+</body>
+</html>

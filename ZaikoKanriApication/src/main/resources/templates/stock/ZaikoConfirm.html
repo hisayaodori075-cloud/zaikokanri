@@ -8,13 +8,17 @@
 <body>
 	<h2>在庫確認</h2>
 			<!-- 在庫確認検索画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/stock/StockSearch}" method="get">
-				<button type="submit">在庫確認検索</button>
+			<form th:action="@{/stock/DisposalRegister}" method="get">
+				<button type="submit">廃棄</button>
 			</form>	
 			
 			<!-- 在庫調整検索画面作ったらURL替える（これは少し時間かかる） -->
 			<form th:action="@{/product/newproduct}" method="get">
-				<button type="submit">在庫調整検索</button>
+				<button type="submit">返品</button>
+			</form>	
+			
+			<form th:action="@{/product/newproduct}" method="get">
+				<button type="submit">棚卸差異</button>
 			</form>	
 			
 			<!-- OK -->

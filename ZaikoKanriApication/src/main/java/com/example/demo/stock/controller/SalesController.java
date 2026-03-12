@@ -50,72 +50,41 @@ public class SalesController {
             @RequestParam(required = false) String janCode,
             Model model) {
 
+        // ① 商品を特定
         ProductEntity productByJan = null;
         ProductEntity productById = null;
+        ProductEntity product = null;
 
-        // ④ どちらも入力していない
-        if ((janCode == null || janCode.isEmpty()) && sales.getProductId() == null) {
-            model.addAttribute("errorMessage", "商品を選択するかJANコードを入力してください");
-            model.addAttribute("sales", new SalesEntity());
-            model.addAttribute("productList", productService.findAll());
-            return "sales/SalesRegister";
-        }
-
-        // JANコード検索
         if (janCode != null && !janCode.isEmpty()) {
             productByJan = productService.findByJanCode(janCode);
         }
 
-        // 商品ID検索
         if (sales.getProductId() != null) {
             productById = productService.findById(sales.getProductId());
         }
 
-        // ① JANコード存在しない
-        if (janCode != null && !janCode.isEmpty() && productByJan == null) {
-            model.addAttribute("errorMessage", "そのJANコードの商品は存在しません");
-            model.addAttribute("sales", new SalesEntity());
-            model.addAttribute("productList", productService.findAll());
-            return "sales/SalesRegister";
-        }
-
-        // ②③ 両方入力
+        // ② product決定
         if (productByJan != null && productById != null) {
-
-            // ③ 不一致
             if (!productByJan.getId().equals(productById.getId())) {
-                model.addAttribute("errorMessage", "商品名とJANコードが一致しません");
-                model.addAttribute("sales", new SalesEntity());
-                model.addAttribute("productList", productService.findAll());
-                return "sales/SalesRegister";
+                // 商品不一致エラー
             }
-
-            // ② 一致
-            sales.setProductId(productByJan.getId());
-            model.addAttribute("product", productByJan);
-            model.addAttribute("sales", sales);
-            return "sales/SalesConfirm";
+            product = productByJan;
+        } else if (productByJan != null) {
+            product = productByJan;
+        } else if (productById != null) {
+            product = productById;
         }
 
-        // JANのみ
-        if (productByJan != null) {
-            sales.setProductId(productByJan.getId());
-            model.addAttribute("product", productByJan);
-            model.addAttribute("sales", sales);
-            return "sales/SalesConfirm";
+        if (product == null) {
+            // 商品が見つからないエラー
         }
 
-        // 商品名のみ
-        if (productById != null) {
-            model.addAttribute("product", productById);
-            model.addAttribute("sales", sales);
-            return "sales/SalesConfirm";
-        }
+        // ③ Confirm画面へ
+        sales.setProductId(product.getId());
+        model.addAttribute("product", product);
+        model.addAttribute("sales", sales);
 
-        model.addAttribute("errorMessage", "商品が見つかりません");
-        model.addAttribute("sales", new SalesEntity());
-        model.addAttribute("productList", productService.findAll());
-        return "sales/SalesRegister";
+        return "sales/SalesConfirm";
     }
 
     // 販売数登録確認画面
@@ -156,10 +125,32 @@ public class SalesController {
         return "sales/SalesConfirm2";  // 今作っているHTML
     }
 
-    // 販売数保存
     @PostMapping("/SalesSave")
-    public String salesSave(@ModelAttribute SalesEntity sales) {
+    public String salesSave(@ModelAttribute SalesEntity sales, Model model) {
+
+        ProductEntity product = productService.findById(sales.getProductId());
+
+        // ★ 販売数未入力チェック
+        if (sales.getSalesQuantity() == null) {
+            model.addAttribute("errorMessage", "販売数を入力してください");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesConfirm";
+        }
+
+        // ★ 在庫不足チェック
+        if (product.getStock() < sales.getSalesQuantity()) {
+            model.addAttribute("errorMessage", "在庫が不足しています");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesConfirm";
+        }
+
+        // 保存 & 在庫更新
         salesService.save(sales);
+        product.setStock(product.getStock() - sales.getSalesQuantity());
+        productService.save(product);
+
         return "sales/SalesComplete";
     }
     

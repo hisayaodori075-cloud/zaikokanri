@@ -203,38 +203,7 @@ public class StockController {
         return "/stock/StockInEditComplete";
     }
     
-    @GetMapping("/StockSearch")
-    public String stockSearch(
-            @RequestParam(required = false) String productName,
-            @RequestParam(required = false) String janCode,
-            Model model) {
-
-        List<ProductEntity> productList;
-
-        if ((productName == null || productName.isEmpty()) &&
-            (janCode == null || janCode.isEmpty())) {
-
-            productList = productService.findAll();
-
-        } else if (productName != null && !productName.isEmpty()) {
-
-            productList = productService.findByProductNameContaining(productName);
-
-        } else {
-
-            ProductEntity product = productService.findByJanCode(janCode);
-
-            if (product == null) {
-                productList = List.of();
-            } else {
-                productList = List.of(product);
-            }
-        }
-
-        model.addAttribute("productList", productList);
-
-        return "stock/StockSearch";
-    }
+    
     
     @GetMapping("/StockList")
     public String stockList(

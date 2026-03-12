@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>廃棄入力完了</title>
+</head>
+<body>
+	<h2>廃棄入力が完了しました</h2>	
+	
+	<form th:action="@{/stock/DisposalRegister}" method="get">
+		<button type="submit">廃棄登録を続ける</button>
+	</form>
+	
+	<form th:action="@{/stock/ZaikoConfirm}" method="get">
+			<button type="submit">入荷処理へ戻る</button>
+	</form>
+	
+</body>
+</html>

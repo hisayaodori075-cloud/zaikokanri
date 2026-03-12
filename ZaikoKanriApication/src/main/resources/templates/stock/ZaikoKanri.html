@@ -6,12 +6,7 @@
 <title>在庫管理</title>
 </head>
 <body>
-	<h2>在庫管理</h2>
-			<!-- OK -->
-			<form th:action="@{/stock/ZaikoConfirm}" method="get">
-				<button type="submit">在庫確認</button>
-			</form>	
-			
+	<h2>在庫管理</h2>			
 			<!-- OK -->
 			<form th:action="@{/stock/ArrivalControll}" method="get">
 				<button type="submit">入荷処理</button>
@@ -21,6 +16,15 @@
 			<form th:action="@{/sales/SalesManagement}" method="get">
 			    <button type="submit">販売数入力</button>
 			</form>
+			
+			<!-- OK -->
+			<form th:action="@{/stock/ZaikoConfirm}" method="get">
+				<button type="submit">在庫調整管理</button>
+			</form>	
+			
+			<form th:action="@{/stock/ZaikoConfirm}" method="get">
+				<button type="submit">在庫一覧</button>
+			</form>	
 			
 			<!-- OK -->
 			<form th:action="@{/menu/ProductMasterKanri}" method="get">

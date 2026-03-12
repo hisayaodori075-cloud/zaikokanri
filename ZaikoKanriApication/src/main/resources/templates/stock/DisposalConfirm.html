@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>廃棄内容確認</title>
+</head>
+	<body>
+	
+	<h2>廃棄内容確認</h2>
+	
+	<!-- 商品情報の表示 -->
+	商品名: <span th:text="${product.productName}"></span><br>
+	JANコード: <span th:text="${product.janCode}"></span><br>
+	
+	<!-- 廃棄情報の表示 -->
+	廃棄数: <span th:text="${disposal.quantity}"></span><br>
+	廃棄日: <span th:text="${disposal.disposalDate}"></span><br>
+	
+	<!-- 登録ボタン -->
+	<form th:action="@{/stock/DisposalSave}" th:object="${disposal}" method="post">
+		<input type="hidden" th:field="*{productId}" th:value="${product.id}" />
+		<input type="hidden" th:field="*{quantity}" />
+	    <input type="hidden" th:field="*{disposalDate}" />
+	    <button type="submit">登録する</button>
+	</form>
+	
+	<!-- 戻るボタン -->
+	<form th:action="@{/stock/DisposalInput}" th:object="${disposal}" method="post">
+	    <input type="hidden" th:field="*{productId}" />
+	    <input type="hidden" th:field="*{quantity}" />
+	    <input type="hidden" th:field="*{disposalDate}" />
+	    <button type="submit">戻る</button>
+	</form>
+	
+	</body>
+</html>
