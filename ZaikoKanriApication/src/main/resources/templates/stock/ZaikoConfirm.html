@@ -8,7 +8,7 @@
 <body>
 	<h2>在庫確認</h2>
 			<!-- 在庫確認検索画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/menu/ProductMasterKanri}" method="get">
+			<form th:action="@{/stock/StockSearch}" method="get">
 				<button type="submit">在庫確認検索</button>
 			</form>	
 			
@@ -19,7 +19,7 @@
 			
 			<!-- OK -->
 			<form th:action="@{/stock/ZaikoKanri}" method="get">
-				        <button type="submit">在庫管理へ戻る</button>
+				<button type="submit">在庫管理へ戻る</button>
 			</form>
 
 </body>

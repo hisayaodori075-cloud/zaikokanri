@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.product.entity.ProductEntity;
 import com.example.demo.product.service.ProductService;
 import com.example.demo.stock.entity.StockInEntity;
-import com.example.demo.stock.service.StockService;
+import com.example.demo.stock.service.StockInService;
 
 @Controller
 @RequestMapping("/stock")
 public class StockController {
 
     @Autowired
-    private StockService stockService;
+    private StockInService stockInService;
     
     @Autowired
     private ProductService productService;
@@ -86,7 +86,7 @@ public class StockController {
     @PostMapping("/StockInEditSearch")
     public String search(@RequestParam Integer id, Model model) {
 
-        StockInEntity stock = stockService.findById(id);
+    	StockInEntity stock = stockInService.findById(id);
 
         if (stock == null) {
             model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
@@ -106,7 +106,7 @@ public class StockController {
     @GetMapping("/StockInEdit/{id}")
     public String edit(@PathVariable Integer id, Model model){
 
-        StockInEntity stock = stockService.findById(id);
+        StockInEntity stock = stockInService.findById(id);
 
         if (stock == null) {
             model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
@@ -125,7 +125,7 @@ public class StockController {
     @PostMapping("/StockInEdit")
     public String stockInEdit(@RequestParam Integer id, Model model) {
 
-        StockInEntity stock = stockService.findById(id);
+        StockInEntity stock = stockInService.findById(id);
 
         // ★ここ追加
         if (stock == null) {
@@ -175,7 +175,7 @@ public class StockController {
     // 入荷削除確認
     @PostMapping("/StockInDelete")
     public String deleteConfirm(@RequestParam Integer id, Model model) {
-        StockInEntity stock = stockService.findById(id);
+        StockInEntity stock = stockInService.findById(id);
 
         if (stock == null || stock.isDeleted()) {  // ← 論理削除済みも存在しない扱い
             model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
@@ -193,13 +193,79 @@ public class StockController {
     // 入荷削除完了（論理削除）
     @PostMapping("/StockInDeleteComplete/{id}")
     public String deleteComplete(@PathVariable Integer id) {
-        stockService.delete(id); // ← Service 側で論理削除処理
+        stockInService.delete(id); // ← Service 側で論理削除処理
         return "stock/StockInDeleteComplete";
     }
     
     @PostMapping("/save")
     public String save(@ModelAttribute StockInEntity stock) {
-        stockService.save(stock);
+        stockInService.save(stock);
         return "/stock/StockInEditComplete";
+    }
+    
+    @GetMapping("/StockSearch")
+    public String stockSearch(
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String janCode,
+            Model model) {
+
+        List<ProductEntity> productList;
+
+        if ((productName == null || productName.isEmpty()) &&
+            (janCode == null || janCode.isEmpty())) {
+
+            productList = productService.findAll();
+
+        } else if (productName != null && !productName.isEmpty()) {
+
+            productList = productService.findByProductNameContaining(productName);
+
+        } else {
+
+            ProductEntity product = productService.findByJanCode(janCode);
+
+            if (product == null) {
+                productList = List.of();
+            } else {
+                productList = List.of(product);
+            }
+        }
+
+        model.addAttribute("productList", productList);
+
+        return "stock/StockSearch";
+    }
+    
+    @GetMapping("/StockList")
+    public String stockList(
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String janCode,
+            Model model){
+
+        List<ProductEntity> productList;
+
+        if ((productName == null || productName.isEmpty()) &&
+            (janCode == null || janCode.isEmpty())) {
+
+            productList = productService.findAll();
+
+        } else if (productName != null && !productName.isEmpty()) {
+
+            productList = productService.findByProductNameContaining(productName);
+
+        } else {
+
+            ProductEntity product = productService.findByJanCode(janCode);
+
+            if (product == null) {
+                productList = List.of();
+            } else {
+                productList = List.of(product);
+            }
+        }
+
+        model.addAttribute("productList", productList);
+
+        return "stock/StockList";
     }
 }

@@ -38,4 +38,6 @@ public interface ProductRepository
 
     // 削除されていないものだけ取得
     List<ProductEntity> findByDeletedFalse();
+    
+    List<ProductEntity> findByProductNameStartingWith(String productName);
 }

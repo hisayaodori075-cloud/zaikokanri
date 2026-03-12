@@ -57,5 +57,9 @@ public class ProductService {
         return productRepository.findByJanCode(janCode);
     }
     
+    public List<ProductEntity> findByProductNameContaining(String productName){
+        return productRepository.findByProductNameStartingWith(productName);
+    }
+    
     
 }

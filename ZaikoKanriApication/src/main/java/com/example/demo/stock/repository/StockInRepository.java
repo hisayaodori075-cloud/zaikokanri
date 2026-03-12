@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.demo.stock.entity.StockInEntity;
 
-public interface StockRepository extends JpaRepository<StockInEntity, Integer> {
+public interface StockInRepository extends JpaRepository<StockInEntity, Integer> {
 	
 	// 論理削除
     @Modifying

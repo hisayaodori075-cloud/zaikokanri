@@ -38,6 +38,9 @@ public class ProductEntity {
     @Column(name = "sales_status")
     private String salesStatus;
     
+    @Column(name = "stock")
+    private Integer stock;
+    
  // ---------------- 論理削除用 ----------------
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
@@ -85,6 +88,10 @@ public class ProductEntity {
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
+    
+    public Integer getStock() {
+        return stock;
+    }
 
     // ===== setter =====
     public void setId(Integer id) {
@@ -126,4 +133,8 @@ public class ProductEntity {
 	public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
+	
+	public void setStock(Integer stock) {
+	    this.stock = stock;
+	}
 }
