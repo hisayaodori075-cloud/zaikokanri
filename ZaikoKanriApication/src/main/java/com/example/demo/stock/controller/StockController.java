@@ -200,41 +200,39 @@ public class StockController {
     @PostMapping("/save")
     public String save(@ModelAttribute StockInEntity stock) {
         stockInService.save(stock);
-        return "/stock/StockInEditComplete";
-    }
-    
-    
+        return "/stock/StockInComplete";
+    } 
     
     @GetMapping("/StockList")
     public String stockList(
-            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) Integer productId,
             @RequestParam(required = false) String janCode,
-            Model model){
+            Model model) {
 
         List<ProductEntity> productList;
 
-        if ((productName == null || productName.isEmpty()) &&
-            (janCode == null || janCode.isEmpty())) {
-
-            productList = productService.findAll();
-
-        } else if (productName != null && !productName.isEmpty()) {
-
-            productList = productService.findByProductNameContaining(productName);
-
-        } else {
-
+        if (productId != null) {
+            ProductEntity product = productService.findById(productId);
+            productList = (product == null) ? List.of() : List.of(product);
+        } 
+        else if (janCode != null && !janCode.isEmpty()) {
             ProductEntity product = productService.findByJanCode(janCode);
-
-            if (product == null) {
-                productList = List.of();
-            } else {
-                productList = List.of(product);
-            }
+            productList = (product == null) ? List.of() : List.of(product);
+        } 
+        else {
+            productList = productService.findAll();
         }
 
+        // 表示用
         model.addAttribute("productList", productList);
+
+        // プルダウン用
+        model.addAttribute("allProducts", productService.findAll());
 
         return "stock/StockList";
     }
+    
+    
+    
+    
 }

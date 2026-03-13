@@ -74,7 +74,20 @@ public class ProductEntity {
     }
 
     public String getStatus() {
-        return status;
+
+        if (this.stock == null) {
+            return "不明";
+        }
+
+        if (this.stock <= 5) {
+            return "少ない";
+        } 
+        else if (this.stock <= 20) {
+            return "適正";
+        } 
+        else {
+            return "多い";
+        }
     }
 
     public String getSalesStatus() {

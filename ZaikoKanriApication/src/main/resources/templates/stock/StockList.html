@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>在庫管理一覧</title>
+    <style>
+        .low { color: red; }
+        .normal { color: green; }
+        .high { color: blue; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        input, button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+	
+<h2>在庫管理一覧</h2>
+
+<!-- 検索フォーム -->
+<form th:action="@{/stock/StockList}" method="get">
+
+商品名：
+<select name="productId">
+	    <option value="">商品名を選択してください</option>
+	    <option th:each="product : ${productList}"
+	            th:value="${product.id}" 
+	            th:text="${product.productName}">
+	    </option>
+</select>
+	
+
+
+
+JANコード：
+<input type="text" name="janCode">
+
+<button type="submit">検索</button>
+
+<button type="button"
+        onclick="location.href='/stock/StockList'">
+一覧
+</button>
+
+</form>
+<!-- 在庫一覧表 -->
+<table>
+    <thead>
+        <tr>
+		    <th>商品ID</th>
+			<th>商品名</th>
+			<th>JANコード</th>      
+            <th>在庫数</th>
+            <th>在庫ステータス</th>
+			<th>販売状況</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="product : ${productList}">
+			<td th:text="${product.id}"></td>
+			<td th:text="${product.productName}"></td>
+			<td th:text="${product.janCode}"></td>          
+            <td th:text="${product.stock}"></td>
+			<td th:text="${product.status}"
+			    th:classappend="${product.status == '少ない'} ? 'low' : (product.status == '多い' ? 'high' : 'normal')">
+			</td>
+			<td th:text="${product.salesStatus}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/stock/ZaikoKanri}">
+	<button type="button">戻る</button>
+</a>
+
+</body>
+</html>

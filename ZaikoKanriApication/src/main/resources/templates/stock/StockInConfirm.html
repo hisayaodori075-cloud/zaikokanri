@@ -11,7 +11,7 @@
 	入荷数: <span th:text="${stock.quantity}"></span><br>
 	入荷日: <span th:text="${stock.arrivalDate}"></span><br>
 
-	<form th:action="@{/stock/save}" th:object="${stock}" method="post">
+	<form th:action="@{/stock/StockInsave}" th:object="${stock}" method="post">
 
 	    <input type="hidden" th:field="*{productId}" />
 	    <input type="hidden" th:field="*{quantity}" />
