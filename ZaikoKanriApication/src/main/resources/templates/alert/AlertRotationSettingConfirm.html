@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>回転アラート設定確認</h1>
+
+	注意対象期間：
+	<span th:text="${rotationSetting.attentionDays}"></span>日
+	<br>
+
+	注意販売数：
+	<span th:text="${rotationSetting.attentionSales}"></span>個以下
+	<br><br>
+
+	緊急対象期間：
+	<span th:text="${rotationSetting.urgentDays}"></span>日
+	<br>
+
+	緊急販売数：
+	<span th:text="${rotationSetting.urgentSales}"></span>個以下
+	<br><br>
+
+	<form th:action="@{/alert/AlertRotationSettingComplete}"
+	      method="post"
+	      th:object="${rotationSetting}">
+
+	    <input type="hidden" th:field="*{attentionDays}">
+	    <input type="hidden" th:field="*{attentionSales}">
+	    <input type="hidden" th:field="*{urgentDays}">
+	    <input type="hidden" th:field="*{urgentSales}">
+
+	    <button type="submit">登録する</button>
+
+	</form>
+
+	<br>
+
+	<button type="button" onclick="history.back()">入力画面に戻る</button>
+
+</body>
+</html>

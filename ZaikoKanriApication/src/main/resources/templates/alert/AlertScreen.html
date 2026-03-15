@@ -8,12 +8,12 @@
 <body>
 	<h2>アラート表示画面</h2>
 			<!-- アラート表示画面作ったらURL替える（これ少し時間かかる） -->
-			<form th:action="@{/menu/ProductMasterKanri}" method="get">
+			<form th:action="@{/alert/AlertSettingList}" method="get">
 				<button type="submit">発注最低数アラート〇件</button>
 			</form>	
 			
 			<!-- アラート表示画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/product/newproduct}" method="get">
+			<form th:action="@{/alert/AlertRotationSetting}" method="get">
 				<button type="submit">回転数悪化アラート〇件</button>
 			</form>	
 			

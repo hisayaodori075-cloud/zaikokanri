@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>発注回転数アラート設定</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.container {
+    width: 500px;
+    margin: 60px auto;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-box label {
+    font-weight: bold;
+}
+
+.form-box input[type="number"] {
+    width: 80px;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.button-area {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 8px 20px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>発注回転数アラート設定</h1>
+
+    <form th:action="@{/alert/AlertRotationSettingConfirm}" th:object="${rotationSetting}" method="post" class="form-box">
+        
+        <!-- 対象期間 -->
+        <div>
+            <label>対象期間（日）</label><br>
+            注意：直近 <input type="number" th:field="*{attentionDays}" required> 日<br>
+            緊急：直近 <input type="number" th:field="*{urgentDays}" required> 日
+        </div>
+        
+        <!-- 販売数基準 -->
+        <div>
+            <label>販売数基準（<=）</label><br>
+            注意：販売数が <input type="number" th:field="*{attentionSales}" required>以下<br>
+            緊急：販売数が <input type="number" th:field="*{urgentSales}" required>以下
+        </div>
+        
+        <!-- 対象商品説明 -->
+        <div>
+            <label>対象商品</label><br>
+            通常販売中の商品を対象とします（販売停止・販売終了は除外）
+        </div>
+
+        <div class="button-area">
+            <button type="button" onclick="location.href='/alert/AlertSetting'">設定画面に戻る</button>
+            <button type="submit">確認画面へ</button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

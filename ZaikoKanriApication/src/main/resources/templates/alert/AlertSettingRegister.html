@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>在庫最低数登録</title>
+</head>
+<body>
+	<h2>在庫最低数登録</h2>
+	
+	
+	メーカー名: <span th:text="${product.makerName}"></span><br>
+	商品名: <span th:text="${product.ProductName}"></span><br>	
+	JANコード: <span th:text="${product.janCode}"></span><br>
+	  	
+	
+	
+	<form th:action="@{/alert/AlertSettingConfirm}" th:object="${alertSetting}" method="post">
+	    <input type="hidden" th:field="*{productId}" />
+	
+	    在庫最低数：
+	    <input type="number" th:field="*{minStock}" required />
+	
+	    <br><br>
+	    <button type="submit">登録</button>
+	</form>
+	
+	<br>
+	<button type="button" onclick="location.href='/alert/AlertSettingList'">一覧に戻る</button>
+</body>
+</html>
