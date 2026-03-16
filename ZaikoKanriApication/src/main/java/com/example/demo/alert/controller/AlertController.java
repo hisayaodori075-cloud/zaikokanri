@@ -19,6 +19,7 @@ import com.example.demo.alert.entity.AlertSettingEntity;
 import com.example.demo.alert.service.AlertDisplayService;
 import com.example.demo.alert.service.AlertRotationSettingService;
 import com.example.demo.alert.service.AlertService;
+import com.example.demo.alert.service.RotationAlertDisplayService;
 import com.example.demo.product.entity.ProductEntity;
 import com.example.demo.product.service.ProductService;
 
@@ -37,17 +38,30 @@ public class AlertController {
     
     @Autowired
     private AlertDisplayService alertDisplayService;
+    
+    @Autowired
+    private RotationAlertDisplayService rotationAlertService;
+
 
     // 設定画面表示
     @GetMapping("/AlertScreen")
     public String menuAlert(Model model) {
-        // 発注最低数アラート件数
-        List<ProductEntity> minStockAlertList = alertDisplayService.findMinStockAlert();
-        long minStockAlertCount = minStockAlertList != null ? minStockAlertList.size() : 0;
+
+        // 最低在庫アラート
+        List<ProductEntity> minStockAlertList =
+                alertDisplayService.findMinStockAlert();
+
+        long minStockAlertCount =
+                minStockAlertList != null ? minStockAlertList.size() : 0;
+
+        // 回転緊急アラート
+        long rotationUrgentCount =
+                rotationAlertService.countUrgentAlert();
 
         model.addAttribute("minStockAlertCount", minStockAlertCount);
+        model.addAttribute("rotationUrgentCount", rotationUrgentCount);
 
-        return "alert/AlertScreen"; // あなたのメニュー画面HTML
+        return "alert/AlertScreen";
     }
     
     @GetMapping("/AlertSetting")
@@ -190,5 +204,33 @@ public class AlertController {
 
         return "alert/MinstockAlertDisplay";
     }
+    
+    @GetMapping("/RotationAlertDisplay")
+    public String rotationAlertDisplay(Model model) {
+
+        AlertRotationSettingEntity setting = rotationService.getSetting();
+
+        List<ProductEntity> productList =
+                rotationAlertService.findRotationAlert();
+
+        Map<Integer, Integer> urgentSalesMap =
+                rotationAlertService.getSalesCountMap(productList, setting.getUrgentDays());
+
+        Map<Integer, Integer> attentionSalesMap =
+                rotationAlertService.getSalesCountMap(productList, setting.getAttentionDays());
+
+        Map<Integer, String> lastSalesDateMap =
+                rotationAlertService.getLastSalesDateMap(productList);
+
+        model.addAttribute("rotationAlertList", productList);
+        model.addAttribute("urgentSalesMap", urgentSalesMap);
+        model.addAttribute("attentionSalesMap", attentionSalesMap);
+        model.addAttribute("lastSalesDateMap", lastSalesDateMap);
+        model.addAttribute("setting", setting);
+
+        return "alert/RotationAlertDisplay";
+    }
+    
+    
 
 }

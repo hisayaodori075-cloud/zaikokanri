@@ -6,26 +6,34 @@
 <title>商品管理アプリ</title>
 </head>
 <body>
-	<h2>商品管理アプリ</h2>
-			<!-- OK -->
-			<form th:action="@{/menu/ProductMasterKanri}" method="get">
-				<button type="submit">マスタ管理</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/stock/ZaikoKanri}" method="get">
-				<button type="submit">在庫管理</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/alert/AlertScreen}" method="get">
-			    <button type="submit">アラート：〇件</button>
-			</form>
-			
-			<!-- OK -->
-			<form th:action="@{/logout}" method="post">
-				        <button type="submit">ログアウト</button>
-			</form>
+
+<h2>商品管理アプリ</h2>
+
+	<!-- OK -->
+	<form th:action="@{/menu/ProductMasterKanri}" method="get">
+	    <button type="submit">マスタ管理</button>
+	</form>    
+	
+	<!-- OK -->
+	<form th:action="@{/stock/ZaikoKanri}" method="get">
+	    <button type="submit">在庫管理</button>
+	</form>    
+	
+	<!-- アラート -->
+	<form th:action="@{/alert/AlertScreen}" method="get">
+		<button type="submit"
+		th:style="${totalAlertCount > 0} ?
+		'background-color:#ff6b6b;color:white;border:2px solid #c0392b;' : ''">
+		アラート：
+		<span th:text="${totalAlertCount}">0</span>
+		件
+		</button>
+	</form>
+	
+	<!-- OK -->
+	<form th:action="@{/logout}" method="post">
+	    <button type="submit">ログアウト</button>
+	</form>
 
 </body>
 </html>

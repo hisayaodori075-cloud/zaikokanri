@@ -39,7 +39,10 @@ public class AlertDisplayService {
                         return false;
                     }
 
-                    return product.getStock() < setting.getMinStock();
+                    // stockがnullの場合は0として扱う
+                    int stock = product.getStock() != null ? product.getStock() : 0;
+
+                    return stock < setting.getMinStock();
 
                 })
                 .toList();
@@ -57,5 +60,4 @@ public class AlertDisplayService {
                         a -> a
                 ));
     }
-
 }

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>回転数悪化アラート</title>
+
+<style>
+
+body{
+    background:#f3f3f3;
+    font-family: sans-serif;
+}
+
+.container{
+    width:1000px;
+    margin:50px auto;
+    text-align:center;
+}
+
+.title{
+    font-size:28px;
+    font-weight:bold;
+    border:2px solid black;
+    display:inline-block;
+    padding:10px 40px;
+    background:white;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:30px;
+}
+
+th{
+    background:#cfd3d6;
+    padding:12px;
+}
+
+td{
+    background:#e5e8eb;
+    padding:12px;
+}
+
+tr:nth-child(even) td{
+    background:#d9dde0;
+}
+
+/* 重要度 */
+
+.attention{
+    background:#ffe08a;
+    padding:4px 10px;
+    border-radius:4px;
+}
+
+.urgent{
+    background:#ff6b6b;
+    color:white;
+    padding:4px 10px;
+    border-radius:4px;
+}
+
+/* 戻るボタン */
+
+.backButton{
+    margin-top:40px;
+}
+
+button{
+    width:250px;
+    height:70px;
+    font-size:22px;
+    background:#79b6d0;
+    border-radius:20px;
+    border:2px solid black;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">
+回転数悪化アラート
+</div>
+
+<table>
+
+<thead>
+<tr>
+    <th>JANコード</th>
+    <th>商品名</th>
+    <th>最終販売日</th>
+    <th th:text="${setting.attentionDays} + '日販売数'"></th>
+    <th>重要度</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr th:each="product : ${rotationAlertList}">
+
+<td th:text="${product.janCode}"></td>
+
+<td th:text="${product.productName}"></td>
+
+<td th:text="${lastSalesDateMap[product.id] != null ? lastSalesDateMap[product.id] : '販売なし'}"></td>
+
+<td th:text="${attentionSalesMap[product.id]}"></td>
+
+<td>
+
+<span th:if="${urgentSalesMap[product.id]} < ${setting.urgentSales}" class="urgent">
+緊急
+</span>
+
+<span th:if="${urgentSalesMap[product.id]} >= ${setting.urgentSales} 
+             and ${attentionSalesMap[product.id]} < ${setting.attentionSales}" 
+      class="attention">
+注意
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="backButton">
+
+<form th:action="@{/alert/AlertScreen}" method="get">
+<button type="submit">
+戻る
+</button>
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

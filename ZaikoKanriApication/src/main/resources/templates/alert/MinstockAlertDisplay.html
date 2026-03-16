@@ -56,7 +56,6 @@ button{
 
 </head>
 
-
 <body>
 
 <div class="container">
@@ -69,29 +68,31 @@ button{
 
 <thead>
 <tr>
-	<th>商品名</th>
-	<th>現在庫数</th>
-	<th>発注最低数</th>
-	<th>不足数</th>
-	<th>ステータス</th>
+    <th>商品名</th>
+    <th>現在庫数</th>
+    <th>発注最低数</th>
+    <th>不足数</th>
+    <th>ステータス</th>
 </tr>
 </thead>
 
 <tbody>
 
-	<tr th:each="product : ${minStockAlertList}">
+<tr th:each="product : ${minStockAlertList}">
 
-		<td th:text="${product.productName}"></td>
-	
-		<td th:text="${product.stock}"></td>
-	
-		<td th:text="${alertMap[product.id].minStock}"></td>
-	
-		<td th:text="${alertMap[product.id].minStock - product.stock}"></td>
+    <td th:text="${product.productName}"></td>
 
-		<td>緊急</td>
+    <!-- stockがnullなら0表示 -->
+    <td th:text="${product.stock != null ? product.stock : 0}"></td>
 
-	</tr>
+    <td th:text="${alertMap[product.id].minStock}"></td>
+
+    <!-- 不足数 -->
+    <td th:text="${alertMap[product.id].minStock - (product.stock != null ? product.stock : 0)}"></td>
+
+    <td>緊急</td>
+
+</tr>
 
 </tbody>
 

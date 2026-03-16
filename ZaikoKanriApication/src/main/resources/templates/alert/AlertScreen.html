@@ -3,33 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>アラート表示画面</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    margin-top:50px;
+}
+
+h2{
+    margin-bottom:40px;
+}
+
+.menuButton{
+    margin-bottom:20px;
+}
+
+button{
+    width:300px;
+    height:60px;
+    font-size:18px;
+}
+
+/* アラート件数 */
+
+.alertCount{
+    color:red;
+    font-weight:bold;
+    margin-left:10px;
+}
+
+</style>
+
 </head>
+
 <body>
-    <h2>アラート表示画面</h2>
 
-    <!-- 発注最低数アラート（赤丸付き件数） -->
-    <form th:action="@{/alert/MinstockAlertDisplay}" method="get" 
-          style="position: relative; display: inline-block; margin-bottom: 10px;">
-        <button type="submit" style="position: relative; padding-right: 30px;">
-            発注最低数アラート
-            <span th:text="${minStockAlertCount}" 
-                  style="position: absolute; top: -8px; right: 5px; 
-                         background: red; color: white; border-radius: 50%; 
-                         padding: 2px 6px; font-size: 12px;">
-                0
-            </span>
-        </button>
-    </form>  
+<h2>アラート表示画面</h2>
 
-    <!-- 回転数悪化アラート（件数表示は今回は固定） -->
-    <form th:action="@{/alert/AlertRotationSetting}" method="get" style="margin-bottom: 10px;">
-        <button type="submit">回転数悪化アラート〇件</button>
-    </form>  
+<!-- 発注最低数アラート -->
+<div class="menuButton">
 
-    <!-- 在庫管理アプリへ戻る -->
-    <form th:action="@{/menu/ProductMasterApp}" method="get">
-        <button type="submit">在庫管理アプリへ戻る</button>
-    </form>
+<form th:action="@{/alert/MinstockAlertDisplay}" method="get">
+
+<button type="submit">
+
+発注最低数アラート
+
+<span class="alertCount"
+      th:text="${minStockAlertCount} + '件'">
+0件
+</span>
+
+</button>
+
+</form>
+
+</div>
+
+
+<!-- 回転数悪化アラート -->
+<div class="menuButton">
+
+<form th:action="@{/alert/RotationAlertDisplay}" method="get">
+
+<button type="submit">
+
+回転数悪化アラート
+
+<span class="alertCount"
+      th:text="${rotationUrgentCount} + '件'">
+0件
+</span>
+
+</button>
+
+</form>
+
+</div>
+
+
+<!-- 戻る -->
+<div class="menuButton">
+
+<form th:action="@{/menu/ProductMasterApp}" method="get">
+
+<button type="submit">
+在庫管理アプリへ戻る
+</button>
+
+</form>
+
+</div>
 
 </body>
 </html>

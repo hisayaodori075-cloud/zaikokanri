@@ -1,5 +1,6 @@
 package com.example.demo.stock.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -17,13 +18,41 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 
     // 商品IDで販売履歴を検索
     List<SalesEntity> findByProductId(Integer productId);
-    
+
     // 論理削除
     @Modifying
     @Transactional
-    @Query("UPDATE SalesEntity s SET s.deleted = true, s.deletedAt = CURRENT_TIMESTAMP WHERE s.id = :id")
+    @Query("""
+           UPDATE SalesEntity s
+           SET s.deleted = true,
+               s.deletedAt = CURRENT_TIMESTAMP
+           WHERE s.id = :id
+           """)
     void logicallyDeleteById(@Param("id") Integer id);
 
     // 削除されていないものだけ取得
     List<SalesEntity> findByDeletedFalse();
+
+    // 指定日以降の販売数合計
+    @Query("""
+           SELECT COALESCE(SUM(s.salesQuantity),0)
+           FROM SalesEntity s
+           WHERE s.productId = :productId
+           AND s.salesDate >= :startDate
+           AND s.deleted = false
+           """)
+    Integer getSalesCountSince(
+            @Param("productId") Integer productId,
+            @Param("startDate") LocalDate startDate
+    );
+
+    // 最終販売日
+    @Query("""
+           SELECT MAX(s.salesDate)
+           FROM SalesEntity s
+           WHERE s.productId = :productId
+           AND s.deleted = false
+           """)
+    LocalDate findLastSalesDate(@Param("productId") Integer productId);
+
 }
