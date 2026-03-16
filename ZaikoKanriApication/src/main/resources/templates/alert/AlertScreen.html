@@ -1,26 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
 <meta charset="UTF-8">
 <title>アラート表示画面</title>
 </head>
 <body>
-	<h2>アラート表示画面</h2>
-			<!-- アラート表示画面作ったらURL替える（これ少し時間かかる） -->
-			<form th:action="@{/alert/AlertSettingList}" method="get">
-				<button type="submit">発注最低数アラート〇件</button>
-			</form>	
-			
-			<!-- アラート表示画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/alert/AlertRotationSetting}" method="get">
-				<button type="submit">回転数悪化アラート〇件</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/menu/ProductMasterApp}" method="get">
-				        <button type="submit">在庫管理アプリへ戻る</button>
-			</form>
+    <h2>アラート表示画面</h2>
+
+    <!-- 発注最低数アラート（赤丸付き件数） -->
+    <form th:action="@{/alert/MinstockAlertDisplay}" method="get" 
+          style="position: relative; display: inline-block; margin-bottom: 10px;">
+        <button type="submit" style="position: relative; padding-right: 30px;">
+            発注最低数アラート
+            <span th:text="${minStockAlertCount}" 
+                  style="position: absolute; top: -8px; right: 5px; 
+                         background: red; color: white; border-radius: 50%; 
+                         padding: 2px 6px; font-size: 12px;">
+                0
+            </span>
+        </button>
+    </form>  
+
+    <!-- 回転数悪化アラート（件数表示は今回は固定） -->
+    <form th:action="@{/alert/AlertRotationSetting}" method="get" style="margin-bottom: 10px;">
+        <button type="submit">回転数悪化アラート〇件</button>
+    </form>  
+
+    <!-- 在庫管理アプリへ戻る -->
+    <form th:action="@{/menu/ProductMasterApp}" method="get">
+        <button type="submit">在庫管理アプリへ戻る</button>
+    </form>
 
 </body>
 </html>

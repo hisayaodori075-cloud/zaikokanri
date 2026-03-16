@@ -200,6 +200,12 @@ public class StockController {
     @PostMapping("/save")
     public String save(@ModelAttribute StockInEntity stock) {
         stockInService.save(stock);
+        return "/stock/StockInEditComplete";
+    } 
+    
+    @PostMapping("/StockInSave")
+    public String stockInSave(@ModelAttribute StockInEntity stock) {
+        stockInService.save(stock);
         return "/stock/StockInComplete";
     } 
     

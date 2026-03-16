@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.alert.entity.AlertRotationSettingEntity;
 import com.example.demo.alert.entity.AlertSettingEntity;
+import com.example.demo.alert.service.AlertDisplayService;
 import com.example.demo.alert.service.AlertRotationSettingService;
 import com.example.demo.alert.service.AlertService;
 import com.example.demo.product.entity.ProductEntity;
@@ -33,12 +34,20 @@ public class AlertController {
     
     @Autowired
     private AlertRotationSettingService rotationService;
+    
+    @Autowired
+    private AlertDisplayService alertDisplayService;
 
     // 設定画面表示
     @GetMapping("/AlertScreen")
-    public String alertScreenForm(Model model) {
+    public String menuAlert(Model model) {
+        // 発注最低数アラート件数
+        List<ProductEntity> minStockAlertList = alertDisplayService.findMinStockAlert();
+        long minStockAlertCount = minStockAlertList != null ? minStockAlertList.size() : 0;
 
-        return "alert/AlertScreen";
+        model.addAttribute("minStockAlertCount", minStockAlertCount);
+
+        return "alert/AlertScreen"; // あなたのメニュー画面HTML
     }
     
     @GetMapping("/AlertSetting")
@@ -165,6 +174,21 @@ public class AlertController {
         model.addAttribute("rotationSetting", rotationSetting);
 
         return "alert/AlertRotationSettingComplete";
+    }
+    
+    @GetMapping("/MinstockAlertDisplay")
+    public String minstockAlertDisplay(Model model) {
+
+        List<ProductEntity> minStockAlertList =
+                alertDisplayService.findMinStockAlert();
+
+        Map<Integer, AlertSettingEntity> alertMap =
+                alertDisplayService.getAlertMap();
+
+        model.addAttribute("minStockAlertList", minStockAlertList);
+        model.addAttribute("alertMap", alertMap);
+
+        return "alert/MinstockAlertDisplay";
     }
 
 }
