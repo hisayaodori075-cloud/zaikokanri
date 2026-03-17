@@ -56,16 +56,16 @@ button:hover {
     <h1>次の項目を削除しますか？</h1>
 
     <div class="back-area">
-        <a th:href="@{/sales/SalesDeleteSearch}">
+        <a th:href="@{/stock/StockInDeleteSearch}">
             <button type="button">戻る</button>
         </a>
     </div>
 
 	商品名: <span th:text="${product.productName}"></span><br>
-	販売数: <span th:text="${sales.salesQuantity}"></span><br>
-	販売日: <span th:text="${sales.salesDate}"></span><br>
+	入荷数: <span th:text="${stock.quantity}"></span><br>
+	入荷日: <span th:text="${stock.arrivalDate}"></span><br>
 	
-	<form th:action="@{/sales/SalesDeleteComplete/{id}(id=${stock.id})}" method="post">	    
+	<form th:action="@{/stock/StockInDeleteComplete/{id}(id=${stock.id})}" method="post">	    
 		<button type="submit">削除する</button>
 	</form>
 

@@ -173,7 +173,7 @@ public class StockController {
     }
 
     // 入荷削除確認
-    @PostMapping("/StockInDelete")
+    @PostMapping("/StockInDeleteConfirm")
     public String deleteConfirm(@RequestParam Integer id, Model model) {
         StockInEntity stock = stockInService.findById(id);
 
