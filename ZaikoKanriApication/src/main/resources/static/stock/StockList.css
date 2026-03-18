@@ -1,0 +1,66 @@
+@charset "UTF-8";
+body{
+    background-color:#f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container{
+    width:900px;
+    margin:50px auto;
+    text-align:center;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+.search-form{
+    margin-bottom:20px;
+}
+
+.search-form select,
+.search-form input{
+    padding:8px 10px;
+    border:1px solid #999;
+    margin-right:10px;
+}
+
+.button-area{
+    margin-top:10px;
+}
+
+button{
+    padding:8px 18px;
+    border:1px solid #999;
+    background-color:#e6e6e6;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#dcdcdc;
+}
+
+.stock-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.stock-table th,
+.stock-table td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+
+.low{
+    color:red;
+}
+
+.normal{
+    color:green;
+}
+
+.high{
+    color:blue;
+}

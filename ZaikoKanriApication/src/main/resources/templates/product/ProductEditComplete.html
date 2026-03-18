@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>商品編集完了</title>
+    <meta charset="UTF-8">
+    <title>商品編集完了</title>
+    <link rel="stylesheet" th:href="@{/product/ProductEditComplete.css}">
 </head>
+
 <body>
-	<h2>商品の編集が完了しました</h2>	
-	
-	<form th:action="@{/product/ProductMasterList}" method="get">
-		<button type="submit">商品マスタ一覧へ戻る</button>
-	</form>
-	
+
+<div class="container">
+
+    <h2>商品の編集が完了しました</h2>
+
+    <form th:action="@{/product/ProductMasterList}" method="get">
+        <button type="submit">
+            商品マスタ一覧へ戻る
+        </button>
+    </form>
+
+</div>
+
 </body>
 </html>

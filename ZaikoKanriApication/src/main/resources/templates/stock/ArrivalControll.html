@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
+
 <head>
-<meta charset="UTF-8">
-<title>入荷処理</title>
+    <meta charset="UTF-8">
+    <title>入荷処理</title>
+    <link rel="stylesheet" th:href="@{/stock/ArrivalControll.css}">
 </head>
+
 <body>
-	<h2>入荷処理</h2>
-			<!-- OK -->
-			<form th:action="@{/stock/StockIn}" method="get">
-				<button type="submit">入荷新規登録</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/stock/StockInEditSearch}" method="get">
-				<button type="submit">入荷登録修正</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/stock/StockInDeleteSearch}" method="get">
-				<button type="submit">入荷登録削除</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/stock/ZaikoKanri}" method="get">
-				<button type="submit">在庫管理へ戻る</button>
-			</form>
+
+    <div class="container">
+
+        <h2>入荷処理</h2>
+
+        <!-- 入荷新規登録 -->
+        <form th:action="@{/stock/StockIn}" method="get">
+            <button type="submit">
+                入荷新規登録
+            </button>
+        </form>
+
+        <!-- 入荷登録修正 -->
+        <form th:action="@{/stock/StockInEditSearch}" method="get">
+            <button type="submit">
+                入荷登録修正
+            </button>
+        </form>
+
+        <!-- 入荷登録削除 -->
+        <form th:action="@{/stock/StockInDeleteSearch}" method="get">
+            <button type="submit">
+                入荷登録削除
+            </button>
+        </form>
+
+        <!-- 在庫管理へ戻る -->
+        <form th:action="@{/stock/ZaikoKanri}" method="get">
+            <button type="submit">
+                在庫管理へ戻る
+            </button>
+        </form>
+
+    </div>
 
 </body>
 </html>

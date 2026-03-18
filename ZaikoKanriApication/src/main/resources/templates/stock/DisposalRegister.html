@@ -1,67 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>廃棄商品検索</title>
+    <meta charset="UTF-8">
+    <title>廃棄商品検索</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalRegister.css}">
 </head>
+
 <body>
 
-<h1>廃棄商品検索</h1>
+<div class="container">
 
-<a th:href="@{/stock/ZaikoConfirm}">
-	    <button type="button">戻る</button>
-</a>
+    <h1>廃棄商品検索</h1>
 
-<form th:action="@{/stock/DisposalRegister}" method="get">
+    <div class="back-area">
+        <a th:href="@{/stock/ZaikoConfirm}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
 
-	商品名：
-	<select name="productId">
-	    <option value="">商品名を選択してください</option>
-	    <option th:each="product : ${productList}"
-	            th:value="${product.id}" 
-	            th:text="${product.productName}">
-	    </option>
-	</select>
-	
-	JANコード：
-	<input type="text" name="janCode">
-	
-	<button type="submit">検索</button>
-	
-	<button type="button"
-	        onclick="location.href='/stock/DisposalRegister'">
-	一覧
-	</button>
+    <form th:action="@{/stock/DisposalRegister}" method="get" class="search-form">
 
-</form>
+        <label>商品名</label>
+        <select name="productId">
+            <option value="">商品名を選択してください</option>
+            <option th:each="product : ${productList}"
+                    th:value="${product.id}"
+                    th:text="${product.productName}">
+            </option>
+        </select>
 
-<table border="1">
+        <label>JANコード</label>
+        <input type="text" name="janCode">
 
-	<tr>
-		<th>JANコード</th>
-		<th>商品ID</th>
-		<th>商品名</th>
-		<th>在庫数</th>
-		<th>操作</th>
-	</tr>
-	
-	<tr th:each="product : ${productList}">
-	
-		<td th:text="${product.janCode}"></td>
-		
-		<td th:text="${product.id}"></td>
-		
-		<td th:text="${product.productName}"></td>
-		
-		<td th:text="${product.stock}"></td>
-	
-		<td>
-			<a th:href="@{/stock/DisposalInput/{id}(id=${product.id})}">廃棄登録へ</a><br>
-		</td>
-	
-	</tr>
+        <div class="button-area">
+            <button type="submit">検索</button>
 
-</table>
+            <button type="button"
+                    onclick="location.href='/stock/DisposalRegister'">
+                一覧
+            </button>
+        </div>
+
+    </form>
+
+    <table class="product-table">
+
+        <thead>
+            <tr>
+                <th>JANコード</th>
+                <th>商品ID</th>
+                <th>商品名</th>
+                <th>在庫数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="product : ${productList}">
+
+                <td th:text="${product.janCode}"></td>
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.stock}"></td>
+
+                <td>
+                    <a th:href="@{/stock/DisposalInput/{id}(id=${product.id})}">
+                        廃棄登録へ
+                    </a>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
 
 </body>
 </html>

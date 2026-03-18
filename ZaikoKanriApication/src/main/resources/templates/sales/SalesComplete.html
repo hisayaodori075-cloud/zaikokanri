@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>販売登録完了</title>
+    <meta charset="UTF-8">
+    <title>販売登録完了</title>
+    <link rel="stylesheet" th:href="@{/sales/SalesComplete.css}">
 </head>
+
 <body>
-	<h2>販売登録完了</h2>
-	
-	<p>販売登録が完了しました。</p>
-	
-	<a th:href="@{/sales/SalesRegister}">
-	    <button type="button">販売登録へ戻る</button>
-	</a>
-	
-	<a th:href="@{/stock/SalesManagement}">
-	    <button type="button">販売管理へ</button>
-	</a>
+
+<div class="container">
+
+    <h2>販売登録完了</h2>
+
+    <p>販売登録が完了しました。</p>
+
+    <div class="button-area">
+
+        <a th:href="@{/sales/SalesRegister}">
+            <button type="button">
+                販売登録へ戻る
+            </button>
+        </a>
+
+        <a th:href="@{/stock/SalesManagement}">
+            <button type="button">
+                販売管理へ
+            </button>
+        </a>
+
+    </div>
+
+</div>
 
 </body>
 </html>

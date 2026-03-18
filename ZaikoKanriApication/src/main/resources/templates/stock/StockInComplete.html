@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>入荷処理完了</title>
+    <meta charset="UTF-8">
+    <title>入荷処理完了</title>
+    <link rel="stylesheet" th:href="@{/stock/StockInComplete.css}">
 </head>
+
 <body>
-	<h2>入荷処理が完了しました</h2>	
-	
-	<form th:action="@{/stock/StockIn}" method="get">
-		<button type="submit">入荷処理登録を続ける</button>
-	</form>
-	
-	<form th:action="@{/stock/ArrivalControll}" method="get">
-			<button type="submit">入荷処理へ戻る</button>
-	</form>
-	
+
+    <div class="container">
+
+        <h2>入荷処理が完了しました</h2>
+
+        <form th:action="@{/stock/StockIn}" method="get">
+            <button type="submit">
+                入荷処理登録を続ける
+            </button>
+        </form>
+
+        <form th:action="@{/stock/ArrivalControll}" method="get">
+            <button type="submit">
+                入荷処理へ戻る
+            </button>
+        </form>
+
+    </div>
+
 </body>
 </html>

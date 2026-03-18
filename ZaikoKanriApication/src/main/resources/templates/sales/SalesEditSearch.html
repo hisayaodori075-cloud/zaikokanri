@@ -1,70 +1,50 @@
-<style>
-body {
-    background-color: #f3f3f3;
-    font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-.container {
-    width: 500px;
-    margin: 80px auto;
-    text-align: center;
-}
+<head>
+    <meta charset="UTF-8">
+    <title>販売数処理修正検索</title>
 
-h1 {
-    margin-bottom: 30px;
-}
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" th:href="@{/sales/SalesEditSearch.css}">
+</head>
 
-.form-box {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.form-box select,
-.form-box input {
-    width:100%;
-	padding: 10px 12px;
-    border: 1px solid #999;
-    border-radius: 4px;
-	font-size:14px;
-	box-sizing:border-box;
-	
-}
-
-.button-area {
-    margin-top: 20px;
-}
-
-button {
-    padding: 8px 20px;
-    border: 1px solid #999;
-    background-color: #e6e6e6;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #dcdcdc;
-}
-</style>
-
+<body>
 
 <div class="container">
 
     <h1>販売数処理修正検索</h1>
-	
-	<p style="color:red;" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
-	<a th:href="@{/sales/SalesManagement}">
-	    <button type="button">戻る</button>
-	</a>
+    <p class="error-message"
+       th:if="${errorMessage}"
+       th:text="${errorMessage}">
+    </p>
 
-	<form th:action="@{/sales/SalesEdit}" method="post">
+    <a th:href="@{/sales/SalesManagement}">
+        <button type="button">
+            戻る
+        </button>
+    </a>
 
-	    販売数ID
-	    <input type="number" name="id" required>
+    <form th:action="@{/sales/SalesEdit}"
+          method="post"
+          class="form-box">
 
-	    <button type="submit">検索</button>
+        販売数ID
 
-	</form>
+        <input type="number"
+               name="id"
+               required>
+
+        <div class="button-area">
+            <button type="submit">
+                検索
+            </button>
+        </div>
+
+    </form>
 
 </div>
+
+</body>
+</html>

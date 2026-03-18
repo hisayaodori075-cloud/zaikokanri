@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>販売数削除完了</title>
+    <meta charset="UTF-8">
+    <title>販売数削除完了</title>
+    <link rel="stylesheet" th:href="@{/sales/SalesDeleteComplete.css}">
 </head>
+
 <body>
-	<h2>販売数の削除が完了しました</h2>	
-	
-	<form th:action="@{/sales/SalesDeleteSearch}" method="get">
-		<button type="submit">販売数削除入力を続ける</button>
-	</form>
-	
-	<form th:action="@{/sales/SalesManagement}" method="get">
-			<button type="submit">販売管理へ戻る</button>
-	</form>
-	
+
+<div class="container">
+
+    <h2>販売数の削除が完了しました</h2>
+
+    <div class="button-area">
+
+        <form th:action="@{/sales/SalesDeleteSearch}" method="get">
+            <button type="submit">
+                販売数削除入力を続ける
+            </button>
+        </form>
+
+        <form th:action="@{/sales/SalesManagement}" method="get">
+            <button type="submit">
+                販売管理へ戻る
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>

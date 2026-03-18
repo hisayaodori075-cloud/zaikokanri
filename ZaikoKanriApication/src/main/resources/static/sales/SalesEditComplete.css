@@ -1,0 +1,32 @@
+@charset "UTF-8";
+body {
+    background-color: #f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 450px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 30px;
+}
+
+.button-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    border: 1px solid #999;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #dcdcdc;
+}

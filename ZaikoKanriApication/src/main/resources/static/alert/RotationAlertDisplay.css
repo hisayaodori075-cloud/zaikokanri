@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+body {
+    background: #f3f3f3;
+    font-family: sans-serif;
+}
+
+.container {
+    width: 1000px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    border: 2px solid black;
+    display: inline-block;
+    padding: 10px 40px;
+    background: white;
+}
+
+/* テーブル */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+th {
+    background: #cfd3d6;
+    padding: 12px;
+}
+
+td {
+    background: #e5e8eb;
+    padding: 12px;
+}
+
+tr:nth-child(even) td {
+    background: #d9dde0;
+}
+
+/* 重要度 */
+
+.attention {
+    background: #ffe08a;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.urgent {
+    background: #ff6b6b;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* 戻るボタン */
+
+.backButton {
+    margin-top: 40px;
+}
+
+button {
+    width: 250px;
+    height: 70px;
+    font-size: 22px;
+    background: #79b6d0;
+    border-radius: 20px;
+    border: 2px solid black;
+    cursor: pointer;
+}

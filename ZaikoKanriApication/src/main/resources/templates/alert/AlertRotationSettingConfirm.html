@@ -1,44 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>回転アラート設定確認</title>
+    <link rel="stylesheet" th:href="@{/alert/AlertRotationSettingConfirm.css}">
 </head>
+
 <body>
-	<h1>回転アラート設定確認</h1>
 
-	注意対象期間：
-	<span th:text="${rotationSetting.attentionDays}"></span>日
-	<br>
+<div class="container">
 
-	注意販売数：
-	<span th:text="${rotationSetting.attentionSales}"></span>個以下
-	<br><br>
+    <h1>回転アラート設定確認</h1>
 
-	緊急対象期間：
-	<span th:text="${rotationSetting.urgentDays}"></span>日
-	<br>
+    <div class="setting-info">
 
-	緊急販売数：
-	<span th:text="${rotationSetting.urgentSales}"></span>個以下
-	<br><br>
+        注意対象期間：
+        <span th:text="${rotationSetting.attentionDays}"></span>日
+        <br>
 
-	<form th:action="@{/alert/AlertRotationSettingComplete}"
-	      method="post"
-	      th:object="${rotationSetting}">
+        注意販売数：
+        <span th:text="${rotationSetting.attentionSales}"></span>個以下
+        <br><br>
 
-	    <input type="hidden" th:field="*{attentionDays}">
-	    <input type="hidden" th:field="*{attentionSales}">
-	    <input type="hidden" th:field="*{urgentDays}">
-	    <input type="hidden" th:field="*{urgentSales}">
+        緊急対象期間：
+        <span th:text="${rotationSetting.urgentDays}"></span>日
+        <br>
 
-	    <button type="submit">登録する</button>
+        緊急販売数：
+        <span th:text="${rotationSetting.urgentSales}"></span>個以下
+        <br><br>
 
-	</form>
+    </div>
 
-	<br>
+    <form th:action="@{/alert/AlertRotationSettingComplete}"
+          method="post"
+          th:object="${rotationSetting}">
 
-	<button type="button" onclick="history.back()">入力画面に戻る</button>
+        <input type="hidden" th:field="*{attentionDays}">
+        <input type="hidden" th:field="*{attentionSales}">
+        <input type="hidden" th:field="*{urgentDays}">
+        <input type="hidden" th:field="*{urgentSales}">
+
+        <button type="submit">
+            登録する
+        </button>
+
+    </form>
+
+    <br>
+
+    <button type="button" onclick="history.back()">
+        入力画面に戻る
+    </button>
+
+</div>
 
 </body>
 </html>

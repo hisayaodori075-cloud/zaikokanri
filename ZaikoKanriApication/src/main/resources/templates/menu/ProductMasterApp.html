@@ -1,39 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
+
 <head>
-<meta charset="UTF-8">
-<title>商品管理アプリ</title>
+    <meta charset="UTF-8">
+    <title>商品管理アプリ</title>
+    <link rel="stylesheet" th:href="@{/menu/ProductMasterApp.css}">
 </head>
+
 <body>
 
-<h2>商品管理アプリ</h2>
+<div class="container">
 
-	<!-- OK -->
-	<form th:action="@{/menu/ProductMasterKanri}" method="get">
-	    <button type="submit">マスタ管理</button>
-	</form>    
-	
-	<!-- OK -->
-	<form th:action="@{/stock/ZaikoKanri}" method="get">
-	    <button type="submit">在庫管理</button>
-	</form>    
-	
-	<!-- アラート -->
-	<form th:action="@{/alert/AlertScreen}" method="get">
-		<button type="submit"
-		th:style="${totalAlertCount > 0} ?
-		'background-color:#ff6b6b;color:white;border:2px solid #c0392b;' : ''">
-		アラート：
-		<span th:text="${totalAlertCount}">0</span>
-		件
-		</button>
-	</form>
-	
-	<!-- OK -->
-	<form th:action="@{/logout}" method="post">
-	    <button type="submit">ログアウト</button>
-	</form>
+    <h2>商品管理アプリ</h2>
+
+    <!-- マスタ管理 -->
+    <form th:action="@{/menu/ProductMasterKanri}" method="get">
+        <button type="submit">
+            マスタ管理
+        </button>
+    </form>
+
+    <!-- 在庫管理 -->
+    <form th:action="@{/stock/ZaikoKanri}" method="get">
+        <button type="submit">
+            在庫管理
+        </button>
+    </form>
+
+    <!-- アラート -->
+    <form th:action="@{/alert/AlertScreen}" method="get">
+        <button type="submit"
+                th:style="${totalAlertCount > 0} ?
+                'background-color:#ff6b6b;color:white;border:2px solid #c0392b;' : ''">
+
+            アラート：
+            <span th:text="${totalAlertCount}">0</span>
+            件
+
+        </button>
+    </form>
+
+    <!-- ログアウト -->
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">
+            ログアウト
+        </button>
+    </form>
+
+</div>
 
 </body>
 </html>

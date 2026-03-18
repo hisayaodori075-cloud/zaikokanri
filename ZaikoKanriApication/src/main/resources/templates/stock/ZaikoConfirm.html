@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
+
 <head>
-<meta charset="UTF-8">
-<title>在庫確認</title>
+    <meta charset="UTF-8">
+    <title>在庫確認</title>
+    <link rel="stylesheet" th:href="@{/stock/ZaikoConfirm.css}">
 </head>
+
 <body>
-	<h2>在庫確認</h2>
-			<!-- 在庫確認検索画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/stock/DisposalRegister}" method="get">
-				<button type="submit">廃棄</button>
-			</form>	
-			
-			<!-- 在庫調整検索画面作ったらURL替える（これは少し時間かかる） -->
-			<form th:action="@{/product/newproduct}" method="get">
-				<button type="submit">返品</button>
-			</form>	
-			
-			<form th:action="@{/product/newproduct}" method="get">
-				<button type="submit">棚卸差異</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/stock/ZaikoKanri}" method="get">
-				<button type="submit">在庫管理へ戻る</button>
-			</form>
+
+<div class="container">
+
+    <h2>在庫確認</h2>
+
+    <div class="button-area">
+
+        <!-- 廃棄 -->
+        <form th:action="@{/stock/DisposalRegister}" method="get">
+            <button type="submit">
+                廃棄
+            </button>
+        </form>
+
+        <!-- 返品 -->
+        <form th:action="@{/product/newproduct}" method="get">
+            <button type="submit">
+                返品
+            </button>
+        </form>
+
+        <!-- 棚卸差異 -->
+        <form th:action="@{/product/newproduct}" method="get">
+            <button type="submit">
+                棚卸差異
+            </button>
+        </form>
+
+        <!-- 戻る -->
+        <form th:action="@{/stock/ZaikoKanri}" method="get">
+            <button type="submit">
+                在庫管理へ戻る
+            </button>
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

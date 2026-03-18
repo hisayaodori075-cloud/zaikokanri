@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+/* 検索フォーム */
+form {
+    margin-bottom: 10px;
+}
+
+select,
+input {
+    padding: 5px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 6px 14px;
+    cursor: pointer;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+/* テーブル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0;
+}

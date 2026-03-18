@@ -1,88 +1,104 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>発注最低数アラート設定一覧</title>
-
-<style>
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-}
-
-input, button {
-    margin-top: 10px;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <title>発注最低数アラート設定一覧</title>
+    <link rel="stylesheet" th:href="@{/alert/AlertSettingList.css}">
 </head>
+
 <body>
 
-<h2>発注最低数アラート設定</h2>
+    <h2>発注最低数アラート設定</h2>
 
-<!-- 検索フォーム -->
-<form th:action="@{/alert/AlertSettingList}" method="get">
-    商品名：
-    <select name="productName">
-        <option value="">商品名を選択してください</option>
-        <option th:each="product : ${allProducts}"
-                th:value="${product.productName}"
-                th:text="${product.productName}">
-        </option>
-    </select>
+    <!-- 検索フォーム -->
+    <form th:action="@{/alert/AlertSettingList}" method="get">
 
-    JANコード：
-    <input type="text" name="janCode">
+        商品名：
+        <select name="productName">
+            <option value="">商品名を選択してください</option>
 
-    <button type="submit">検索</button>
-    <button type="button" onclick="location.href='/alert/AlertSettingList'">一覧</button>
-</form>
+            <option th:each="product : ${allProducts}"
+                    th:value="${product.productName}"
+                    th:text="${product.productName}">
+            </option>
+        </select>
 
-<div th:if="${errorMessage}" style="color:red; margin-top:10px;">
-    <p th:text="${errorMessage}"></p>
-</div>
+        JANコード：
+        <input type="text" name="janCode">
 
-<!-- 商品一覧 -->
-<table>
-<thead>
-<tr>
-<th>商品ID</th>
-<th>商品名</th>
-<th>JANコード</th>
-<th>在庫数</th>
-<th>発注最低数</th>
-<th>操作</th>
-</tr>
-</thead>
-<tbody>
-<tr th:each="product : ${productList}">
-    <td th:text="${product.id}"></td>
-    <td th:text="${product.productName}"></td>
-    <td th:text="${product.janCode}"></td>
-    <td th:text="${product.stock}"></td>
-    <td th:text="${alertMap[product.id]?.minStock ?: '未設定'}"></td>
-    <td>
-        <a th:href="@{/alert/AlertSettingRegister/{id}(id=${product.id})}">
-            <button type="button">
-                <span th:text="${alertMap[product.id] != null ? '最低数更新' : '最低数登録'}"></span>
-            </button>
-        </a>
-    </td>
-</tr>
-</tbody>
-</table>
+        <button type="submit">
+            検索
+        </button>
 
-<br>
-<a th:href="@{/alert/AlertScreen}">
-<button type="button">戻る</button>
-</a>
+        <button type="button"
+                onclick="location.href='/alert/AlertSettingList'">
+            一覧
+        </button>
+
+    </form>
+
+    <!-- エラーメッセージ -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- 商品一覧 -->
+    <table>
+
+        <thead>
+            <tr>
+                <th>商品ID</th>
+                <th>商品名</th>
+                <th>JANコード</th>
+                <th>在庫数</th>
+                <th>発注最低数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="product : ${productList}">
+
+                <td th:text="${product.id}"></td>
+
+                <td th:text="${product.productName}"></td>
+
+                <td th:text="${product.janCode}"></td>
+
+                <td th:text="${product.stock}"></td>
+
+                <td th:text="${alertMap[product.id]?.minStock ?: '未設定'}"></td>
+
+                <td>
+
+                    <a th:href="@{/alert/AlertSettingRegister/{id}(id=${product.id})}">
+
+                        <button type="button">
+
+                            <span th:text="${alertMap[product.id] != null ? '最低数更新' : '最低数登録'}">
+                            </span>
+
+                        </button>
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a th:href="@{/alert/AlertScreen}">
+        <button type="button">
+            戻る
+        </button>
+    </a>
 
 </body>
 </html>

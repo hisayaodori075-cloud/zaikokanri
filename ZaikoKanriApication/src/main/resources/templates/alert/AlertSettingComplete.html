@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>新規商品登録完了</title>
+    <meta charset="UTF-8">
+    <title>新規商品登録完了</title>
+    <link rel="stylesheet" th:href="@{/alert/AlertSettingComplete.css}">
 </head>
-	<body>
-		<h2>登録が完了しました</h2>	
-		
-		<form th:action="@{/alert/AlertSettingList}" method="get">
-				    <button type="submit">続けて登録する</button>
-		</form>
-		
-		<form th:action="@{/alert/AlertScreen}" method="get">
-				    <button type="submit">商品マスタ一覧へ戻る</button>
-		</form>
-	</body>
+
+<body>
+
+<div class="container">
+
+    <h2>登録が完了しました</h2>
+
+    <form th:action="@{/alert/AlertSettingList}" method="get">
+        <button type="submit">
+            続けて登録する
+        </button>
+    </form>
+
+    <form th:action="@{/alert/AlertScreen}" method="get">
+        <button type="submit">
+            商品マスタ一覧へ戻る
+        </button>
+    </form>
+
+</div>
+
+</body>
 </html>

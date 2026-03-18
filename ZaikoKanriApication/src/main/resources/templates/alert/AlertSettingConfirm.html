@@ -1,95 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>在庫最低数登録</title>
-<style>
-body {
-    background-color: #dcdcdc;
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    width: 500px;
-    margin: 60px auto;
-    text-align: left;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.back-area {
-    margin-bottom: 15px;
-}
-
-.form-box {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.form-box input,
-.form-box select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #888;
-    font-size: 14px;
-    box-sizing: border-box;
-    background-color: #f7f7f7;
-}
-
-.button-area {
-    margin-top: 15px;
-}
-
-button {
-    padding: 8px 20px;
-    border: 1px solid #888;
-    background-color: #e6e6e6;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #d0d0d0;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>在庫最低数登録</title>
+    <link rel="stylesheet" th:href="@{/alert/AlertSettingConfirm.css}">
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>在庫最低数登録</h1>
+        <h1>在庫最低数登録</h1>
 
-    <div class="back-area">
-        <button type="button" onclick="history.back()">入力画面に戻る</button>
-    </div>
-
-    <!-- 商品情報表示 -->
-    メーカー名: <span th:text="${product.makerName}"></span><br>
-    商品名: <span th:text="${product.productName}"></span><br>
-    JANコード: <span th:text="${product.janCode}"></span><br><br>
-
-    <form th:action="@{/alert/AlertSettingComplete}"
-          method="post"
-          th:object="${alertSetting}"
-          class="form-box">
-
-        <!-- 登録に必要な hidden -->
-        <input type="hidden" th:field="*{productId}" />
-
-        <!-- 入力欄：更新時は既存値を表示 -->
-        在庫最低数：
-        <input type="number" th:field="*{minStock}" th:value="${alertSetting.minStock}" required />
-
-        <div class="button-area">
-            <button type="submit">登録する</button>
+        <div class="back-area">
+            <button type="button" onclick="history.back()">
+                入力画面に戻る
+            </button>
         </div>
 
-    </form>
+        <!-- 商品情報表示 -->
+        メーカー名:
+        <span th:text="${product.makerName}"></span>
+        <br>
 
-</div>
+        商品名:
+        <span th:text="${product.productName}"></span>
+        <br>
+
+        JANコード:
+        <span th:text="${product.janCode}"></span>
+        <br><br>
+
+        <form th:action="@{/alert/AlertSettingComplete}"
+              method="post"
+              th:object="${alertSetting}"
+              class="form-box">
+
+            <!-- 登録に必要な hidden -->
+            <input type="hidden" th:field="*{productId}" />
+
+            <!-- 在庫最低数 -->
+            在庫最低数：
+            <input type="number"
+                   th:field="*{minStock}"
+                   th:value="${alertSetting.minStock}"
+                   required />
+
+            <div class="button-area">
+                <button type="submit">
+                    登録する
+                </button>
+            </div>
+
+        </form>
+
+    </div>
 
 </body>
 </html>

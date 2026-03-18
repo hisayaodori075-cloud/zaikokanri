@@ -1,32 +1,58 @@
-	<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>登録内容確認</title>
+    <meta charset="UTF-8">
+    <title>登録内容確認</title>
+
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" th:href="@{/sales/SalesEditConfirm.css}">
 </head>
+
 <body>
-	<h2>登録内容編集確認</h2>
 
-	商品名: <span th:text="${product.productName}"></span><br>
-	販売数: <span th:text="${sales.salesQuantity}"></span><br>
-	入荷日: <span th:text="${sales.salesDate}"></span><br>
+<div class="container">
 
-	<form th:action="@{/sales/SalesEditSave}" th:object="${sales}" method="post">
+    <h2>登録内容編集確認</h2>
 
-		<input type="hidden" th:field="*{id}" />
-		<input type="hidden" th:field="*{productId}" />
-	    <input type="hidden" th:field="*{salesQuantity}" />
-	    <input type="hidden" th:field="*{salesDate}" />
+    <div class="info-box">
+        商品名: <span th:text="${product.productName}"></span><br>
+        販売数: <span th:text="${sales.salesQuantity}"></span><br>
+        入荷日: <span th:text="${sales.salesDate}"></span><br>
+    </div>
 
-	    <button type="submit">登録する</button>
+    <div class="button-area">
 
-	</form>
-		
-	<form th:action="@{/sales/SalesEdit}" method="post">
-	    <input type="hidden" name="id" th:value="${sales.id}">
-	    <button type="submit">戻る</button>
-	</form>
-	
+        <form th:action="@{/sales/SalesEditSave}"
+              th:object="${sales}"
+              method="post">
+
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{productId}" />
+            <input type="hidden" th:field="*{salesQuantity}" />
+            <input type="hidden" th:field="*{salesDate}" />
+
+            <button type="submit">
+                登録する
+            </button>
+
+        </form>
+
+        <form th:action="@{/sales/SalesEdit}" method="post">
+
+            <input type="hidden"
+                   name="id"
+                   th:value="${sales.id}">
+
+            <button type="submit">
+                戻る
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,87 +1,66 @@
-<style>
-body {
-    background-color: #f3f3f3;
-    font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-.container {
-    width: 500px;
-    margin: 80px auto;
-    text-align: center;
-}
+<head>
+    <meta charset="UTF-8">
+    <title>販売数登録</title>
 
-h1 {
-    margin-bottom: 30px;
-}
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" th:href="@{/sales/SalesRegister.css}">
+</head>
 
-.form-box {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.form-box select,
-.form-box input {
-    width:100%;
-	padding: 10px 12px;
-    border: 1px solid #999;
-    border-radius: 4px;
-	font-size:14px;
-	box-sizing:border-box;
-	
-}
-
-.button-area {
-    margin-top: 20px;
-}
-
-button {
-    padding: 8px 20px;
-    border: 1px solid #999;
-    background-color: #e6e6e6;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #dcdcdc;
-}
-</style>
-
+<body>
 
 <div class="container">
 
     <h1>販売数登録</h1>
-	
-	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 
-	<a th:href="@{/sales/SalesManagement}">
-	    <button type="button">戻る</button>
-	</a>
-	
-	<h3>商品名またはJANコードを入力してください</h3>
+    <p class="error-message"
+       th:if="${errorMessage}"
+       th:text="${errorMessage}">
+    </p>
 
-	<form th:action="@{/sales/SalesRegister}" 
-		  th:object="${sales}"
-		  method="post">
+    <a th:href="@{/sales/SalesManagement}">
+        <button type="button">
+            戻る
+        </button>
+    </a>
 
-		<!-- 商品 -->
-		
-		
-		<select th:field="*{productId}">
-			<option value="">選択してください</option>
-			
-			<option th:each="product : ${productList}"
-				    th:value="${product.id}"
-				    th:text="${product.productName}">
-			</option>
-		</select>
-		
-		<!-- JANコード検索 -->
-		 <p>JANコード</p>
-		 <input type="text" name="janCode" placeholder="JANコードを入力">
+    <h3>商品名またはJANコードを入力してください</h3>
 
-	    <button type="submit">検索</button>
+    <form th:action="@{/sales/SalesRegister}"
+          th:object="${sales}"
+          method="post"
+          class="form-box">
 
-	</form>
+        <!-- 商品 -->
+        <select th:field="*{productId}">
+            <option value="">
+                選択してください
+            </option>
+
+            <option th:each="product : ${productList}"
+                    th:value="${product.id}"
+                    th:text="${product.productName}">
+            </option>
+        </select>
+
+        <!-- JANコード検索 -->
+        <p>JANコード</p>
+
+        <input type="text"
+               name="janCode"
+               placeholder="JANコードを入力">
+
+        <div class="button-area">
+            <button type="submit">
+                検索
+            </button>
+        </div>
+
+    </form>
 
 </div>
+
+</body>
+</html>

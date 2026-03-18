@@ -1,58 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>商品マスタ一覧</title>
-</head>
-<body>
-	<h2>商品マスタ一覧</h2>
-	<!-- OK -->
-	<form th:action="@{/product/newproduct}" method="get">
-		<button type="submit">新規商品登録</button>
-	</form>	
-	
-	<!-- OK -->
-	<form th:action="@{/product/ProductSearch}" method="get">
-		<button type="submit">商品検索</button>
-	</form>	
-	
-	<!-- 商品並び替え画面作ったらURL替える（これは少し時間かかる） -->
-	<form th:action="@{/product/newproduct}" method="get">
-	    <button type="submit">商品を並び替える</button>
-	</form>
-	
-	<!-- OK -->
-	<form th:action="@{/menu/ProductMasterKanri}" method="get">
-		<button type="submit">マスタ管理へ戻る</button>
-	</form>		
-	
-	<table border="1">
-	    <tr>
-	        <th>ID</th>
-	        <th>JAN</th>
-	        <th>メーカー</th>
-	        <th>商品名</th>
-	        <th>売価</th>
-		    <th>操作</th>
-	        <th>ステータス</th>
-	        <th>販売状況</th>
-	    </tr>
 
-	    <tr th:each="product : ${productList}">
-	        <td th:text="${product.id}"></td>
-	        <td th:text="${product.janCode}"></td>
-	        <td th:text="${product.makerName}"></td>
-	        <td th:text="${product.productName}"></td>
-	        <td th:text="${product.price}"></td>
-			<td>
-			    <a th:href="@{/product/ProductEdit/{id}(id=${product.id})}">編集</a><br>
-			    <a th:href="@{/product/ProductDelete/{id}(id=${product.id})}">削除</a>
-			</td>
-	        <td th:text="${product.status}"></td>
-	        <td th:text="${product.salesStatus}"></td>
-	    </tr>
-	</table>		        
-	
-	
+<head>
+    <meta charset="UTF-8">
+    <title>商品マスタ一覧</title>
+    <link rel="stylesheet" th:href="@{/product/ProductMasterList.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>商品マスタ一覧</h2>
+
+    <!-- 新規商品登録 -->
+    <form th:action="@{/product/newproduct}" method="get">
+        <button type="submit">
+            新規商品登録
+        </button>
+    </form>
+
+    <!-- 商品検索 -->
+    <form th:action="@{/product/ProductSearch}" method="get">
+        <button type="submit">
+            商品検索
+        </button>
+    </form>
+
+    <!-- 商品並び替え -->
+    <form th:action="@{/product/newproduct}" method="get">
+        <button type="submit">
+            商品を並び替える
+        </button>
+    </form>
+
+    <!-- マスタ管理へ戻る -->
+    <form th:action="@{/menu/ProductMasterKanri}" method="get">
+        <button type="submit">
+            マスタ管理へ戻る
+        </button>
+    </form>
+
+    <table class="product-table">
+
+        <tr>
+            <th>ID</th>
+            <th>JAN</th>
+            <th>メーカー</th>
+            <th>商品名</th>
+            <th>売価</th>
+            <th>操作</th>
+            <th>ステータス</th>
+            <th>販売状況</th>
+        </tr>
+
+        <tr th:each="product : ${productList}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.janCode}"></td>
+            <td th:text="${product.makerName}"></td>
+            <td th:text="${product.productName}"></td>
+            <td th:text="${product.price}"></td>
+
+            <td>
+                <a th:href="@{/product/ProductEdit/{id}(id=${product.id})}">
+                    編集
+                </a>
+                <br>
+                <a th:href="@{/product/ProductDelete/{id}(id=${product.id})}">
+                    削除
+                </a>
+            </td>
+
+            <td th:text="${product.status}"></td>
+            <td th:text="${product.salesStatus}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
 </body>
 </html>

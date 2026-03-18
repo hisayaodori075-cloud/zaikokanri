@@ -1,40 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>商品新規登録</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        form { max-width: 400px; margin: auto; }
-        input, textarea, select { display: block; width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
-        button { padding: 8px 16px; }
-        h2 { text-align: center; }
-    </style>
+    <link rel="stylesheet" th:href="@{/product/newproduct.css}">
 </head>
+
 <body>
+
     <h2>商品新規登録</h2>
-	
-	<form th:action="@{/product/ProductMasterList}" method="get">
-		    <button type="submit">戻る</button>
-	</form>
 
-	<form th:action="@{/product/confirm}" 
-	      th:object="${product}" 
-	      method="post">
+    <!-- 戻るボタン -->
+    <form th:action="@{/product/ProductMasterList}" method="get">
+        <button type="submit">
+            戻る
+        </button>
+    </form>
 
-	    <input type="number" th:field="*{janCode}" placeholder="JANコード" required>
-	    <input type="text" th:field="*{makerName}" placeholder="メーカー名" required>
-	    <input type="text" th:field="*{productName}" placeholder="商品名" required>
-		<input type="number" th:field="*{PurchasePrice}" placeholder="仕入価格" required>
-		<input type="number" th:field="*{price}" placeholder="売価" required>
-		<select name="salesStatus">	
-			<option value="ステータス変更指示" disabled hidden>ステータスを選択してください</option>	
-			<option value="販売中">販売中</option>
-			<option value="販売停止">販売停止</option>
-			<option value="販売終了">販売終了</option>
-		</select>
+    <!-- 商品登録フォーム -->
+    <form th:action="@{/product/confirm}"
+          th:object="${product}"
+          method="post">
 
-	    <button type="submit">確認へ</button>
-	</form>
+        <input type="number"
+               th:field="*{janCode}"
+               placeholder="JANコード"
+               required>
+
+        <input type="text"
+               th:field="*{makerName}"
+               placeholder="メーカー名"
+               required>
+
+        <input type="text"
+               th:field="*{productName}"
+               placeholder="商品名"
+               required>
+
+        <input type="number"
+               th:field="*{PurchasePrice}"
+               placeholder="仕入価格"
+               required>
+
+        <input type="number"
+               th:field="*{price}"
+               placeholder="売価"
+               required>
+
+        <select name="salesStatus">
+
+            <option value="ステータス変更指示"
+                    disabled
+                    hidden>
+                ステータスを選択してください
+            </option>
+
+            <option value="販売中">販売中</option>
+            <option value="販売停止">販売停止</option>
+            <option value="販売終了">販売終了</option>
+
+        </select>
+
+        <button type="submit">
+            確認へ
+        </button>
+
+    </form>
+
 </body>
 </html>

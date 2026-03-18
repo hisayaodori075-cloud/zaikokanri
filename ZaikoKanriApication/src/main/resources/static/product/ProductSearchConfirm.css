@@ -1,0 +1,46 @@
+@charset "UTF-8";
+body{
+    background:#f3f3f3;
+    font-family:Arial, sans-serif;
+}
+
+.result-container{
+    width:900px;
+    margin:50px auto;
+    text-align:center;
+}
+
+.product-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:30px;
+    background:white;
+}
+
+.product-table th,
+.product-table td{
+    border:1px solid #999;
+    padding:8px;
+}
+
+.product-table th{
+    background:#e6e6e6;
+}
+
+.product-table tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+.button-area{
+    margin-top:20px;
+}
+
+button{
+    padding:8px 20px;
+    border:1px solid #999;
+    background:#e6e6e6;
+}
+
+button:hover{
+    background:#dcdcdc;
+}

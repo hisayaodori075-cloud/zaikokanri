@@ -1,37 +1,57 @@
-	<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>登録内容確認</title>
+    <meta charset="UTF-8">
+    <title>登録内容確認</title>
+    <link rel="stylesheet" th:href="@{/sales/SalesConfirm2.css}">
 </head>
+
 <body>
-	<h2>登録内容確認</h2>
 
-	商品名: <span th:text="${product.productName}"></span><br>
-	JANコード: <span th:text="${product.janCode}"></span><br>
-	入荷数： <span th:text="${sales.salesQuantity}"></span><br>
-	販売日：<span th:text="${sales.salesDate}"></span><br>
+<div class="container">
 
-	<form th:action="@{/sales/SalesSave}" th:object="${sales}" method="post">
+    <h2>登録内容確認</h2>
 
-		<input type="hidden" th:field="*{productId}" />
-		<input type="hidden" th:field="*{salesQuantity}" />
-	    <input type="hidden" th:field="*{salesDate}" />
+    <div class="info-box">
+        商品名: <span th:text="${product.productName}"></span><br>
+        JANコード: <span th:text="${product.janCode}"></span><br>
+        入荷数： <span th:text="${sales.salesQuantity}"></span><br>
+        販売日： <span th:text="${sales.salesDate}"></span><br>
+    </div>
 
-	    <button type="submit">登録する</button>
+    <form th:action="@{/sales/SalesSave}"
+          th:object="${sales}"
+          method="post"
+          class="form-box">
 
-	</form>
-	
+        <input type="hidden" th:field="*{productId}" />
+        <input type="hidden" th:field="*{salesQuantity}" />
+        <input type="hidden" th:field="*{salesDate}" />
 
-	<form th:action="@{/sales/SalesConfirm}" th:object="${sales}" method="post">
+        <div class="button-area">
+            <button type="submit">
+                登録する
+            </button>
+        </div>
 
-	    <input type="hidden" th:field="*{productId}" />
-	    <input type="hidden" th:field="*{salesQuantity}" />
-	    <input type="hidden" th:field="*{salesDate}" />
+    </form>
 
-	    <button type="submit">戻る</button>
+    <form th:action="@{/sales/SalesConfirm}"
+          th:object="${sales}"
+          method="post">
 
-	</form>
+        <input type="hidden" th:field="*{productId}" />
+        <input type="hidden" th:field="*{salesQuantity}" />
+        <input type="hidden" th:field="*{salesDate}" />
+
+        <button type="submit">
+            戻る
+        </button>
+
+    </form>
+
+</div>
 
 </body>
 </html>

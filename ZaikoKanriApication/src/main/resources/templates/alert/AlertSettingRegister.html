@@ -1,30 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-	<meta charset="UTF-8">
-	<title>在庫最低数登録</title>
+    <meta charset="UTF-8">
+    <title>在庫最低数登録</title>
+    <link rel="stylesheet" th:href="@{/alert/AlertSettingRegister.css}">
 </head>
+
 <body>
-	<h2>在庫最低数登録</h2>
-	
-	
-	メーカー名: <span th:text="${product.makerName}"></span><br>
-	商品名: <span th:text="${product.ProductName}"></span><br>	
-	JANコード: <span th:text="${product.janCode}"></span><br>
-	  	
-	
-	
-	<form th:action="@{/alert/AlertSettingConfirm}" th:object="${alertSetting}" method="post">
-	    <input type="hidden" th:field="*{productId}" />
-	
-	    在庫最低数：
-	    <input type="number" th:field="*{minStock}" required />
-	
-	    <br><br>
-	    <button type="submit">登録</button>
-	</form>
-	
-	<br>
-	<button type="button" onclick="location.href='/alert/AlertSettingList'">一覧に戻る</button>
+
+<div class="container">
+
+    <h2>在庫最低数登録</h2>
+
+    <div class="product-info">
+        メーカー名:
+        <span th:text="${product.makerName}"></span><br>
+
+        商品名:
+        <span th:text="${product.productName}"></span><br>
+
+        JANコード:
+        <span th:text="${product.janCode}"></span><br>
+    </div>
+
+    <form th:action="@{/alert/AlertSettingConfirm}"
+          th:object="${alertSetting}"
+          method="post"
+          class="form-box">
+
+        <input type="hidden" th:field="*{productId}" />
+
+        <label>
+            在庫最低数：
+            <input type="number" th:field="*{minStock}" required />
+        </label>
+
+        <div class="button-area">
+            <button type="submit">
+                登録
+            </button>
+        </div>
+
+    </form>
+
+    <div class="button-area">
+        <button type="button"
+                onclick="location.href='/alert/AlertSettingList'">
+            一覧に戻る
+        </button>
+    </div>
+
+</div>
+
 </body>
 </html>

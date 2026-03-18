@@ -1,20 +1,52 @@
-<h2>登録内容確認</h2>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-商品名: <span th:text="${product.productName}"></span><br>
-入荷数: <span th:text="${stock.quantity}"></span><br>
-入荷日: <span th:text="${stock.arrivalDate}"></span><br>
+<head>
+    <meta charset="UTF-8">
+    <title>入荷処理編集確認</title>
+    <link rel="stylesheet" th:href="@{/stock/StockInEditConfirm.css}">
+</head>
 
-<form th:action="@{/stock/save}" th:object="${stock}" method="post">
+<body>
 
-    <input type="hidden" th:field="*{id}">
-    <input type="hidden" th:field="*{productId}">
-    <input type="hidden" th:field="*{quantity}">
-    <input type="hidden" th:field="*{arrivalDate}">
+<div class="container">
 
-    <button type="submit">更新</button>
+    <h2>登録内容確認</h2>
 
-</form>
+    <div class="info-box">
 
-<form th:action="@{/stock/StockInEdit/{id}(id=${product.id})}" method="get">
-    <button type="submit">戻る</button>
-</form>
+        商品名: <span th:text="${product.productName}"></span><br>
+        入荷数: <span th:text="${stock.quantity}"></span><br>
+        入荷日: <span th:text="${stock.arrivalDate}"></span><br>
+
+    </div>
+
+    <div class="button-area">
+
+        <form th:action="@{/stock/save}" th:object="${stock}" method="post">
+
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{productId}">
+            <input type="hidden" th:field="*{quantity}">
+            <input type="hidden" th:field="*{arrivalDate}">
+
+            <button type="submit">
+                更新
+            </button>
+
+        </form>
+
+        <form th:action="@{/stock/StockInEdit/{id}(id=${product.id})}" method="get">
+
+            <button type="submit">
+                戻る
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

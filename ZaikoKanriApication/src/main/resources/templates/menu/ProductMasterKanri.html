@@ -1,25 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>マスタ管理</title>
+    <meta charset="UTF-8">
+    <title>マスタ管理</title>
+    <link rel="stylesheet" th:href="@{/menu/ProductMasterKanri.css}">
 </head>
+
 <body>
-	<h2>マスタ管理</h2>
-		<!-- OK -->
-		<form th:action="@{/product/ProductMasterList}" method="get">
-			<button type="submit">商品マスタ</button>
-		</form>	
-		
-		<!-- OK -->
-		<form th:action="@{/alert/AlertSetting}" method="get">
-			<button type="submit">アラート設定</button>
-		</form>	
-		
-		<!-- OK -->
-		<form th:action="@{/menu/ProductMasterApp}" method="get">
-		    <button type="submit">商品管理アプリへ戻る</button>
-		</form>
+
+<div class="container">
+
+    <h2>マスタ管理</h2>
+
+    <!-- 商品マスタ -->
+    <form th:action="@{/product/ProductMasterList}" method="get">
+        <button type="submit">
+            商品マスタ
+        </button>
+    </form>
+
+    <!-- アラート設定 -->
+    <form th:action="@{/alert/AlertSetting}" method="get">
+        <button type="submit">
+            アラート設定
+        </button>
+    </form>
+
+    <!-- アプリへ戻る -->
+    <form th:action="@{/menu/ProductMasterApp}" method="get">
+        <button type="submit">
+            商品管理アプリへ戻る
+        </button>
+    </form>
+
+</div>
 
 </body>
 </html>

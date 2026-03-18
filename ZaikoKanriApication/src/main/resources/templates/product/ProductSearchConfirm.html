@@ -1,35 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品検索結果</title>
+    <link rel="stylesheet" th:href="@{/product/ProductSearchConfirm.css}">
+</head>
+
+<body>
+
 <div class="result-container">
-	
-	<h1>商品検索結果</h1>
-<table border="1">
-    <tr>
-        <th>JAN</th>
-        <th>メーカー</th>
-        <th>商品名</th>
-        <th>売価</th>
-	    <th>操作</th>
-        <th>ステータス</th>
-        <th>販売状況</th>
-    </tr>
 
-    <tr th:each="product : ${productList}">
-        <td th:text="${product.janCode}"></td>
-        <td th:text="${product.makerName}"></td>
-        <td th:text="${product.productName}"></td>
-        <td th:text="${product.price}"></td>
-		<td>
-			<a th:href="@{/product/ProductEdit/{id}(id=${product.id})}">編集</a><br>
-			<a th:href="@{/product/ProductDelete/{id}(id=${product.id})}">削除</a>
-		</td>
-        <td th:text="${product.status}"></td>
-        <td th:text="${product.salesStatus}"></td>
-    </tr>
-</table>
+    <h1>商品検索結果</h1>
 
-<!-- 戻るボタン -->
-    <div style="margin-top:20px;">
+    <table class="product-table">
+
+        <tr>
+            <th>JAN</th>
+            <th>メーカー</th>
+            <th>商品名</th>
+            <th>売価</th>
+            <th>操作</th>
+            <th>ステータス</th>
+            <th>販売状況</th>
+        </tr>
+
+        <tr th:each="product : ${productList}">
+
+            <td th:text="${product.janCode}"></td>
+            <td th:text="${product.makerName}"></td>
+            <td th:text="${product.productName}"></td>
+            <td th:text="${product.price}"></td>
+
+            <td>
+                <a th:href="@{/product/ProductEdit/{id}(id=${product.id})}">
+                    編集
+                </a>
+                <br>
+                <a th:href="@{/product/ProductDelete/{id}(id=${product.id})}">
+                    削除
+                </a>
+            </td>
+
+            <td th:text="${product.status}"></td>
+            <td th:text="${product.salesStatus}"></td>
+
+        </tr>
+
+    </table>
+
+    <div class="button-area">
+
         <form th:action="@{/product/ProductSearch}" method="get">
-            <button type="submit">検索画面に戻る</button>
+            <button type="submit">
+                検索画面に戻る
+            </button>
         </form>
+
     </div>
+
 </div>
+
+</body>
+</html>

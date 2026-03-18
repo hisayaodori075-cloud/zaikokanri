@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
+
 <head>
-<meta charset="UTF-8">
-<title>在庫管理</title>
+    <meta charset="UTF-8">
+    <title>在庫管理</title>
+    <link rel="stylesheet" th:href="@{/stock/ZaikoKanri.css}">
 </head>
+
 <body>
-	<h2>在庫管理</h2>			
-			<!-- OK -->
-			<form th:action="@{/stock/ArrivalControll}" method="get">
-				<button type="submit">入荷処理</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/sales/SalesManagement}" method="get">
-			    <button type="submit">販売数入力</button>
-			</form>
-			
-			<!-- OK -->
-			<form th:action="@{/stock/ZaikoConfirm}" method="get">
-				<button type="submit">在庫調整管理</button>
-			</form>	
-			
-			<form th:action="@{/stock/StockList}" method="get">
-				<button type="submit">在庫一覧</button>
-			</form>	
-			
-			<!-- OK -->
-			<form th:action="@{/menu/ProductMasterApp}" method="get">
-				        <button type="submit">商品管理アプリへ戻る</button>
-			</form>
+
+<div class="container">
+
+    <h2>在庫管理</h2>
+
+    <div class="button-area">
+
+        <!-- 入荷処理 -->
+        <form th:action="@{/stock/ArrivalControll}" method="get">
+            <button type="submit">
+                入荷処理
+            </button>
+        </form>
+
+        <!-- 販売数入力 -->
+        <form th:action="@{/sales/SalesManagement}" method="get">
+            <button type="submit">
+                販売数入力
+            </button>
+        </form>
+
+        <!-- 在庫調整管理 -->
+        <form th:action="@{/stock/ZaikoConfirm}" method="get">
+            <button type="submit">
+                在庫調整管理
+            </button>
+        </form>
+
+        <!-- 在庫一覧 -->
+        <form th:action="@{/stock/StockList}" method="get">
+            <button type="submit">
+                在庫一覧
+            </button>
+        </form>
+
+        <!-- 商品管理アプリへ戻る -->
+        <form th:action="@{/menu/ProductMasterApp}" method="get">
+            <button type="submit">
+                商品管理アプリへ戻る
+            </button>
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>商品削除完了</title>
+    <meta charset="UTF-8">
+    <title>商品削除完了</title>
+    <link rel="stylesheet" th:href="@{/product/ProductDeleteComplete.css}">
 </head>
+
 <body>
-	<h2>商品の削除が完了しました</h2>	
-	
-	<form th:action="@{/product/ProductMasterList}" method="get">
-		<button type="submit">商品マスタ一覧へ戻る</button>
-	</form>
+
+<div class="container">
+
+    <h2>商品の削除が完了しました</h2>
+
+    <form th:action="@{/product/ProductMasterList}" method="get">
+        <button type="submit">
+            商品マスタ一覧へ戻る
+        </button>
+    </form>
+
+</div>
+
 </body>
 </html>

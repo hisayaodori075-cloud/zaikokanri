@@ -1,0 +1,43 @@
+@charset "UTF-8";
+body{
+    background-color:#f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container{
+    width:500px;
+    margin:80px auto;
+    text-align:center;
+}
+
+h2{
+    margin-bottom:30px;
+}
+
+.info-box{
+    background:white;
+    padding:20px;
+    border:1px solid #999;
+    margin-bottom:25px;
+}
+
+.info-box p{
+    margin:10px 0;
+    font-size:16px;
+}
+
+.button-area form{
+    margin-bottom:15px;
+}
+
+button{
+    width:200px;
+    padding:10px;
+    border:1px solid #999;
+    background-color:#e6e6e6;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#dcdcdc;
+}

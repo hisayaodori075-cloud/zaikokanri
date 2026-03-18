@@ -1,55 +1,13 @@
-<style>
-body {
-    background-color: #dcdcdc;
-    font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-.container {
-    width: 500px;
-    margin: 60px auto;
-    text-align: left;
-}
+<head>
+    <meta charset="UTF-8">
+    <title>商品削除確認</title>
+    <link rel="stylesheet" th:href="@{/product/ProductDelete.css}">
+</head>
 
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.back-area {
-    margin-bottom: 15px;
-}
-
-.form-box {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.form-box input,
-.form-box select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #888;
-    font-size: 14px;
-    box-sizing: border-box;
-    background-color: #f7f7f7;
-}
-
-.button-area {
-    margin-top: 15px;
-}
-
-button {
-    padding: 8px 20px;
-    border: 1px solid #888;
-    background-color: #e6e6e6;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #d0d0d0;
-}
-</style>
+<body>
 
 <div class="container">
 
@@ -57,19 +15,48 @@ button:hover {
 
     <div class="back-area">
         <a th:href="@{/product/ProductMasterList}">
-            <button type="button">戻る</button>
+            <button type="button">
+                戻る
+            </button>
         </a>
     </div>
 
-	JANコード: <span th:text="${product.janCode}"></span><br>
-	メーカー名: <span th:text="${product.makerName}"></span><br>
-	商品名: <span th:text="${product.ProductName}"></span><br>
-	仕入価格: <span th:text="${product.PurchasePrice}"></span><br>
-	売価: <span th:text="${product.price}"></span><br>
-	販売状況: <span th:text="${product.salesStatus}"></span><br>
-	
-	<form th:action="@{/product/ProductDeleteComplete/{id}(id=${product.id})}" method="post">	    
-		<button type="submit">削除する</button>
-	</form>
+    <div class="product-info">
+
+        JANコード :
+        <span th:text="${product.janCode}"></span><br>
+
+        メーカー名 :
+        <span th:text="${product.makerName}"></span><br>
+
+        商品名 :
+        <span th:text="${product.ProductName}"></span><br>
+
+        仕入価格 :
+        <span th:text="${product.PurchasePrice}"></span><br>
+
+        売価 :
+        <span th:text="${product.price}"></span><br>
+
+        販売状況 :
+        <span th:text="${product.salesStatus}"></span><br>
+
+    </div>
+
+    <div class="button-area">
+
+        <form th:action="@{/product/ProductDeleteComplete/{id}(id=${product.id})}"
+              method="post">
+
+            <button type="submit">
+                削除する
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
+
+</body>
+</html>

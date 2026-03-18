@@ -1,31 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>廃棄商品入力</title>
+    <meta charset="UTF-8">
+    <title>廃棄商品入力</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalInput.css}">
 </head>
+
 <body>
 
-	<h1>廃棄商品入力</h1>
-	
-	<p>商品名: <span th:text="${product.productName}"></span></p>
-	<p>JANコード: <span th:text="${product.janCode}"></span></p>
-	
-	<form th:action="@{/stock/DisposalConfirm}" th:object="${disposal}" method="post">
-	
-	    <input type="hidden" th:field="*{productId}" th:value="${product.id}" />
-	
-	    廃棄数：
-	    <input type="number" th:field="*{quantity}" min="1" required /><br><br>
-	
-	    廃棄日：
-	    <input type="date" th:field="*{disposalDate}" required /><br><br>
-	
-	    <button type="submit">廃棄登録内容確認へ</button>
-	
-	</form>
-	
-	<a th:href="@{/stock/DisposalRegister}">戻る</a>
+    <div class="container">
+
+        <h1>廃棄商品入力</h1>
+
+        <div class="product-info">
+
+            <p>商品名: <span th:text="${product.productName}"></span></p>
+            <p>JANコード: <span th:text="${product.janCode}"></span></p>
+
+        </div>
+
+        <form th:action="@{/stock/DisposalConfirm}"
+              th:object="${disposal}"
+              method="post"
+              class="form-box">
+
+            <input type="hidden" th:field="*{productId}" th:value="${product.id}">
+
+            <label>廃棄数</label>
+            <input type="number" th:field="*{quantity}" min="1" required>
+
+            <label>廃棄日</label>
+            <input type="date" th:field="*{disposalDate}" required>
+
+            <div class="button-area">
+                <button type="submit">
+                    廃棄登録内容確認へ
+                </button>
+            </div>
+
+        </form>
+
+        <div class="back-area">
+            <a th:href="@{/stock/DisposalRegister}">
+                <button type="button">戻る</button>
+            </a>
+        </div>
+
+    </div>
 
 </body>
 </html>
