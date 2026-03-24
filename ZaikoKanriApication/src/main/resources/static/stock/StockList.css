@@ -64,3 +64,9 @@ button:hover{
 .high{
     color:blue;
 }
+
+.error-message{
+    color:red;
+    margin-top:10px;
+    font-weight:bold;
+}

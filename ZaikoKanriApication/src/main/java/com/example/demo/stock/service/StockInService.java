@@ -19,7 +19,7 @@ public class StockInService {
     @Autowired
     private ProductRepository productRepository;
 
-    // 入荷保存 + 在庫更新
+    // 入荷保存 + 在庫更新（新規入荷）
     public void save(StockInEntity stock) {
 
         // ① 入荷履歴保存
@@ -46,11 +46,49 @@ public class StockInService {
         }
     }
 
+    // ===============================
+    // 入荷編集（追加）
+    // ===============================
+    public void update(StockInEntity stock) {
+
+        // 元の入荷データ取得
+        StockInEntity oldStock =
+                stockInRepository.findById(stock.getId()).orElse(null);
+
+        if (oldStock == null) {
+            return;
+        }
+
+        ProductEntity product =
+                productRepository.findById(stock.getProductId()).orElse(null);
+
+        if (product != null) {
+
+            Integer currentStock = product.getStock();
+
+            if (currentStock == null) {
+                currentStock = 0;
+            }
+
+            // 在庫計算
+            int newStock =
+                    currentStock
+                    - oldStock.getQuantity()
+                    + stock.getQuantity();
+
+            product.setStock(newStock);
+
+            // 更新
+            productRepository.save(product);
+            stockInRepository.save(stock);
+        }
+    }
+
     // 入荷ID検索（論理削除チェック付き）
     public StockInEntity findById(Integer id) {
         StockInEntity stock = stockInRepository.findById(id).orElse(null);
         if (stock == null || stock.isDeleted()) {
-            return null;  // 論理削除済みも存在しない扱い
+            return null;
         }
         return stock;
     }
@@ -59,13 +97,40 @@ public class StockInService {
     public ProductEntity findProductById(Integer id) {
         ProductEntity product = productRepository.findById(id).orElse(null);
         if (product == null || product.isDeleted()) {
-            return null;  // 論理削除済みは編集不可
+            return null;
         }
         return product;
     }
 
-    // 論理削除
+    // ===============================
+    // 論理削除（在庫調整付き）
+    // ===============================
     public void delete(Integer id) {
+
+        StockInEntity stock =
+                stockInRepository.findById(id).orElse(null);
+
+        if (stock == null) {
+            return;
+        }
+
+        ProductEntity product =
+                productRepository.findById(stock.getProductId()).orElse(null);
+
+        if (product != null) {
+
+            Integer currentStock = product.getStock();
+
+            if (currentStock == null) {
+                currentStock = 0;
+            }
+
+            // 在庫を戻す
+            product.setStock(currentStock - stock.getQuantity());
+
+            productRepository.save(product);
+        }
+
         stockInRepository.logicallyDeleteById(id);
     }
 

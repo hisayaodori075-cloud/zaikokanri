@@ -83,81 +83,8 @@ public class StockController {
         return "stock/StockInEditSearch";
     }
 
-    // 入荷ID検索
-    @PostMapping("/StockInEditSearch")
-    public String search(@RequestParam Integer id, Model model) {
-
-        StockInEntity stock = stockInService.findById(id);  // 論理削除済みなら null
-
-        if (stock == null) {
-            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
-            model.addAttribute("stock", new StockInEntity());
-            return "stock/StockInEditSearch";
-        }
-
-        // 商品も論理削除チェック
-        ProductEntity product = stockInService.findProductById(stock.getProductId());
-        if (product == null) {
-            model.addAttribute("errorMessage", "この入荷データの対象商品は編集不可です");
-            model.addAttribute("stock", new StockInEntity());
-            return "stock/StockInEditSearch";
-        }
-
-        model.addAttribute("stock", stock);
-        model.addAttribute("productList", List.of(product));  // 編集はこの商品だけ
-
-        return "stock/StockInEdit";
-    }
-
-    // 入荷編集画面
-    @GetMapping("/StockInEdit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
-
-        StockInEntity stock = stockInService.findById(id);
-
-        if (stock == null) {
-            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
-            model.addAttribute("stock", new StockInEntity());
-            return "stock/StockInEditSearch";
-        }
-
-        ProductEntity product = stockInService.findProductById(stock.getProductId());
-        if (product == null) {
-            model.addAttribute("errorMessage", "この入荷データの対象商品は編集不可です");
-            model.addAttribute("stock", new StockInEntity());
-            return "stock/StockInEditSearch";
-        }
-
-        model.addAttribute("stock", stock);
-        model.addAttribute("productList", List.of(product));
-
-        return "stock/StockInEdit";
-    }
-
-    // 入荷編集POST
-    @PostMapping("/StockInEdit")
-    public String stockInEdit(@RequestParam Integer id, Model model) {
-
-        StockInEntity stock = stockInService.findById(id);
-
-        if (stock == null) {
-            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
-            model.addAttribute("stock", new StockInEntity());
-            return "stock/StockInEditSearch";
-        }
-
-        ProductEntity product = stockInService.findProductById(stock.getProductId());
-        if (product == null) {
-            model.addAttribute("errorMessage", "この入荷データの対象商品は編集不可です");
-            model.addAttribute("stock", new StockInEntity());
-            return "stock/StockInEditSearch";
-        }
-
-        model.addAttribute("stock", stock);
-        model.addAttribute("productList", List.of(product));
-
-        return "stock/StockInEdit";
-    }
+	 // 入荷ID検索
+	 
 
     // 入荷編集確認
     @PostMapping("/StockInEditConfirm")
@@ -214,44 +141,173 @@ public class StockController {
         return "stock/StockInDeleteComplete";
     }
     
+    // 入荷ID検索
+ 
+    @PostMapping("/StockInEditSearch")
+    public String search(@RequestParam Integer id, Model model) {
+
+        StockInEntity stock = stockInService.findById(id);
+
+        if (stock == null) {
+            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
+
+        // 商品取得（null 安全）
+        ProductEntity stockProduct = null;
+        if (stock.getProductId() != null) {
+            stockProduct = productService.findById(stock.getProductId());
+        }
+
+        // 論理削除されていない商品リスト
+        List<ProductEntity> productList = productService.findAll();
+        productList.removeIf(ProductEntity::isDeleted);
+
+        // 編集中の商品をリストに確実に追加
+        if (stockProduct != null && !productList.contains(stockProduct)) {
+            productList.add(stockProduct);
+        }
+
+        model.addAttribute("stock", stock);
+        model.addAttribute("productList", productList);
+
+        return "stock/StockInEdit";
+    }
+
+    // 入荷編集画面（GET）
+    @GetMapping("/StockInEdit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+
+        StockInEntity stock = stockInService.findById(id);
+
+        if (stock == null) {
+            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
+
+        ProductEntity stockProduct = null;
+        if (stock.getProductId() != null) {
+            stockProduct = productService.findById(stock.getProductId());
+        }
+
+        List<ProductEntity> productList = productService.findAll();
+        productList.removeIf(ProductEntity::isDeleted);
+
+        if (stockProduct != null && !productList.contains(stockProduct)) {
+            productList.add(stockProduct);
+        }
+
+        model.addAttribute("stock", stock);
+        model.addAttribute("productList", productList);
+
+        return "stock/StockInEdit";
+    }
+
+    // 入荷編集POST（再表示用）
+    @PostMapping("/StockInEdit")
+    public String stockInEdit(@RequestParam Integer id, Model model) {
+
+        if (id == null) { // ← null チェック追加
+            model.addAttribute("errorMessage", "IDが指定されていません");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
+
+        StockInEntity stock = stockInService.findById(id);
+
+        if (stock == null) {
+            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
+
+        ProductEntity stockProduct = null;
+        if (stock.getProductId() != null) {
+            stockProduct = productService.findById(stock.getProductId());
+        }
+
+        List<ProductEntity> productList = productService.findAll();
+        productList.removeIf(ProductEntity::isDeleted);
+
+        if (stockProduct != null && !productList.contains(stockProduct)) {
+            productList.add(stockProduct);
+        }
+
+        model.addAttribute("stock", stock);
+        model.addAttribute("productList", productList);
+
+        return "stock/StockInEdit";
+    }
+    
     @PostMapping("/save")
     public String save(@ModelAttribute StockInEntity stock) {
-        stockInService.save(stock);
+        stockInService.update(stock);
         return "/stock/StockInEditComplete";
-    } 
+    }
     
     @PostMapping("/StockInSave")
     public String stockInSave(@ModelAttribute StockInEntity stock) {
         stockInService.save(stock);
         return "/stock/StockInComplete";
-    } 
+    }
     
     @GetMapping("/StockList")
     public String stockList(
             @RequestParam(required = false) Integer productId,
             @RequestParam(required = false) String janCode,
+            @RequestParam(required = false) String productName,
             Model model) {
 
         List<ProductEntity> productList;
 
-        if (productId != null) {
+        boolean hasJan = janCode != null && !janCode.isEmpty();
+        boolean hasProduct = productId != null;
+
+        // JAN + 商品名（プルダウン）チェック
+        if (hasJan && hasProduct) {
+
+            ProductEntity product = productService.findById(productId);
+
+            if (product != null && product.getJanCode().equals(janCode)) {
+                productList = List.of(product);
+            } else {
+                productList = List.of();
+                model.addAttribute("errorMessage", "JANコードと商品名が一致する商品はありません");
+            }
+
+        }
+        // JANのみ
+        else if (hasJan) {
+
+            ProductEntity product = productService.findByJanCode(janCode);
+
+            if (product == null) {
+                productList = List.of();
+                model.addAttribute("errorMessage", "そのJANコードの商品は存在しません");
+            } else {
+                productList = List.of(product);
+            }
+
+        }
+        // 商品名のみ（プルダウン）
+        else if (hasProduct) {
+
             ProductEntity product = productService.findById(productId);
             productList = (product == null) ? List.of() : List.of(product);
-        } 
-        else if (janCode != null && !janCode.isEmpty()) {
-            ProductEntity product = productService.findByJanCode(janCode);
-            productList = (product == null) ? List.of() : List.of(product);
-        } 
+
+        }
+        // 未入力
         else {
+
             productList = productService.findAll();
+
         }
 
-        // 表示用
         model.addAttribute("productList", productList);
-
-        // プルダウン用
         model.addAttribute("allProducts", productService.findAll());
 
         return "stock/StockList";
-    }    
+    }
 }
