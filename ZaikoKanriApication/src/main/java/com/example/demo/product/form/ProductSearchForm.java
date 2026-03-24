@@ -29,7 +29,7 @@ public class ProductSearchForm {
 		public String getProductName() {
 			return productName;
 		}
-		public void setName(String productName) {
+		public void setProductName(String productName) {
 			this.productName = productName;
 		}
 		

@@ -20,20 +20,22 @@ public class ProductService {
         String janCode = emptyToNull(form.getJanCode());
         String makerName = emptyToNull(form.getMakerName());
         String productName = emptyToNull(form.getProductName());
-        Integer price = form.getPrice();
+        Integer purchasePrice = form.getPurchasePrice();
+        Integer price = form.getPrice();        
         String salesStatus = emptyToNull(form.getSalesStatus());
 
         return productRepository.search(
                 janCode,
                 makerName,
                 productName,
+                purchasePrice,
                 price,
                 salesStatus
         );
     }
 
     private String emptyToNull(String value) {
-        return (value == null || value.isBlank()) ? null : value;
+        return (value == null || value.isBlank()) ? null : value.trim();
     }
 
     // ---------------- 基本 CRUD ----------------
@@ -41,8 +43,19 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+    // ★追加（論理削除された商品を除外）
+    public ProductEntity findByIdAndDeletedFalse(Integer id) {
+
+        ProductEntity product = productRepository.findById(id).orElse(null);
+
+        if (product == null || product.isDeleted()) {
+            return null;
+        }
+
+        return product;
+    }
+
     public List<ProductEntity> findAll() {
-        // 論理削除されていないものだけ取得
         return productRepository.findByDeletedFalse();
     }
 
@@ -51,39 +64,55 @@ public class ProductService {
     }
 
     public void deleteProduct(Integer id) {
-        productRepository.logicallyDeleteById(id); // 論理削除
+        productRepository.logicallyDeleteById(id);
     }
 
+    // JANコード検索（空白対策）
     public ProductEntity findByJanCode(String janCode) {
-        return productRepository.findByJanCode(janCode);
+
+        if (janCode == null || janCode.isBlank()) {
+            return null;
+        }
+
+        janCode = janCode.trim();
+
+        return productRepository.findByJanCodeAndDeletedFalse(janCode);
     }
 
+    // 商品名部分一致（論理削除除外）
     public List<ProductEntity> findByProductNameContaining(String productName){
-        return productRepository.findByProductNameContaining(productName); // ← 変更
+        return productRepository.findByProductNameContainingAndDeletedFalse(productName);
     }
 
     // ---------------- 在庫管理用検索 ----------------
     public List<ProductEntity> findByJanOrName(String janCode, String productName) {
 
+        boolean janEmpty = (janCode == null || janCode.isBlank());
+        boolean nameEmpty = (productName == null || productName.isBlank());
+
         // 両方未入力 → 全件
-        if ((janCode == null || janCode.isBlank()) && (productName == null || productName.isBlank())) {
+        if (janEmpty && nameEmpty) {
             return findAll();
         }
 
-        // JANコードのみ入力 → 単一商品をリスト化して返す
-        else if (janCode != null && !janCode.isBlank() && (productName == null || productName.isBlank())) {
+        // JANのみ
+        if (!janEmpty && nameEmpty) {
             ProductEntity product = findByJanCode(janCode);
             return (product == null) ? List.of() : List.of(product);
         }
 
-        // 商品名のみ入力 → 部分検索
-        else if ((janCode == null || janCode.isBlank()) && productName != null && !productName.isBlank()) {
+        // 商品名のみ
+        if (janEmpty && !nameEmpty) {
             return findByProductNameContaining(productName);
         }
 
-        // 両方入力 → 両条件で検索
-        else {
-            return productRepository.findByJanCodeAndProductNameContaining(janCode, productName); // ← 変更
+        // JAN + 商品名
+        ProductEntity product = findByJanCode(janCode);
+
+        if (product != null && product.getProductName().equals(productName)) {
+            return List.of(product);
         }
+
+        return List.of();
     }
 }

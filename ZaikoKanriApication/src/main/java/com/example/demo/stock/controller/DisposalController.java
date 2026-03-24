@@ -63,6 +63,17 @@ public class DisposalController {
         return "stock/DisposalInput";
     }
     
+    @PostMapping("/stock/DisposalInput")
+    public String backToInput(@ModelAttribute DisposalEntity disposal, Model model) {
+
+        ProductEntity product = productService.findById(disposal.getProductId());
+
+        model.addAttribute("product", product);
+        model.addAttribute("disposal", disposal);
+
+        return "stock/DisposalInput";
+    }
+    
     @PostMapping("/stock/DisposalConfirm")
     public String disposalConfirm(
             @ModelAttribute DisposalEntity disposal,

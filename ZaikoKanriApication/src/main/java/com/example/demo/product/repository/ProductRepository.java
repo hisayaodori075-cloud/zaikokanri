@@ -14,21 +14,24 @@ import com.example.demo.product.entity.ProductEntity;
 public interface ProductRepository 
         extends JpaRepository<ProductEntity, Integer> {
 
-    // JANコードで完全一致
-    ProductEntity findByJanCode(String janCode);
+    // JANコード完全一致（論理削除除外）
+    ProductEntity findByJanCodeAndDeletedFalse(String janCode);
 
     @Query("""
-        SELECT p FROM ProductEntity p
-        WHERE (:janCode IS NULL OR p.janCode LIKE %:janCode%)
-          AND (:makerName IS NULL OR p.makerName LIKE %:makerName%)
-          AND (:productName IS NULL OR p.productName LIKE %:productName%)
-          AND (:price IS NULL OR p.price = :price)
-          AND (:salesStatus IS NULL OR p.salesStatus LIKE %:salesStatus%)
-    """)
+            SELECT p FROM ProductEntity p
+            WHERE p.deleted = false
+            AND (:janCode IS NULL OR p.janCode = :janCode)
+            AND (:makerName IS NULL OR p.makerName LIKE CONCAT(:makerName, '%'))
+            AND (:productName IS NULL OR p.productName LIKE CONCAT(:productName, '%'))
+            AND (:purchasePrice IS NULL OR p.PurchasePrice = :purchasePrice)
+            AND (:price IS NULL OR p.price = :price)
+            AND (:salesStatus IS NULL OR p.salesStatus = :salesStatus)
+            """)
     List<ProductEntity> search(
         @Param("janCode") String janCode,
         @Param("makerName") String makerName,
         @Param("productName") String productName,
+        @Param("purchasePrice") Integer purchasePrice,
         @Param("price") Integer price,
         @Param("salesStatus") String salesStatus
     );
@@ -38,12 +41,12 @@ public interface ProductRepository
     @Query("UPDATE ProductEntity p SET p.deleted = true, p.deletedAt = CURRENT_TIMESTAMP WHERE p.id = :id")
     void logicallyDeleteById(Integer id);
 
-    // 削除されていないものだけ取得
+    // 削除されていない商品一覧
     List<ProductEntity> findByDeletedFalse();
 
-    // 商品名部分一致
-    List<ProductEntity> findByProductNameContaining(String productName);
+    // 商品名部分一致（論理削除除外）
+    List<ProductEntity> findByProductNameContainingAndDeletedFalse(String productName);
 
-    // JANコード完全一致 & 商品名部分一致
-    List<ProductEntity> findByJanCodeAndProductNameContaining(String janCode, String productName);
+    // JANコード + 商品名 完全一致（論理削除除外）
+    List<ProductEntity> findByJanCodeAndProductNameAndDeletedFalse(String janCode, String productName);
 }

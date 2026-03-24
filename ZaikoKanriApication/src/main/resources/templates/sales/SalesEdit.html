@@ -44,11 +44,13 @@
         <!-- 販売数 -->
         <input type="text"
                th:field="*{salesQuantity}"
-               placeholder="入荷数">
+               placeholder="入荷数"
+			   required>
 
         <!-- 販売日 -->
         <input type="date"
-               th:field="*{salesDate}">
+               th:field="*{salesDate}"
+			   required>
 
         <div class="button-area">
             <button type="submit">

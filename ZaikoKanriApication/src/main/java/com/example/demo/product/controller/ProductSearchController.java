@@ -29,6 +29,18 @@ public class ProductSearchController {
             @ModelAttribute ProductSearchForm form,
             Model model) {
 
+        // 検索条件がすべて空かチェック
+        if ((form.getJanCode() == null || form.getJanCode().isEmpty()) &&
+            (form.getMakerName() == null || form.getMakerName().isEmpty()) &&
+            (form.getProductName() == null || form.getProductName().isEmpty()) &&
+            form.getPurchasePrice() == null &&
+            form.getPrice() == null &&
+            (form.getSalesStatus() == null || form.getSalesStatus().isEmpty())) {
+
+            model.addAttribute("errorMessage", "検索条件を1つ以上入力してください");
+            return "product/ProductSearch";
+        }
+
         List<ProductEntity> result = productService.search(form);
         model.addAttribute("productList", result);
 

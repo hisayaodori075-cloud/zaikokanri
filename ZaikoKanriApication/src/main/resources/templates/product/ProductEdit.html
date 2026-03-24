@@ -29,25 +29,30 @@
         <!-- 更新に必須 -->
         <input type="hidden" th:field="*{id}">
 
-        <input type="text"
+        <input type="number"
                th:field="*{janCode}"
-               placeholder="JANコード">
+               placeholder="JANコード"
+			  required>
 
         <input type="text"
                th:field="*{makerName}"
-               placeholder="メーカー名">
+               placeholder="メーカー名"
+			   required>
 
         <input type="text"
                th:field="*{productName}"
-               placeholder="商品名">
+               placeholder="商品名"
+			   required>
 
-        <input type="text"
+        <input type="number"
                th:field="*{PurchasePrice}"
-               placeholder="仕入価格">
+               placeholder="仕入価格"
+			   required>
 
-        <input type="text"
+        <input type="number"
                th:field="*{price}"
-               placeholder="売価">
+               placeholder="売価"
+			   required>
 
         <select th:field="*{salesStatus}">
             <option value="販売中">販売中</option>

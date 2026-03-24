@@ -31,75 +31,97 @@ public class SalesController {
     public String salesManagementForm(Model model) {
         return "sales/SalesManagement";
     }
-    
-    // 販売数入力画面
+
+    // ---------------- 販売数入力 ----------------
     @GetMapping("/SalesRegister")
     public String salesRegisterForm(Model model) {
+
         model.addAttribute("sales", new SalesEntity());
 
-        // 商品一覧を取得してプルダウン表示用に渡す
         List<ProductEntity> productList = productService.findAll();
         model.addAttribute("productList", productList);
 
         return "sales/SalesRegister";
     }
-    
+
     @PostMapping("/SalesRegister")
     public String search(
             @ModelAttribute SalesEntity sales,
             @RequestParam(required = false) String janCode,
             Model model) {
 
-        // ① 商品を特定
-        ProductEntity productByJan = null;
-        ProductEntity productById = null;
         ProductEntity product = null;
 
-        if (janCode != null && !janCode.isEmpty()) {
-            productByJan = productService.findByJanCode(janCode);
-        }
+        if (janCode != null && !janCode.isBlank()) {
 
-        if (sales.getProductId() != null) {
-            productById = productService.findById(sales.getProductId());
-        }
+            product = productService.findByJanCode(janCode.trim());
 
-        // ② product決定
-        if (productByJan != null && productById != null) {
-            if (!productByJan.getId().equals(productById.getId())) {
-                // 商品不一致エラー
+            if (product == null) {
+
+                model.addAttribute("errorMessage", "JANコードが存在しません");
+
+                model.addAttribute("productList", productService.findAll());
+                model.addAttribute("sales", sales);
+
+                return "sales/SalesRegister";
             }
-            product = productByJan;
-        } else if (productByJan != null) {
-            product = productByJan;
-        } else if (productById != null) {
-            product = productById;
+
+            if (sales.getProductId() != null) {
+
+                if (!product.getId().equals(sales.getProductId())) {
+
+                    model.addAttribute("errorMessage", "JANコードと商品が一致しません");
+
+                    model.addAttribute("productList", productService.findAll());
+                    model.addAttribute("sales", sales);
+
+                    return "sales/SalesRegister";
+                }
+            }
+
+        } else if (sales.getProductId() != null) {
+
+            product = productService.findByIdAndDeletedFalse(sales.getProductId());
+
+            if (product == null) {
+
+                model.addAttribute("errorMessage", "商品が存在しません");
+
+                model.addAttribute("productList", productService.findAll());
+                model.addAttribute("sales", sales);
+
+                return "sales/SalesRegister";
+            }
         }
 
         if (product == null) {
-            // 商品が見つからないエラー
+
+            model.addAttribute("errorMessage", "商品を指定してください");
+
+            model.addAttribute("productList", productService.findAll());
+            model.addAttribute("sales", sales);
+
+            return "sales/SalesRegister";
         }
 
-        // ③ Confirm画面へ
         sales.setProductId(product.getId());
+
         model.addAttribute("product", product);
         model.addAttribute("sales", sales);
 
         return "sales/SalesConfirm";
     }
 
-    // 販売数登録確認画面
-    @GetMapping("/SalesConfirm")
-    public String salesConfirmForm(Model model) {
-        return "sales/SalesConfirm";
-    }
-    
+    // ---------------- 販売確認 ----------------
     @PostMapping("/SalesConfirm")
     public String salesConfirm(@ModelAttribute SalesEntity sales, Model model) {
-        ProductEntity product = productService.findById(sales.getProductId());
+
+        ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
         if (product == null) {
-            model.addAttribute("errorMessage", "その商品IDは存在しません");
-            model.addAttribute("sales", sales);
+
+            model.addAttribute("errorMessage", "商品が存在しません");
+
             return "sales/SalesManagement";
         }
 
@@ -108,65 +130,81 @@ public class SalesController {
 
         return "sales/SalesConfirm";
     }
-    
+
     @PostMapping("/SalesConfirm2")
     public String confirm(@ModelAttribute SalesEntity sales, Model model) {
 
-        ProductEntity product = productService.findById(sales.getProductId());
+        ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
         if (product == null) {
+
             model.addAttribute("errorMessage", "商品が見つかりません");
+
             return "sales/SalesManagement";
         }
 
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
 
-        return "sales/SalesConfirm2";  // 今作っているHTML
+        return "sales/SalesConfirm2";
     }
 
+    // ---------------- 保存 ----------------
     @PostMapping("/SalesSave")
     public String salesSave(@ModelAttribute SalesEntity sales, Model model) {
 
-        ProductEntity product = productService.findById(sales.getProductId());
+        ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
-        // ★ 販売数未入力チェック
+        if (product == null) {
+
+            model.addAttribute("errorMessage", "商品が存在しません");
+
+            return "sales/SalesManagement";
+        }
+
         if (sales.getSalesQuantity() == null) {
+
             model.addAttribute("errorMessage", "販売数を入力してください");
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
+
             return "sales/SalesConfirm";
         }
 
-        // ★ 在庫不足チェック
         if (product.getStock() < sales.getSalesQuantity()) {
+
             model.addAttribute("errorMessage", "在庫が不足しています");
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
+
             return "sales/SalesConfirm";
         }
 
-        // 保存 & 在庫更新
         salesService.save(sales);
+
         product.setStock(product.getStock() - sales.getSalesQuantity());
         productService.save(product);
 
         return "sales/SalesComplete";
     }
-    
-    // 販売数修正
+
+    // ---------------- 販売修正 ----------------
     @GetMapping("/SalesEditSearch")
-    public String salesEditSearchForm(Model model) {  
+    public String salesEditSearchForm(Model model) {
+
         return "sales/SalesEditSearch";
     }
-    
+
     @PostMapping("/SalesEdit")
     public String salesInEdit(@RequestParam Integer id, Model model) {
+
         SalesEntity sales = salesService.findById(id);
-        // ★ここ追加
+
         if (sales == null) {
+
             model.addAttribute("errorMessage", "そのIDの販売数データは存在しません");
             model.addAttribute("sales", new SalesEntity());
+
             return "sales/SalesEditSearch";
         }
 
@@ -174,56 +212,74 @@ public class SalesController {
 
         model.addAttribute("sales", sales);
         model.addAttribute("productList", productList);
+
         return "sales/SalesEdit";
     }
-    
+
     @PostMapping("/SalesEditConfirm")
     public String salesEditConfirm(@ModelAttribute SalesEntity sales, Model model) {
 
-        ProductEntity product = productService.findById(sales.getProductId());
+        ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
+
+        if (product == null) {
+
+            model.addAttribute("errorMessage", "商品が存在しません");
+
+            return "sales/SalesEditSearch";
+        }
 
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
 
         return "sales/SalesEditConfirm";
     }
-    
+
+    // ---------------- 削除 ----------------
     @GetMapping("/SalesDeleteSearch")
     public String salesDeleteSearchForm(Model model) {
+
         return "sales/SalesDeleteSearch";
     }
-    
+
     @PostMapping("/SalesDeleteSearch")
     public String salesDeleteConfirm(@RequestParam Integer id, Model model) {
+
         SalesEntity sales = salesService.findById(id);
 
-        if (sales == null || sales.isDeleted()) {  // ← 論理削除済みも存在しない扱い
+        if (sales == null || sales.isDeleted()) {
+
             model.addAttribute("errorMessage", "そのIDの販売数データは存在しません");
+
             return "sales/SalesDeleteSearch";
         }
 
-        ProductEntity product = productService.findById(sales.getProductId());
+        ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
 
         return "sales/SalesDeleteConfirm";
     }
-    
+
     @PostMapping("/SalesDeleteBack")
     public String salesDeleteBack() {
+
         return "sales/SalesDeleteSearch";
     }
-    
+
     @PostMapping("/SalesDeleteComplete/{id}")
     public String deleteComplete(@PathVariable Integer id) {
-        salesService.delete(id); // ← Service 側で論理削除処理
+
+        salesService.delete(id);
+
         return "sales/SalesDeleteComplete";
     }
-    
+
     @PostMapping("/SalesEditSave")
     public String salesEditSave(@ModelAttribute SalesEntity sales) {
+
         salesService.save(sales);
+
         return "sales/SalesEditComplete";
     }
 }

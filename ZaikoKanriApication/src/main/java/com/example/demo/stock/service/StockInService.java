@@ -46,8 +46,22 @@ public class StockInService {
         }
     }
 
+    // 入荷ID検索（論理削除チェック付き）
     public StockInEntity findById(Integer id) {
-        return stockInRepository.findById(id).orElse(null);
+        StockInEntity stock = stockInRepository.findById(id).orElse(null);
+        if (stock == null || stock.isDeleted()) {
+            return null;  // 論理削除済みも存在しない扱い
+        }
+        return stock;
+    }
+
+    // 商品ID検索（論理削除チェック付き）
+    public ProductEntity findProductById(Integer id) {
+        ProductEntity product = productRepository.findById(id).orElse(null);
+        if (product == null || product.isDeleted()) {
+            return null;  // 論理削除済みは編集不可
+        }
+        return product;
     }
 
     // 論理削除
@@ -55,6 +69,7 @@ public class StockInService {
         stockInRepository.logicallyDeleteById(id);
     }
 
+    // 論理削除されていないものだけ取得
     public List<StockInEntity> findAll() {
         return stockInRepository.findByDeletedFalse();
     }

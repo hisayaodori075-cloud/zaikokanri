@@ -19,6 +19,7 @@
     </div>
 
     <h2>販売数と販売日を入力してください</h2>
+	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 
     <form th:action="@{/sales/SalesConfirm2}"
           th:object="${sales}"

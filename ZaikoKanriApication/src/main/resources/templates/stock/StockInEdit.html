@@ -41,11 +41,13 @@
 
         <!-- 入荷数 -->
         <label>入荷数</label>
-        <input type="text" th:field="*{quantity}" placeholder="入荷数">
+        <input type="text" th:field="*{quantity}" placeholder="入荷数"
+		required>
 
         <!-- 入荷日 -->
         <label>入荷日</label>
-        <input type="date" th:field="*{arrivalDate}">
+        <input type="date" th:field="*{arrivalDate}"
+		required>
 
         <div class="button-area">
             <button type="submit">

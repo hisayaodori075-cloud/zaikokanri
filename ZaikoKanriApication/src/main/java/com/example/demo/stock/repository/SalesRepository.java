@@ -16,8 +16,8 @@ import com.example.demo.stock.entity.SalesEntity;
 @Repository
 public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 
-    // 商品IDで販売履歴を検索
-    List<SalesEntity> findByProductId(Integer productId);
+    // 商品IDで販売履歴を検索（論理削除を除く）
+    List<SalesEntity> findByProductIdAndDeletedFalse(Integer productId);
 
     // 論理削除
     @Modifying

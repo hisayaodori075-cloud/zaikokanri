@@ -12,6 +12,8 @@
 <div class="container">
 
     <h1>商品検索</h1>
+	
+	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 
     <a th:href="@{/product/ProductMasterList}">
         <button type="button">
