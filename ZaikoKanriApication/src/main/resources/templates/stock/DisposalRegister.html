@@ -22,13 +22,14 @@
     <form th:action="@{/stock/DisposalRegister}" method="get" class="search-form">
 
         <label>商品名</label>
-        <select name="productId">
-            <option value="">商品名を選択してください</option>
-            <option th:each="product : ${productList}"
-                    th:value="${product.id}"
-                    th:text="${product.productName}">
-            </option>
-        </select>
+		<select name="productId">
+		    <option value="">商品名を選択してください</option>
+		    <option th:each="product : ${allProducts}"
+		            th:value="${product.id}"
+		            th:text="${product.productName}"
+		            th:selected="${product.id == param.productId}">
+		    </option>
+		</select>
 
         <label>JANコード</label>
         <input type="text" name="janCode">
