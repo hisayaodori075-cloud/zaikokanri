@@ -29,18 +29,32 @@ public class DisposalController {
     @GetMapping("/stock/DisposalRegister")
     public String DisposalRegister(
             @RequestParam(required = false) Integer productId,
+            @RequestParam(required = false) String janCode,
             Model model) {
 
-        List<ProductEntity> productList;
+        List<ProductEntity> allProducts = productService.findAll();
+        List<ProductEntity> productList = allProducts;
 
-        if (productId == null) {
-            productList = productService.findAll();
-        } else {
-            ProductEntity product = productService.findById(productId);
-            productList = (product == null) ? List.of() : List.of(product);
+        // JAN検索
+        if (janCode != null && !janCode.isEmpty()) {
+            productList = productList.stream()
+                    .filter(p -> janCode.equals(p.getJanCode()))
+                    .toList();
+        }
+
+        // 商品名検索
+        if (productId != null) {
+            productList = productList.stream()
+                    .filter(p -> p.getId().equals(productId))
+                    .toList();
+        }
+
+        if (productList.isEmpty()) {
+            model.addAttribute("message", "一致する商品がありません");
         }
 
         model.addAttribute("productList", productList);
+        model.addAttribute("allProducts", allProducts); // ★追加
 
         return "stock/DisposalRegister";
     }
