@@ -33,6 +33,11 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
     // 削除されていないものだけ取得
     List<SalesEntity> findByDeletedFalse();
 
+    // -----------------------------
+    // 販売履歴一覧（新しい順）
+    // -----------------------------
+    List<SalesEntity> findByDeletedFalseOrderBySalesDateDesc();
+
     // 指定日以降の販売数合計
     @Query("""
            SELECT COALESCE(SUM(s.salesQuantity),0)

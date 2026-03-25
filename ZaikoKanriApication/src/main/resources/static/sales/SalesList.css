@@ -1,0 +1,44 @@
+@charset "UTF-8";
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+	text-align:center;
+}
+
+
+
+.button-area{
+    margin-top:10px;
+}
+
+button{
+    padding:8px 18px;
+    border:1px solid #999;
+    background-color:#e6e6e6;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#dcdcdc;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}

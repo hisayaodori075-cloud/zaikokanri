@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>販売履歴一覧</title>
+
+    <link rel="stylesheet" th:href="@{/sales/SalesList.css}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>販売履歴一覧</h2>
+		<div class="button-area">
+
+			<a th:href="@{/sales/SalesManagement}">
+				<button type="button">
+				   戻る
+				</button>
+			</a>
+
+		</div>
+
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>販売ID</th>
+                    <th>商品名</th>
+                    <th>販売数</th>
+                    <th>販売日</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+				<tr th:each="sales : ${salesList}">
+				    <td th:text="${sales.id}"></td>
+
+				    <td>
+				        <span th:each="product : ${productList}"
+				              th:if="${product.id == sales.productId}"
+				              th:text="${product.productName}">
+				        </span>
+				    </td>
+
+				    <td th:text="${sales.salesQuantity}"></td>
+				    <td th:text="${sales.salesDate}"></td>
+				</tr>
+
+            </tbody>
+
+        </table>
+		
+		
+    </div>
+
+</body>
+
+</html>
+```

@@ -37,6 +37,14 @@
                 販売数取消
             </button>
         </form>
+		
+		<!-- 販売数取消 -->
+		<form th:action="@{/sales/SalesList}" method="get">
+		    <button type="submit">
+		       販売数履歴
+		    </button>
+		</form>
+
 
         <!-- 在庫管理へ戻る -->
         <form th:action="@{/stock/ZaikoKanri}" method="get">

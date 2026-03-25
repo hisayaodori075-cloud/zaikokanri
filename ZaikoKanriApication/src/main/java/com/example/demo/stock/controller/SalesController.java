@@ -43,6 +43,19 @@ public class SalesController {
 
         return "sales/SalesRegister";
     }
+    
+ // ---------------- 販売履歴一覧 ----------------
+    @GetMapping("/SalesList")
+    public String salesList(Model model) {
+
+        List<SalesEntity> salesList = salesService.getSalesList();
+        List<ProductEntity> productList = productService.findAll();
+
+        model.addAttribute("salesList", salesList);
+        model.addAttribute("productList", productList);
+
+        return "sales/SalesList";
+    }
 
     @PostMapping("/SalesRegister")
     public String search(

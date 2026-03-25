@@ -69,4 +69,11 @@ public class SalesService {
 
         return result != null ? result : 0;
     }
+    
+	 // -----------------------------
+	 // 販売履歴一覧（新しい順）
+	 // -----------------------------
+	 public List<SalesEntity> getSalesList() {
+	     return salesRepository.findByDeletedFalseOrderBySalesDateDesc();
+	 }
 }
