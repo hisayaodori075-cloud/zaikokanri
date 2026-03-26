@@ -158,26 +158,26 @@ public class DisposalController {
         }
     }
     
- // 編集確認画面
-    @PostMapping("/stock/DisposalEditConfirm")
-    public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model) {
-
-        // 商品情報を取得
-        ProductEntity product = productService.findById(disposal.getProductId());
-
-        // 在庫が足りるかチェック（必要であれば）
-        if (disposal.getQuantity() > product.getStock()) {
-            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています。");
-            model.addAttribute("disposal", disposal);
-            model.addAttribute("product", product);
-            return "stock/DisposalEdit"; // 戻して修正させる
-        }
-
-        model.addAttribute("disposal", disposal);
-        model.addAttribute("product", product);
-
-        return "stock/DisposalEditConfirm"; // 確認画面へ
-    }
+	 // 編集確認画面
+	    @PostMapping("/stock/DisposalEditConfirm")
+	    public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model) {
+	
+	        // 商品情報を取得
+	        ProductEntity product = productService.findById(disposal.getProductId());
+	
+	        // 在庫が足りるかチェック（必要であれば）
+	        if (disposal.getQuantity() > product.getStock()) {
+	            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています。");
+	            model.addAttribute("disposal", disposal);
+	            model.addAttribute("product", product);
+	            return "stock/DisposalEdit"; // 戻して修正させる
+	        }
+	
+	        model.addAttribute("disposal", disposal);
+	        model.addAttribute("product", product);
+	
+	        return "stock/DisposalEditConfirm"; // 確認画面へ
+	    }
     
     // 廃棄編集画面（入力画面に戻る）
     @GetMapping("/stock/DisposalEdit/{id}")

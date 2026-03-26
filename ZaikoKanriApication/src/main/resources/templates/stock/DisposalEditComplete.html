@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>廃棄入力編集完了</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalComplete.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>廃棄入力編集が完了しました</h2>
+
+        <form th:action="@{/stock/DisposalEditSearch}" method="get">
+            <button type="submit">
+                廃棄登録を続ける
+            </button>
+        </form>
+
+        <form th:action="@{/stock/DisposalMenu}" method="get">
+            <button type="submit">
+                廃棄管理へ戻る
+            </button>
+        </form>
+
+    </div>
+
+</body>
+</html>
