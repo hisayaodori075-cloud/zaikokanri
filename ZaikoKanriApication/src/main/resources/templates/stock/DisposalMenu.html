@@ -3,38 +3,45 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>在庫確認</title>
-    <link rel="stylesheet" th:href="@{/stock/ZaikoConfirm.css}">
+    <title>廃棄管理</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalMenu.css}">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h2>在庫確認</h2>
+    <h2>廃棄管理</h2>
 
     <div class="button-area">
 
-        <!-- 廃棄 -->
-        <form th:action="@{/stock/DisposalMenu}" method="get">
+        <!-- 廃棄登録 -->
+        <form th:action="@{/stock/DisposalRegister}" method="get">
             <button type="submit">
-                廃棄管理へ
+                廃棄登録
             </button>
         </form>
 
-        <!-- 返品 -->
-        <form th:action="@{/product/newproduct}" method="get">
+        <!-- 廃棄編集 -->
+        <form th:action="@{/stock/DisposalEditSearch}" method="get">
             <button type="submit">
-                返品
+                廃棄編集
             </button>
         </form>
 
-        <!-- 棚卸差異 -->
+        <!-- 廃棄削除 -->
         <form th:action="@{/product/newproduct}" method="get">
             <button type="submit">
-                棚卸差異
+                廃棄削除
             </button>
         </form>
+		
+		<!-- 廃棄一覧 -->
+		<form th:action="@{/product/newproduct}" method="get">
+		     <button type="submit">
+		        廃棄一覧
+		     </button>
+		</form>
 
         <!-- 戻る -->
         <form th:action="@{/stock/ZaikoKanri}" method="get">

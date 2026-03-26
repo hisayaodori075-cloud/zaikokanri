@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>廃棄編集確認</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalEditConfirm.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>廃棄編集確認</h2>
+
+    <!-- 確認用の表示 -->
+    <div class="form-box" th:object="${disposal}">
+
+        <!-- 廃棄ID -->
+        <label>廃棄ID</label>
+        <span th:text="*{id}"></span>
+        <input type="hidden" th:field="*{id}">
+
+        <!-- 商品名 -->
+        <label>商品名</label>
+        <span th:text="${product.productName}"></span>
+        <input type="hidden" th:field="*{productId}">
+
+        <!-- 廃棄数 -->
+        <label>廃棄数</label>
+        <span th:text="*{quantity}"></span>
+        <input type="hidden" th:field="*{quantity}">
+
+        <!-- 廃棄日 -->
+        <label>廃棄日</label>
+        <span th:text="*{disposalDate}"></span>
+        <input type="hidden" th:field="*{disposalDate}">
+
+    </div>
+
+    <div class="button-area">
+        <!-- 保存ボタン -->
+        <form th:action="@{/stock/DisposalEditSave}" th:object="${disposal}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{productId}">
+            <input type="hidden" th:field="*{quantity}">
+            <input type="hidden" th:field="*{disposalDate}">
+            <button type="submit">保存</button>
+        </form>
+
+        <!-- 戻るボタン -->
+        <form th:action="@{/stock/DisposalEdit/{id}(id=${disposal.id})}" method="get">
+            <button type="submit">戻る</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

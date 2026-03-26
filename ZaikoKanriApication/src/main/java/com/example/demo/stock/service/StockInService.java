@@ -138,4 +138,11 @@ public class StockInService {
     public List<StockInEntity> findAll() {
         return stockInRepository.findByDeletedFalse();
     }
+    
+	 // -----------------------------
+	 // 入荷履歴一覧（新しい順）
+	 // -----------------------------
+	 public List<StockInEntity> getStockInList() {
+	     return stockInRepository.findByDeletedFalseOrderByArrivalDateDesc();
+	 }
 }

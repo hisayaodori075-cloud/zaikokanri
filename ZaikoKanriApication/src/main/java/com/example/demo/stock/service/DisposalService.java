@@ -15,15 +15,19 @@ public class DisposalService {
     @Autowired
     private DisposalRepository disposalRepository;
 
-    // すべて取得
+    // すべて取得（論理削除されていないものだけ）
     public List<DisposalEntity> findAll() {
-        return disposalRepository.findAll();
+        return disposalRepository.findByDeletedFalse();
     }
 
-    // IDで取得
+    // IDで取得（nullの場合はOptional.empty、論理削除されていないものだけ）
+    public Optional<DisposalEntity> findOptionalById(Integer id) {
+        return disposalRepository.findByIdAndDeletedFalse(id);
+    }
+
+    // IDで取得（null許容版、従来のメソッド、論理削除対応）
     public DisposalEntity findById(Integer id) {
-        Optional<DisposalEntity> optional = disposalRepository.findById(id);
-        return optional.orElse(null);
+        return disposalRepository.findByIdAndDeletedFalse(id).orElse(null);
     }
 
     // 保存（新規 or 更新）
@@ -31,12 +35,17 @@ public class DisposalService {
         return disposalRepository.save(disposal);
     }
 
-    // 削除（論理削除にしたい場合はここでフラグ更新）
+    // 論理削除
     public void delete(Integer id) {
         DisposalEntity disposal = findById(id);
         if (disposal != null) {
-            disposal.setDeleted(true); // 論理削除フラグを使う場合
+            disposal.setDeleted(true); // 論理削除フラグ
             disposalRepository.save(disposal);
         }
+    }
+
+    // 複数ID検索（論理削除されていないものだけ）
+    public List<DisposalEntity> findByIds(List<Integer> ids) {
+        return disposalRepository.findByIdInAndDeletedFalse(ids);
     }
 }

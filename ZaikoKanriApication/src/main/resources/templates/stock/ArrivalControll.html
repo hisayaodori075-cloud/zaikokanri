@@ -33,6 +33,13 @@
                 入荷登録削除
             </button>
         </form>
+		
+		<!-- 入荷登録削除 -->
+		<form th:action="@{/stock/StockInList}" method="get">
+		    <button type="submit">
+		        入荷履歴
+		    </button>
+		</form>
 
         <!-- 在庫管理へ戻る -->
         <form th:action="@{/stock/ZaikoKanri}" method="get">

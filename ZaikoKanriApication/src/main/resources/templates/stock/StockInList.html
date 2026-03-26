@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>入荷履歴一覧</title>
+
+    <link rel="stylesheet" th:href="@{/stock/StockInList.css}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>入荷履歴一覧</h2>
+
+        <div class="button-area">
+
+            <a th:href="@{/stock/ArrivalControll}">
+                <button type="button">
+                   戻る
+                </button>
+            </a>
+
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>入荷ID</th>
+                    <th>商品名</th>
+                    <th>入荷数</th>
+                    <th>入荷日</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="stockIn : ${stockInList}">
+                    <td th:text="${stockIn.id}"></td>
+
+                    <td>
+                        <span th:each="product : ${productList}"
+                              th:if="${product.id == stockIn.productId}"
+                              th:text="${product.productName}">
+                        </span>
+                    </td>
+
+                    <td th:text="${stockIn.quantity}"></td>
+                    <td th:text="${stockIn.arrivalDate}"></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+
+</html>

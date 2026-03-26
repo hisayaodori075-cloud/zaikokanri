@@ -21,5 +21,7 @@ public interface StockInRepository extends JpaRepository<StockInEntity, Integer>
 
     // 削除されていないものだけ取得
     List<StockInEntity> findByDeletedFalse();
+    
+    List<StockInEntity> findByDeletedFalseOrderByArrivalDateDesc();
 }
 

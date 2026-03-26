@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>廃棄編集</title>
+
+    <link rel="stylesheet" th:href="@{/stock/DisposalEdit.css}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>廃棄編集</h2>
+
+        <!-- エラーメッセージ -->
+        <div th:if="${errorMessage}" style="color:red; text-align:center;">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <!-- ★ th:object を追加 -->
+        <form th:action="@{/stock/DisposalEditConfirm}" th:object="${disposal}" method="post">
+
+            <!-- 廃棄ID -->
+            <input type="hidden" th:field="*{id}">
+
+            <div class="form-box">
+
+                <!-- 商品名（変更不可、表示のみ） -->
+                <label>商品名</label>
+				<!-- 修正版（null 安全） -->
+				<p th:text="${product != null} ? ${product.productName} : '商品情報なし'">商品名</p>
+				
+                <!-- hiddenで送信 -->
+                <input type="hidden" th:field="*{productId}">
+
+                <!-- 廃棄数 -->
+                <label>廃棄数</label>
+                <input type="number" th:field="*{quantity}" min="1">
+
+                <!-- 廃棄日 -->
+                <label>廃棄日</label>
+                <input type="date" th:field="*{disposalDate}">
+
+            </div>
+
+            <div class="button-area">
+                <button type="submit">確認</button>
+            </div>
+
+        </form>
+
+        <div class="button-area">
+            <a th:href="@{/stock/DisposalEditSearch}">
+                <button type="button">戻る</button>
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

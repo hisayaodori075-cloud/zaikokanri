@@ -310,4 +310,17 @@ public class StockController {
 
         return "stock/StockList";
     }
+    
+ // ---------------- 入荷履歴一覧 ----------------
+    @GetMapping("/StockInList")
+    public String stockInList(Model model) {
+
+        List<StockInEntity> stockInList = stockInService.getStockInList();
+        List<ProductEntity> productList = productService.findAll();
+
+        model.addAttribute("stockInList", stockInList);
+        model.addAttribute("productList", productList);
+
+        return "stock/StockInList";
+    }
 }

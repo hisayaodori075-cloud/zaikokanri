@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>廃棄登録修正検索</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalEditSearch.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>廃棄登録修正検索</h1>
+
+    <p class="error-message"
+       th:if="${errorMessage}"
+       th:text="${errorMessage}">
+    </p>
+
+    <div class="button-area">
+        <a th:href="@{/stock/DisposalMenu}">
+            <button type="button">
+                戻る
+            </button>
+        </a>
+    </div>
+
+    <form th:action="@{/stock/DisposalEdit}" method="post" class="form-box">
+
+        <label>廃棄ID</label>
+        <input type="number" name="disposalId" required>
+
+        <div class="button-area">
+            <button type="submit">
+                検索
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

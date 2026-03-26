@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+body{
+    background-color:#f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container{
+    width:700px;
+    margin:80px auto;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.button-area{
+    margin-bottom:20px;
+    text-align:left;
+}
+
+button{
+    padding:10px 20px;
+    border:1px solid #999;
+    background:#e6e6e6;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#dcdcdc;
+}
+
+/* --- テーブル用追加 --- */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+}
+
+th, td{
+    border:1px solid #999;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#e6e6e6;
+}
+
+tr:nth-child(even){
+    background:#f9f9f9;
+}
