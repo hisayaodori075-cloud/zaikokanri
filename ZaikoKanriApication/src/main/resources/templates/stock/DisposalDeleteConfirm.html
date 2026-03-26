@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>廃棄削除確認</title>
+    <link rel="stylesheet" th:href="@{/stock/Disposaldeleteconfirm.css}"> <!-- CSSはそのまま流用 -->
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>廃棄内容確認</h2>
+
+    <div class="info-box">
+
+        <p>廃棄ID: <span th:text="${disposal.id}"></span></p>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>廃棄数: <span th:text="${disposal.quantity}"></span></p>
+        <p>廃棄日: <span th:text="${disposal.disposalDate}"></span></p>
+
+    </div>
+
+    <div class="button-area">
+
+        <!-- 削除確定ボタン -->
+        <form th:action="@{/stock/DisposalDeleteComplete}" th:object="${disposal}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <button type="submit">削除する</button>
+        </form>
+
+        <!-- 戻るボタン -->
+        <form th:action="@{/stock/DisposalDeleteSearch}" method="get">
+            <button type="submit">戻る</button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

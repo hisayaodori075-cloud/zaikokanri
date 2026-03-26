@@ -245,4 +245,78 @@ public class DisposalController {
 
         return "stock/DisposalEditComplete"; // 完了画面に遷移
     }
+    
+ // 廃棄削除画面（検索画面）表示
+    @GetMapping("/stock/DisposalDeleteSearch")
+    public String showDisposalDeleteSearch() {
+        return "stock/DisposalDeleteSearch";
+    }
+
+    // 廃棄削除検索実行
+    @PostMapping("/stock/DisposalDeleteConfirm")
+    public String disposalDeleteConfirm(@RequestParam("disposalId") Integer id, Model model) {
+
+        DisposalEntity disposal = disposalService.findById(id);
+        if (disposal == null) {
+            model.addAttribute("errorMessage", "廃棄ID " + id + " は存在しません");
+            return "stock/DisposalDeleteSearch";
+        }
+
+        // 商品情報も取得
+        ProductEntity product = productService.findById(disposal.getProductId());
+        if (product == null) {
+            model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
+            return "stock/DisposalDeleteSearch";
+        }
+
+        model.addAttribute("disposal", disposal);
+        model.addAttribute("product", product);
+
+        return "stock/DisposalDeleteConfirm"; // 確認画面に遷移
+    }
+
+    // 廃棄削除実行（論理削除）
+    @PostMapping("/stock/DisposalDeleteComplete")
+    public String disposalDeleteComplete(@ModelAttribute DisposalEntity disposal, Model model) {
+
+        DisposalEntity target = disposalService.findById(disposal.getId());
+        if (target == null) {
+            model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " が存在しません");
+            return "stock/DisposalDeleteSearch";
+        }
+
+        // 対応する商品を取得
+        ProductEntity product = productService.findById(target.getProductId());
+        if (product == null) {
+            model.addAttribute("errorMessage", "対象の商品が存在しません");
+            return "stock/DisposalDeleteSearch";
+        }
+
+        // 論理削除フラグを立てる
+        target.setDeleted(true);
+        disposalService.save(target);
+
+        // 在庫を戻す
+        int restoredStock = product.getStock() + target.getQuantity();
+        product.setStock(restoredStock);
+        productService.save(product); // ProductEntity の在庫更新
+
+        return "stock/DisposalDeleteComplete"; // 完了画面
+    }
+    
+ // 廃棄一覧表示（論理削除されていないものだけ）
+    @GetMapping("/stock/DisposalList")
+    public String showDisposalList(Model model) {
+
+        // 論理削除されていない廃棄データのみ取得
+        List<DisposalEntity> disposalList = disposalService.findAllNotDeleted();
+
+        // 全商品リストも取得して商品名表示用に渡す
+        List<ProductEntity> productList = productService.findAll();
+
+        model.addAttribute("disposalList", disposalList);
+        model.addAttribute("productList", productList);
+
+        return "stock/DisposalList"; // 先ほど作った廃棄一覧HTML
+    }
 }

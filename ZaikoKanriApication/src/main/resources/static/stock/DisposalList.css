@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+body{
+    background-color:#f3f3f3;
+    font-family: Arial, sans-serif;
+}
+
+.container{
+    width:750px;
+    margin:80px auto;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+/* ボタンエリア */
+.button-area{
+    margin-bottom:20px;
+    text-align:left;
+}
+
+button{
+    padding:10px 20px;
+    border:1px solid #999;
+    background:#e6e6e6;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#dcdcdc;
+}
+
+/* --- テーブル --- */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1); /* 少しだけ見やすく */
+}
+
+th, td{
+    border:1px solid #999;
+    padding:12px;
+    text-align:center;
+}
+
+/* ヘッダー */
+th{
+    background:#e6e6e6;
+    font-weight:bold;
+}
+
+/* 偶数行 */
+tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+/* ホバーで見やすく */
+tr:hover{
+    background:#eef3ff;
+}
+
+/* 廃棄数を少し目立たせる */
+td:nth-child(3){
+    font-weight:bold;
+    color:#444;
+}

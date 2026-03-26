@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>廃棄入力完了</title>
-    <link rel="stylesheet" th:href="@{/stock/DisposalComplete.css}">
+    <title>廃棄入力編集完了</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalDeleteComplete.css}">
 </head>
 
 <body>
 
     <div class="container">
 
-        <h2>廃棄入力が完了しました</h2>
+        <h2>廃棄入力削除が完了しました</h2>
 
-        <form th:action="@{/stock/DisposalRegister}" method="get">
+        <form th:action="@{/stock/DisposalDeleteSearch}" method="get">
             <button type="submit">
-                廃棄登録を続ける
+                廃棄入力削除を続ける
             </button>
         </form>
 

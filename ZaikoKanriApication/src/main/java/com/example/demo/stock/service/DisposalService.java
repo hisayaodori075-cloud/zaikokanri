@@ -48,4 +48,8 @@ public class DisposalService {
     public List<DisposalEntity> findByIds(List<Integer> ids) {
         return disposalRepository.findByIdInAndDeletedFalse(ids);
     }
+    
+    public List<DisposalEntity> findAllNotDeleted() {
+        return disposalRepository.findByDeletedFalse();
+    }
 }

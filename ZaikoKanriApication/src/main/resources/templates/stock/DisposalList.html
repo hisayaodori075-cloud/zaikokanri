@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>廃棄履歴一覧</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalList.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>廃棄履歴一覧</h2>
+
+        <div class="button-area">
+            <a th:href="@{/stock/DisposalMenu}">
+                <button type="button">
+                   戻る
+                </button>
+            </a>
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>廃棄ID</th>
+                    <th>商品名</th>
+                    <th>廃棄数</th>
+                    <th>廃棄日</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="disposal : ${disposalList}">
+                    <td th:text="${disposal.id}"></td>
+
+                    <td>
+                        <span th:each="product : ${productList}"
+                              th:if="${product.id == disposal.productId}"
+                              th:text="${product.productName}">
+                        </span>
+                    </td>
+
+                    <td th:text="${disposal.quantity}"></td>
+                    <td th:text="${disposal.disposalDate}"></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+
+</html>
