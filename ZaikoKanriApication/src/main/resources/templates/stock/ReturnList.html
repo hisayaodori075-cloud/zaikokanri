@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>返品履歴一覧</title>
+    <link rel="stylesheet" th:href="@{/stock/ReturnList.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>返品履歴一覧</h2>
+
+        <!-- 戻るボタン -->
+        <div class="button-area">
+            <a th:href="@{/stock/ReturnMenu}">
+                <button type="button">戻る</button>
+            </a>
+        </div>
+
+        <!-- 返品テーブル -->
+        <table>
+
+            <thead>
+                <tr>
+                    <th>返品ID</th>
+                    <th>商品名</th>
+                    <th>返品数</th>
+                    <th>返品日</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="returnData : ${returnList}">
+                    <td th:text="${returnData.id}"></td>
+
+                    <td>
+                        <span th:each="product : ${productList}"
+                              th:if="${product.id == returnData.productId}"
+                              th:text="${product.productName}">
+                        </span>
+                    </td>
+
+                    <td th:text="${returnData.returnQuantity}"></td>
+                    <td th:text="${returnData.returnDate}"></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+
+</html>

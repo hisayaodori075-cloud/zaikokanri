@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>返品削除検索</title>
+    <link rel="stylesheet" th:href="@{/stock/ReturnDeleteSearch.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>返品削除検索</h1>
+
+    <!-- エラーメッセージ -->
+    <p class="error-message"
+       th:if="${errorMessage}"
+       th:text="${errorMessage}">
+    </p>
+
+    <!-- 戻る -->
+    <div class="button-area">
+        <a th:href="@{/stock/ReturnMenu}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
+
+    <!-- 検索フォーム -->
+    <form th:action="@{/stock/ReturnDeleteConfirm}" method="post" class="form-box">
+
+        <label>返品ID</label>
+        <input type="number" name="returnId" required>
+
+        <div class="button-area">
+            <button type="submit">検索</button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -20,15 +20,15 @@
             <p>JANコード: <span th:text="${product.janCode}"></span></p>
 
             <!-- 返品情報 -->
-            <p>返品数: <span th:text="${return.returnQuantity}"></span></p>
-            <p>返品日: <span th:text="${return.returnDate}"></span></p>
+            <p>返品数: <span th:text="${returnData.returnQuantity}"></span></p>
+            <p>返品日: <span th:text="${returnData.returnDate}"></span></p>
 
         </div>
 
         <div class="button-area">
 
             <!-- 登録 -->
-            <form th:action="@{/stock/ReturnSave}" th:object="${return}" method="post">
+            <form th:action="@{/stock/ReturnSave}" th:object="${returnData}" method="post">
 
                 <input type="hidden" th:field="*{productId}">
                 <input type="hidden" th:field="*{returnQuantity}">
@@ -41,7 +41,7 @@
             </form>
 
             <!-- 戻る -->
-            <form th:action="@{/stock/ReturnInput}" th:object="${return}" method="post">
+            <form th:action="@{/stock/ReturnInput}" th:object="${returnData}" method="post">
 
                 <input type="hidden" th:field="*{productId}">
                 <input type="hidden" th:field="*{returnQuantity}">

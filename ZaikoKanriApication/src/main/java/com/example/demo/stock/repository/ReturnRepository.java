@@ -1,21 +1,25 @@
 package com.example.demo.stock.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.example.demo.stock.entity.ReturnEntity;
 
+@Repository
 public interface ReturnRepository extends JpaRepository<ReturnEntity, Integer> {
 
-    // 商品ごとの返品一覧（削除されていないもの）
-    List<ReturnEntity> findByProductIdAndDeleteFlag(Integer productId, Integer deleteFlag);
+    // 論理削除されていない返品データを取得
+    List<ReturnEntity> findByDeletedFalse();
 
-    // 商品ごとの返品合計（在庫計算用）
-    @Query("SELECT COALESCE(SUM(r.returnQuantity), 0) " +
-           "FROM ReturnEntity r " +
-           "WHERE r.productId = :productId AND r.deleteFlag = 0")
-    Integer sumReturnQuantityByProductId(@Param("productId") Integer productId);
+    // ID検索（Optionalを使う場合は不要ですが、明示的に書くことも可能）
+    Optional<ReturnEntity> findByIdAndDeletedFalse(Integer id);
+
+    // 複数ID検索（論理削除されていないものだけ）
+    List<ReturnEntity> findByIdInAndDeletedFalse(List<Integer> ids);
+
+    // 商品IDで検索する場合の例
+    List<ReturnEntity> findByProductIdAndDeletedFalse(Integer productId);
 }

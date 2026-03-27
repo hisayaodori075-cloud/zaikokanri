@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>返品削除確認</title>
+    <link rel="stylesheet" th:href="@{/stock/ReturnDeleteConfirm.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>返品内容確認</h2>
+
+    <div class="info-box">
+
+        <p>返品ID: <span th:text="${returnData.id}"></span></p>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>返品数: <span th:text="${returnData.returnQuantity}"></span></p>
+        <p>返品日: <span th:text="${returnData.returnDate}"></span></p>
+
+    </div>
+
+    <div class="button-area">
+
+        <!-- 削除確定 -->
+        <form th:action="@{/stock/ReturnDeleteComplete}" th:object="${returnData}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <button type="submit">削除する</button>
+        </form>
+
+        <!-- 戻る -->
+        <form th:action="@{/stock/ReturnDeleteSearch}" method="get">
+            <button type="submit">戻る</button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
