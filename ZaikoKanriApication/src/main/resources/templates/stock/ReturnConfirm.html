@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>返品内容確認</title>
+    <link rel="stylesheet" th:href="@{/stock/ReturnConfirm.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>返品内容確認</h2>
+
+        <div class="info-box">
+
+            <!-- 商品情報 -->
+            <p>商品名: <span th:text="${product.productName}"></span></p>
+            <p>JANコード: <span th:text="${product.janCode}"></span></p>
+
+            <!-- 返品情報 -->
+            <p>返品数: <span th:text="${return.returnQuantity}"></span></p>
+            <p>返品日: <span th:text="${return.returnDate}"></span></p>
+
+        </div>
+
+        <div class="button-area">
+
+            <!-- 登録 -->
+            <form th:action="@{/stock/ReturnSave}" th:object="${return}" method="post">
+
+                <input type="hidden" th:field="*{productId}">
+                <input type="hidden" th:field="*{returnQuantity}">
+                <input type="hidden" th:field="*{returnDate}">
+
+                <button type="submit">
+                    登録する
+                </button>
+
+            </form>
+
+            <!-- 戻る -->
+            <form th:action="@{/stock/ReturnInput}" th:object="${return}" method="post">
+
+                <input type="hidden" th:field="*{productId}">
+                <input type="hidden" th:field="*{returnQuantity}">
+                <input type="hidden" th:field="*{returnDate}">
+
+                <button type="submit">
+                    戻る
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

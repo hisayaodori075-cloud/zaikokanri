@@ -25,8 +25,7 @@
               method="post"
               class="form-box">
 
-            <!-- ★ここ重要 -->
-            <input type="hidden" th:field="*{productId}">
+            <input type="hidden" th:field="*{productId}" th:value="${product.id}">
 
             <label>返品数</label>
             <input type="number" th:field="*{returnQuantity}" min="1" required>
@@ -43,7 +42,7 @@
         </form>
 
         <div class="back-area">
-            <a th:href="@{/stock/ReturnRegister}">
+            <a th:href="@{/stock/ReturnMenu}">
                 <button type="button">戻る</button>
             </a>
         </div>

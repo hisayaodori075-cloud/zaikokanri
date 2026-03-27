@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>返品入力完了</title>
+    <link rel="stylesheet" th:href="@{/stock/ReturnComplete.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>返品入力が完了しました</h2>
+
+        <form th:action="@{/stock/ReturnRegister}" method="get">
+            <button type="submit">
+                返品登録を続ける
+            </button>
+        </form>
+
+        <form th:action="@{/stock/ReturnMenu}" method="get">
+            <button type="submit">
+                返品管理へ戻る
+            </button>
+        </form>
+
+    </div>
+
+</body>
+</html>
