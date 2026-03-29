@@ -9,30 +9,43 @@
 
 <body>
 
-<div class="container">
+<div class="confirm-card">
+	
+	<h2>登録内容確認</h2>
 
-    <h2>登録内容確認</h2>
+    <table class="confirm-table">
+        <tr>
+            <th>JANコード</th>
+            <td th:text="${product.janCode}"></td>
+        </tr>
 
-    <div class="confirm-info">
-        JANコード:
-        <span th:text="${product.janCode}"></span><br>
+        <tr>
+            <th>メーカー名</th>
+            <td th:text="${product.makerName}"></td>
+        </tr>
 
-        メーカー名:
-        <span th:text="${product.makerName}"></span><br>
+        <tr>
+            <th>商品名</th>
+            <td th:text="${product.productName}"></td>
+        </tr>
 
-        商品名:
-        <span th:text="${product.productName}"></span><br>
+        <tr>
+            <th>仕入価格</th>
+            <td th:text="${product.PurchasePrice}"></td>
+        </tr>
 
-        仕入価格:
-        <span th:text="${product.PurchasePrice}"></span><br>
+        <tr>
+            <th>売価</th>
+            <td th:text="${product.price}"></td>
+        </tr>
 
-        売価:
-        <span th:text="${product.price}"></span><br>
+        <tr>
+            <th>販売状況</th>
+            <td th:text="${product.salesStatus}"></td>
+        </tr>
+    </table>
 
-        販売状況:
-        <span th:text="${product.salesStatus}"></span><br>
-    </div>
-
+    <!-- 保存フォーム -->
     <form th:action="@{/product/save}"
           th:object="${product}"
           method="post">
@@ -44,16 +57,21 @@
         <input type="hidden" th:field="*{price}" />
         <input type="hidden" th:field="*{salesStatus}" />
 
-        <button type="submit">
-            登録する
-        </button>
+        <div class="confirm-actions">
 
-    </form>
+            <button type="button"
+                    class="btn-back"
+                    onclick="location.href='/product/newproduct'">
+                戻る
+            </button>
 
-    <form th:action="@{/product/newproduct}" method="get">
-        <button type="submit">
-            戻る
-        </button>
+            <button type="submit"
+                    class="btn-confirm">
+                登録する
+            </button>
+
+        </div>
+
     </form>
 
 </div>

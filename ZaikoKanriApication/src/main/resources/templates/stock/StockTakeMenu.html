@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>棚卸管理</title>
+    <link rel="stylesheet" th:href="@{/stock/DisposalMenu.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>棚卸管理</h2>
+
+    <div class="button-area">
+
+        <!-- 棚卸実在庫登録 -->
+        <form th:action="@{/stock/StockTakeRegister}" method="get">
+            <button type="submit">
+                棚卸実在庫登録
+            </button>
+        </form>
+
+        <!-- 棚卸差異登録  -->
+        <form th:action="@{/stock/StockTakeConfirm}" method="get">
+            <button type="submit">
+                棚卸差異登録
+            </button>
+        </form>
+		
+		<!-- 棚卸差異一覧 -->
+		<form th:action="@{/stock/StockTakeList}" method="get">
+		     <button type="submit">
+		        棚卸差異一覧
+		     </button>
+		</form>
+
+        <!-- 戻る -->
+        <form th:action="@{/stock/ZaikoKanri}" method="get">
+            <button type="submit">
+                在庫管理へ戻る
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

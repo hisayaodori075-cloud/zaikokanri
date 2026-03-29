@@ -1,1 +1,104 @@
 @charset "UTF-8";
+
+/* 背景 */
+body {
+    background: #f3f3f3;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding-top: 40px;
+}
+
+/* タイトル */
+h2 {
+    margin-top: 10px;
+    margin-bottom: 35px;
+    font-size: 35px;
+    color: #333;
+}
+
+/* カード */
+.confirm-card {
+    width: 500px;
+    margin: 0 auto;
+    background: #fff;
+
+    padding: 25px 25px 20px 25px;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+/* テーブル（枠追加） */
+.confirm-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    border: 1px solid #cfcfcf;   /* ← 外枠追加 */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ヘッダー */
+.confirm-table th {
+    text-align: left;
+    padding: 10px;
+    width: 40%;
+
+    background: #eeeeee;   /* 少し濃く */
+    border-bottom: 1px solid #bdbdbd;  /* ← 強調 */
+}
+
+/* 値 */
+.confirm-table td {
+    padding: 10px;
+    border-bottom: 1px solid #d6d6d6;  /* ← 少し濃く */
+	background: #f5f5f5;
+}
+
+/* 最後の行の線を消す（綺麗に見せる） */
+.confirm-table tr:last-child td,
+.confirm-table tr:last-child th {
+    border-bottom: none;
+}
+
+/* ボタンエリア */
+.confirm-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 25px; /* 少し広げる */
+}
+
+/* 共通ボタン */
+.confirm-actions button {
+    flex: 1;
+    height: 50px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* 戻る */
+.btn-back {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.btn-back:hover {
+    background: #f5f5f5;
+}
+
+/* 登録 */
+.btn-confirm {
+    background: #4a90e2;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #357abd;
+}

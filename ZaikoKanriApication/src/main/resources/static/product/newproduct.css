@@ -1,36 +1,115 @@
 @charset "UTF-8";
 
+/* 背景 */
 body {
+    background: #f3f3f3;
     font-family: Arial, sans-serif;
-    padding: 20px;
-}
-
-h2 {
+    margin: 0;
+    padding-top: 40px;
     text-align: center;
 }
 
-/* フォーム */
-
-form {
-    max-width: 400px;
-    margin: auto;
+/* タイトル */
+h2 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #333;
 }
 
-form div {
+/* 上部戻るボタン（単独用） */
+form:first-of-type {
     margin-bottom: 10px;
 }
 
-input,
-textarea,
-select {
-    display: block;
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
+form:first-of-type button {
+    width: 420px;
+    height: 45px;
+
+    background: #ffffff;
+    color: #333;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+form:first-of-type button:hover {
+    background: #f5f5f5;
+}
+
+/* カード */
+.form-card {
+    width: 420px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 入力 */
+input, select {
+    height: 45px;
+    padding: 8px 10px;
+
+    font-size: 15px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
     box-sizing: border-box;
 }
 
-button {
-    padding: 8px 16px;
+input:focus, select:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+/* ボタンエリア */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;   /* ← ここ重要 */
+    margin-top: 10px;
+}
+
+/* ★重要：このform内ボタンだけ対象にする */
+.form-actions button {
+    flex: 1;
+    height: 50px;
+
+    font-size: 15px;
     cursor: pointer;
+
+    border: none;
+    border-radius: 8px;
+
+    color: white;
+}
+
+/* 戻る（左・補助） */
+.btn-back {
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-back:hover {
+    background: #f5f5f5;
+}
+
+/* 確認（右・主操作） */
+.btn-confirm {
+    background: #4a90e2;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #357abd;
 }

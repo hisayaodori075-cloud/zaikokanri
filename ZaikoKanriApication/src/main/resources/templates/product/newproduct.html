@@ -9,19 +9,13 @@
 
 <body>
 
-    <h2>商品新規登録</h2>
-
-    <!-- 戻るボタン -->
-    <form th:action="@{/product/ProductMasterList}" method="get">
-        <button type="submit">
-            戻る
-        </button>
-    </form>
-
     <!-- 商品登録フォーム -->
-    <form th:action="@{/product/confirm}"
+    <form class="form-card"
+		  th:action="@{/product/confirm}"
           th:object="${product}"
           method="post">
+		  
+		  <h2>商品新規登録</h2>
 
         <input type="number"
                th:field="*{janCode}"
@@ -62,9 +56,19 @@
 
         </select>
 
-        <button type="submit">
-            確認へ
-        </button>
+		<div class="form-actions">
+
+		        <button type="button"
+		                class="btn-back"
+		                onclick="location.href='/product/ProductMasterList'">
+		            戻る
+		        </button>
+
+		        <button type="submit" class="btn-confirm">
+		            確認へ
+		        </button>
+
+		 </div>
 
     </form>
 

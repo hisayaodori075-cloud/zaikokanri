@@ -3,15 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>返品商品入力</title>
-    <link rel="stylesheet" th:href="@{/stock/ReturnInput.css}">
+	<title>廃棄商品入力</title>
+	<link rel="stylesheet" th:href="@{/stock/DisposalInput.css}">
 </head>
 
 <body>
 
     <div class="container">
 
-        <h1>返品商品入力</h1>
+		<h1>廃棄商品入力</h1>
 
         <div class="product-info">
 
@@ -20,30 +20,30 @@
 
         </div>
 
-        <form th:action="@{/stock/ReturnConfirm}"
-              th:object="${return}"
+		<form th:action="@{/stock/DisposalConfirm}"
+		      th:object="${disposal}"
               method="post"
               class="form-box">
 
             <!-- ★ここ重要 -->
-            <input type="hidden" th:field="*{productId}">
+			<input type="hidden" th:field="*{productId}" th:value="${product.id}">
 
-            <label>返品数</label>
-            <input type="number" th:field="*{returnQuantity}" min="1" required>
+			<label>廃棄数</label>
+			<input type="number" th:field="*{quantity}" min="1" required>
 
-            <label>返品日</label>
-            <input type="date" th:field="*{returnDate}" required>
+			<label>廃棄日</label>
+			<input type="date" th:field="*{disposalDate}" required>
 
             <div class="button-area">
                 <button type="submit">
-                    返品登録内容確認へ
+					廃棄登録内容確認へ
                 </button>
             </div>
 
         </form>
 
         <div class="back-area">
-            <a th:href="@{/stock/ReturnRegister}">
+			<a th:href="@{/stock/DisposalRegister}">
                 <button type="button">戻る</button>
             </a>
         </div>

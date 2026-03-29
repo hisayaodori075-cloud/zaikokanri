@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>棚卸入力</title>
+    <link rel="stylesheet" th:href="@{/stock/StockTake.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>棚卸入力</h1>
+
+    <div class="product-info">
+
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>JANコード: <span th:text="${product.janCode}"></span></p>
+
+        <!-- システム在庫 -->
+        <p>システム在庫: <span th:text="${product.stock}"></span></p>
+
+    </div>
+
+    <form th:action="@{/stock/StockTakeConfirm}"
+          th:object="${stockTake}"
+          method="post"
+          class="form-box">
+
+        <!-- 商品ID -->
+        <input type="hidden" th:field="*{productId}" th:value="${product.id}">
+
+        <!-- 実在庫入力 -->
+        <label>実在庫</label>
+        <input type="number"
+               th:field="*{realStock}"
+               min="0"
+               required>
+
+        <!-- 棚卸日 -->
+        <label>棚卸日</label>
+        <input type="date"
+               th:field="*{stockTakeDate}"
+               required>
+
+        <div class="button-area">
+            <button type="submit">
+                確認へ
+            </button>
+        </div>
+
+    </form>
+
+    <div class="back-area">
+        <a th:href="@{/stock/StockTakeRegister}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

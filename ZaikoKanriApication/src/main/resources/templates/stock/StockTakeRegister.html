@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>棚卸商品検索</title>
+    <link rel="stylesheet" th:href="@{/stock/StockTakeRegister.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>棚卸商品検索</h1>
+
+    <div class="back-area">
+        <a th:href="@{/stock/StockTakeMenu}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
+
+    <!-- 検索フォーム -->
+    <form th:action="@{/stock/StockTakeRegister}" method="get" class="search-form">
+
+        <!-- 商品名 -->
+        <label>商品名</label>
+        <select name="productId">
+            <option value="">商品名を選択してください</option>
+
+            <option th:each="product : ${allProducts}"
+                    th:value="${product.id}"
+                    th:text="${product.productName}"
+                    th:selected="${product.id == param.productId}">
+            </option>
+
+        </select>
+
+        <!-- JANコード -->
+        <label>JANコード</label>
+        <input type="text" name="janCode">
+
+        <div class="button-area">
+
+            <button type="submit">
+                検索
+            </button>
+
+            <button type="button"
+                    onclick="location.href='/stock/StockTakeRegister'">
+                一覧
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- 一覧テーブル -->
+    <table class="product-table">
+
+        <thead>
+            <tr>
+                <th>JANコード</th>
+                <th>商品ID</th>
+                <th>商品名</th>
+                <th>在庫数</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="product : ${productList}">
+
+                <td th:text="${product.janCode}"></td>
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.stock}"></td>
+
+                <td>
+                    <a th:href="@{/stock/StockTake/{id}(id=${product.id})}">
+                        棚卸登録へ
+                    </a>
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>
