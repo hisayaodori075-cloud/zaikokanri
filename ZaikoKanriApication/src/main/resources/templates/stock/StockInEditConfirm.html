@@ -23,7 +23,7 @@
 
     <div class="button-area">
 
-        <form th:action="@{/stock/DsiposalEditSave}" th:object="${stock}" method="post">
+        <form th:action="@{/stock/save}" th:object="${stock}" method="post">
 
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{productId}">
