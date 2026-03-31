@@ -39,10 +39,16 @@ public class AlertDisplayService {
                         return false;
                     }
 
-                    // stockがnullの場合は0として扱う
+                    // stockがnullの場合は0
                     int stock = product.getStock() != null ? product.getStock() : 0;
 
-                    return stock < setting.getMinStock();
+                    // ★ ここ追加
+                    Integer minStock = setting.getMinStock();
+                    if (minStock == null) {
+                        return false; // または 0扱いにするなら下の別案
+                    }
+
+                    return stock < minStock;
 
                 })
                 .toList();

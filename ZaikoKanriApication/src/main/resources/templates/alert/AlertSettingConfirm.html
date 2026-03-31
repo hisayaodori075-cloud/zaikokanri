@@ -30,7 +30,11 @@
 
         JANコード:
         <span th:text="${product.janCode}"></span>
-        <br><br>
+        <br>
+		
+		在庫最低数:
+		<span th:text="${alertSetting.minStock}"></span>
+		<br>
 
         <form th:action="@{/alert/AlertSettingComplete}"
               method="post"
@@ -39,13 +43,7 @@
 
             <!-- 登録に必要な hidden -->
             <input type="hidden" th:field="*{productId}" />
-
-            <!-- 在庫最低数 -->
-            在庫最低数：
-            <input type="number"
-                   th:field="*{minStock}"
-                   th:value="${alertSetting.minStock}"
-                   required />
+			<input type="hidden" th:field="*{minStock}" />
 
             <div class="button-area">
                 <button type="submit">
