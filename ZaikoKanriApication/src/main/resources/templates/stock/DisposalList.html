@@ -29,6 +29,7 @@
                     <th>商品名</th>
                     <th>廃棄数</th>
                     <th>廃棄日</th>
+				    <th>廃棄理由</th>
                 </tr>
             </thead>
 
@@ -46,6 +47,7 @@
 
                     <td th:text="${disposal.quantity}"></td>
                     <td th:text="${disposal.disposalDate}"></td>
+					<td th:text="${disposal.reason}"></td>
                 </tr>
 
             </tbody>

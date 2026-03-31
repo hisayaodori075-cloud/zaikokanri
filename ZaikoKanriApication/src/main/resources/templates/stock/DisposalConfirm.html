@@ -22,6 +22,7 @@
             <!-- 廃棄情報 -->
             <p>廃棄数: <span th:text="${disposal.quantity}"></span></p>
             <p>廃棄日: <span th:text="${disposal.disposalDate}"></span></p>
+		    <p>廃棄理由: <span th:text="${disposal.reason}"></span></p>
 
         </div>
 
@@ -33,6 +34,7 @@
                 <input type="hidden" th:field="*{productId}" th:value="${product.id}">
                 <input type="hidden" th:field="*{quantity}">
                 <input type="hidden" th:field="*{disposalDate}">
+				<input type="hidden" th:field="*{reason}">
 
                 <button type="submit">
                     登録する
@@ -46,6 +48,7 @@
                 <input type="hidden" th:field="*{productId}">
                 <input type="hidden" th:field="*{quantity}">
                 <input type="hidden" th:field="*{disposalDate}">
+			    <input type="hidden" th:field="*{reason}">
 
                 <button type="submit">
                     戻る

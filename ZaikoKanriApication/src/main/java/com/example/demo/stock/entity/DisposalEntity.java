@@ -32,6 +32,10 @@ public class DisposalEntity {
     @Column(name = "disposal_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate disposalDate;
+    
+    // 廃棄理由
+    @Column(name = "reason")
+    private String reason;
 
     // 論理削除用（将来必要になれば）
     @Column(name = "deleted", nullable = false)
@@ -48,6 +52,8 @@ public class DisposalEntity {
     public LocalDate getDisposalDate() { return disposalDate; }
     public boolean isDeleted() { return deleted; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
+    public String getReason() { return reason; }
+    
 
     // ===== setter =====
     public void setId(Integer id) { this.id = id; }
@@ -56,4 +62,5 @@ public class DisposalEntity {
     public void setDisposalDate(LocalDate disposalDate) { this.disposalDate = disposalDate; }
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
     public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
+    public void setReason(String reason) { this.reason = reason; }
 }

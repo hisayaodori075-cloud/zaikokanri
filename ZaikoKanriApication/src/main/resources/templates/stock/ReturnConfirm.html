@@ -22,6 +22,7 @@
             <!-- 返品情報 -->
             <p>返品数: <span th:text="${returnData.returnQuantity}"></span></p>
             <p>返品日: <span th:text="${returnData.returnDate}"></span></p>
+			<p>返品理由: <span th:text="${returnData.reason}"></span></p>
 
         </div>
 
@@ -33,6 +34,7 @@
                 <input type="hidden" th:field="*{productId}">
                 <input type="hidden" th:field="*{returnQuantity}">
                 <input type="hidden" th:field="*{returnDate}">
+				<input type="hidden" th:field="*{reason}">
 
                 <button type="submit">
                     登録する
@@ -46,6 +48,7 @@
                 <input type="hidden" th:field="*{productId}">
                 <input type="hidden" th:field="*{returnQuantity}">
                 <input type="hidden" th:field="*{returnDate}">
+				<input type="hidden" th:field="*{reason}">
 
                 <button type="submit">
                     戻る

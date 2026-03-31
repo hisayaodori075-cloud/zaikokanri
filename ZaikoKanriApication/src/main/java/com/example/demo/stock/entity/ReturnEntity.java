@@ -32,6 +32,10 @@ public class ReturnEntity {
     @Column(name = "return_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate;
+    
+    // 廃棄理由
+    @Column(name = "reason")
+    private String reason;
 
     // 論理削除用
     @Column(name = "deleted", nullable = false)
@@ -47,6 +51,7 @@ public class ReturnEntity {
     public LocalDate getReturnDate() { return returnDate; }
     public boolean isDeleted() { return deleted; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
+    public String getReason() { return reason; }
 
     // ===== setter =====
     public void setId(Integer id) { this.id = id; }
@@ -55,4 +60,5 @@ public class ReturnEntity {
     public void setReturnDate(LocalDate returnDate) { this.returnDate = returnDate; }
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
     public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
+    public void setReason(String reason) { this.reason = reason; }
 }

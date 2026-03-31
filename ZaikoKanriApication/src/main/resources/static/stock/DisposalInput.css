@@ -33,6 +33,12 @@ h1{
     border-radius:4px;
 }
 
+.form-box select{
+    padding:10px;
+    border:1px solid #999;
+    border-radius:4px;
+}
+
 .button-area{
     margin-top:10px;
 }

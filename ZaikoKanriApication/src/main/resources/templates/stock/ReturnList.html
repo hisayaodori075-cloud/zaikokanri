@@ -29,6 +29,7 @@
                     <th>商品名</th>
                     <th>返品数</th>
                     <th>返品日</th>
+					<th>返品理由</th>
                 </tr>
             </thead>
 
@@ -46,6 +47,7 @@
 
                     <td th:text="${returnData.returnQuantity}"></td>
                     <td th:text="${returnData.returnDate}"></td>
+					<td th:text="${returnData.reason}"></td>
                 </tr>
 
             </tbody>
