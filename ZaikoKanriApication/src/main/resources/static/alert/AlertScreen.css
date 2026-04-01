@@ -46,7 +46,6 @@ button:hover {
 
 /* アラート件数（強調表示） */
 .alertCount {
-    color: #ffeb3b;
     font-weight: bold;
     margin-left: 10px;
 }

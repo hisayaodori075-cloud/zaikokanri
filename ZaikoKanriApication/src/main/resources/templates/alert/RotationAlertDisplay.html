@@ -23,6 +23,7 @@
                     <th>商品名</th>
                     <th>最終販売日</th>
                     <th th:text="${setting.attentionDays} + '日販売数'"></th>
+					<th th:text="${setting.urgentDays} + '日販売数'"></th>
                     <th>重要度</th>
                 </tr>
             </thead>
@@ -38,6 +39,8 @@
                     <td th:text="${lastSalesDateMap[product.id] != null ? lastSalesDateMap[product.id] : '販売なし'}"></td>
 
                     <td th:text="${attentionSalesMap[product.id]}"></td>
+					
+					<td th:text="${urgentSalesMap[product.id]}"></td>
 
                     <td>
 

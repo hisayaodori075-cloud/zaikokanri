@@ -16,7 +16,9 @@
 
         <form th:action="@{/alert/MinstockAlertDisplay}" method="get">
 
-            <button type="submit">
+            <button type="submit"
+					th:style="${minStockAlertCount > 0} ?
+			        'background-color:#ff6b6b;color:white;border:2px solid #c0392b;' : ''">
 
                 発注最低数アラート
 
@@ -37,7 +39,9 @@
 
         <form th:action="@{/alert/RotationAlertDisplay}" method="get">
 
-            <button type="submit">
+            <button type="submit"
+					th:style="${rotationUrgentCount > 0} ?
+					'background-color:#ff6b6b;color:white;border:2px solid #c0392b;' : ''">
 
                 回転数悪化アラート
 
