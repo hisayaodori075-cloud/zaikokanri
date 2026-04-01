@@ -195,9 +195,6 @@ public class SalesController {
 
         salesService.save(sales);
 
-        product.setStock(product.getStock() - sales.getSalesQuantity());
-        productService.save(product);
-
         return "sales/SalesComplete";
     }
 
@@ -291,7 +288,7 @@ public class SalesController {
     @PostMapping("/SalesEditSave")
     public String salesEditSave(@ModelAttribute SalesEntity sales) {
 
-        salesService.save(sales);
+        salesService.update(sales);
 
         return "sales/SalesEditComplete";
     }
