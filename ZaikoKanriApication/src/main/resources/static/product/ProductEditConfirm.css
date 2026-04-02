@@ -1,46 +1,105 @@
 @charset "UTF-8";
 
+/* 背景 */
 body {
-    background-color: #dcdcdc;
+	background: #e8f5e9;  /* 薄い緑 */
     font-family: Arial, sans-serif;
-}
-
-.container {
-    width: 500px;
-    margin: 60px auto;
-    text-align: left;
-}
-
-h1 {
     text-align: center;
-    margin-bottom: 30px;
+    margin: 0;
+    padding-top: 40px;
 }
 
-.back-area {
-    margin-bottom: 15px;
+/* タイトル */
+h1 {
+    margin-top: 10px;
+    margin-bottom: 35px;
+    font-size: 26px;
+    color: #2e7d32;;
 }
 
-.product-info {
-    line-height: 1.8;
-    margin-bottom: 20px;
+/* カード */
+.confirm-card {
+    width: 500px;
+    margin: 0 auto;
+    background: #fff;
+
+    padding: 25px 25px 20px 25px;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 }
 
-.form-box {
+/* テーブル（枠追加） */
+.confirm-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    border: 1px solid #cfcfcf;   /* ← 外枠追加 */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+/* ヘッダー */
+.confirm-table th {
+    text-align: left;
+    padding: 10px;
+    width: 40%;
+
+    background: #eeeeee;   /* 少し濃く */
+    border-bottom: 1px solid #bdbdbd;  /* ← 強調 */
+}
+
+/* 値 */
+.confirm-table td {
+    padding: 10px;
+    border-bottom: 1px solid #d6d6d6;  /* ← 少し濃く */
+	background: #f5f5f5;
+}
+
+/* 最後の行の線を消す（綺麗に見せる） */
+.confirm-table tr:last-child td,
+.confirm-table tr:last-child th {
+    border-bottom: none;
+}
+
+/* ボタンエリア */
+.confirm-actions {
     display: flex;
-    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
 }
 
-.button-area {
-    margin-top: 15px;
-}
+/* 共通ボタン */
+.confirm-actions button {
+    flex: 1;
+    height: 50px;
 
-button {
-    padding: 8px 20px;
-    border: 1px solid #888;
-    background-color: #e6e6e6;
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #d0d0d0;
+/* 戻る */
+.btn-back {
+    background: #e0e0e0;
+    border: 1px solid #bdbdbd;
+    color: #333;
 }
+
+.btn-back:hover {
+    background: #d5d5d5;
+}
+
+/* 登録 */
+.btn-confirm {
+    background: #4caf50;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background: #357abd;
+}
+
