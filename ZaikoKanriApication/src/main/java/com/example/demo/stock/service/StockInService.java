@@ -38,8 +38,14 @@ public class StockInService {
                 currentStock = 0;
             }
 
-            // ④ 在庫加算
-            product.setStock(currentStock + stock.getQuantity());
+            // ④ 在庫加算(null対策済み）
+            Integer quantity = stock.getQuantity();
+            
+            if (quantity == null) {
+                quantity = 0;
+            }
+
+            product.setStock(currentStock + quantity);
 
             // ⑤ 商品更新
             productRepository.save(product);
@@ -71,10 +77,13 @@ public class StockInService {
             }
 
             // 在庫計算
-            int newStock =
-                    currentStock
-                    - oldStock.getQuantity()
-                    + stock.getQuantity();
+            Integer oldQty = oldStock.getQuantity();
+            Integer newQty = stock.getQuantity();
+
+            if (oldQty == null) oldQty = 0;
+            if (newQty == null) newQty = 0;
+
+            int newStock = currentStock - oldQty + newQty;
 
             product.setStock(newStock);
 
@@ -126,7 +135,11 @@ public class StockInService {
             }
 
             // 在庫を戻す
-            product.setStock(currentStock - stock.getQuantity());
+            Integer quantity = stock.getQuantity();
+            if (quantity == null) {
+                quantity = 0;
+            }           
+            product.setStock(currentStock - quantity);
 
             productRepository.save(product);
         }
