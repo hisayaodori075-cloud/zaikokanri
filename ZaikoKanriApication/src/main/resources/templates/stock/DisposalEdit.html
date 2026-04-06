@@ -38,11 +38,15 @@
 
                 <!-- 廃棄数 -->
                 <label>廃棄数</label>
-                <input type="number" th:field="*{quantity}" min="1">
+                <input type="number" th:field="*{quantity}" min="1" required>
 
                 <!-- 廃棄日 -->
                 <label>廃棄日</label>
-                <input type="date" th:field="*{disposalDate}">
+                <input type="date" th:field="*{disposalDate}" required>
+				
+				<!-- 廃棄理由 -->
+				<label>廃棄理由</label>
+				<p th:text="*{reason}">廃棄理由</p>
 
             </div>
 

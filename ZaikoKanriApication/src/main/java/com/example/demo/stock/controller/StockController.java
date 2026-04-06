@@ -48,7 +48,6 @@ public class StockController {
         return "stock/StockInConfirm";
     }   
     
-    
     // 在庫管理へ
     @GetMapping("/ZaikoKanri")
     public String ZaikoKanriForm() {

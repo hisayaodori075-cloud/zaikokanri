@@ -11,57 +11,43 @@
 
 <div class="container">
 
-    <h1>商品編集</h1>
+    
 
-    <div class="back-area">
-        <a th:href="@{/product/ProductMasterList}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
-
-    <form th:action="@{/product/ProductEdit/{id}}"
+    <!-- 入力カード -->
+    <form th:action="@{/product/ProductEdit/{id}(id=${product.id})}"
           method="post"
           th:object="${product}"
-          class="form-box">
+          class="form-card">
+		  
+		<h1>商品編集</h1>
 
-        <!-- 更新に必須 -->
         <input type="hidden" th:field="*{id}">
 
-        <input type="number"
-               th:field="*{janCode}"
-               placeholder="JANコード"
-			  required>
+        <input type="number" th:field="*{janCode}" placeholder="JANコード" required>
 
-        <input type="text"
-               th:field="*{makerName}"
-               placeholder="メーカー名"
-			   required>
+        <input type="text" th:field="*{makerName}" placeholder="メーカー名" required>
 
-        <input type="text"
-               th:field="*{productName}"
-               placeholder="商品名"
-			   required>
+        <input type="text" th:field="*{productName}" placeholder="商品名" required>
 
-        <input type="number"
-               th:field="*{PurchasePrice}"
-               placeholder="仕入価格"
-			   required>
+        <input type="number" th:field="*{purchasePrice}" placeholder="仕入価格" required>
 
-        <input type="number"
-               th:field="*{price}"
-               placeholder="売価"
-			   required>
+        <input type="number" th:field="*{price}" placeholder="売価" required>
 
         <select th:field="*{salesStatus}">
             <option value="販売中">販売中</option>
             <option value="販売停止">販売停止</option>
         </select>
 
-        <div class="button-area">
+        <!-- ボタンエリア（横並び） -->
+        <div class="form-actions">
 
-            <button type="submit">
+            <button type="button"
+                    class="btn-back"
+                    onclick="location.href='/product/ProductMasterList'">
+                戻る
+            </button>
+
+            <button type="submit" class="btn-confirm">
                 商品編集確認へ
             </button>
 
