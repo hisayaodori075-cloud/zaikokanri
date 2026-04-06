@@ -17,7 +17,7 @@
 
         <p>商品名: <span th:text="${product.productName}"></span></p>
         <p>入荷数: <span th:text="${stock.quantity}"></span></p>
-        <p>入荷日: <span th:text="${stock.arrivalDate}"></span></p>
+        <p>入荷日: <span th:text="${#temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}"></span></p>
 
     </div>
 

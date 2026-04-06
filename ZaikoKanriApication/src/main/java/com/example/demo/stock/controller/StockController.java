@@ -30,14 +30,22 @@ public class StockController {
     @PostMapping("/StockInConfirm")
     public String confirm(@ModelAttribute StockInEntity stock, Model model) {
 
+        // 商品存在チェック
         ProductEntity product = productService.findById(stock.getProductId());
+        if (product == null) {
+            throw new RuntimeException("商品が存在しません");
+        }
+
+        // 数量チェック
+        if (stock.getQuantity() == null || stock.getQuantity() <= 0) {
+            throw new RuntimeException("数量は1以上で入力してください");
+        }
 
         model.addAttribute("stock", stock);
         model.addAttribute("product", product);
 
         return "stock/StockInConfirm";
-    }
-    
+    }    
     // 在庫管理へ
     @GetMapping("/ZaikoKanri")
     public String ZaikoKanriForm() {

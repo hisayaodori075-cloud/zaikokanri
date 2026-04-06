@@ -22,7 +22,12 @@ public class StockInService {
     // 入荷保存 + 在庫更新（新規入荷）
     public void save(StockInEntity stock) {
 
-        // ① 入荷履歴保存
+    		// ★追加：入荷日を自動設定
+        if (stock.getArrivalDate() == null) {
+            stock.setArrivalDate(java.time.LocalDate.now());
+        }
+    	
+    		// ① 入荷履歴保存
         stockInRepository.save(stock);
 
         // ② 商品取得

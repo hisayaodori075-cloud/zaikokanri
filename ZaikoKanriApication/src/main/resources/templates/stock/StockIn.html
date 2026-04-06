@@ -40,13 +40,12 @@
         <input type="number"
                th:field="*{quantity}"
                placeholder="入荷数"
+			   min="1"
                required>
 
         <!-- 入荷日 -->
-        <label>入荷日</label>
-        <input type="date"
-               th:field="*{arrivalDate}"
-               required>
+		<label>入荷日</label>
+		<span th:text="${#temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}"></span>
 
         <div class="button-area">
             <button type="submit">
