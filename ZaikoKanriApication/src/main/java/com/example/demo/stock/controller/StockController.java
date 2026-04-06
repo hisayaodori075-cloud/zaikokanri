@@ -46,7 +46,8 @@ public class StockController {
         model.addAttribute("product", product);
 
         return "stock/StockInConfirm";
-    }    
+    }   
+    
     
     // 在庫管理へ
     @GetMapping("/ZaikoKanri")
