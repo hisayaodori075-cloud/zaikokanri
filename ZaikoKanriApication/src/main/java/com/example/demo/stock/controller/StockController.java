@@ -136,6 +136,7 @@ public class StockController {
         if (stock == null || stock.isDeleted()) {  // ← 論理削除済みも存在しない扱い
             model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
             return "stock/StockInDeleteSearch";
+            
         }
         
      // ★追加：当日のみ削除可能
