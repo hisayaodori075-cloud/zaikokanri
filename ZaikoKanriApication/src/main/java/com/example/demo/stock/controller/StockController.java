@@ -59,6 +59,7 @@ public class StockController {
     public String ZaikoConfirmForm() {
         return "stock/ZaikoConfirm";
     }
+    
 
     // 入荷処理
     @GetMapping("/ArrivalControll")
