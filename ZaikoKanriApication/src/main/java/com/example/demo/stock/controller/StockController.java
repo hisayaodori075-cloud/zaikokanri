@@ -1,5 +1,6 @@
 package com.example.demo.stock.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,22 @@ public class StockController {
     @PostMapping("/StockInConfirm")
     public String confirm(@ModelAttribute StockInEntity stock, Model model) {
 
+        // 商品存在チェック
         ProductEntity product = productService.findById(stock.getProductId());
+        if (product == null) {
+            throw new RuntimeException("商品が存在しません");
+        }
+
+        // 数量チェック
+        if (stock.getQuantity() == null || stock.getQuantity() <= 0) {
+            throw new RuntimeException("数量は1以上で入力してください");
+        }
 
         model.addAttribute("stock", stock);
         model.addAttribute("product", product);
 
         return "stock/StockInConfirm";
-    }
+    }    
     
     // 在庫管理へ
     @GetMapping("/ZaikoKanri")
@@ -125,6 +135,12 @@ public class StockController {
             model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
             return "stock/StockInDeleteSearch";
         }
+        
+     // ★追加：当日のみ削除可能
+        if (!stock.getArrivalDate().equals(LocalDate.now())) {
+            model.addAttribute("errorMessage", "当日のみ削除可能です");
+            return "stock/StockInDeleteSearch";
+        }
 
         ProductEntity product = productService.findById(stock.getProductId());
 
@@ -136,8 +152,23 @@ public class StockController {
 
     // 入荷削除完了（論理削除）
     @PostMapping("/StockInDeleteComplete/{id}")
-    public String deleteComplete(@PathVariable Integer id) {
-        stockInService.delete(id); // ← Service 側で論理削除処理
+    public String deleteComplete(@PathVariable Integer id, Model model) {
+
+        StockInEntity stock = stockInService.findById(id);
+
+        if (stock == null || stock.isDeleted()) {
+            model.addAttribute("errorMessage", "データが存在しません");
+            return "stock/StockInDeleteSearch";
+        }
+
+        // ★ここ重要
+        if (!stock.getArrivalDate().equals(LocalDate.now())) {
+            model.addAttribute("errorMessage", "当日のみ削除可能です");
+            return "stock/StockInDeleteSearch";
+        }
+
+        stockInService.delete(id);
+
         return "stock/StockInDeleteComplete";
     }
     
@@ -150,6 +181,12 @@ public class StockController {
 
         if (stock == null) {
             model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
+        
+        if (!stock.getArrivalDate().equals(LocalDate.now())) {
+            model.addAttribute("errorMessage", "当日のみ編集可能です");
             model.addAttribute("stock", new StockInEntity());
             return "stock/StockInEditSearch";
         }
@@ -171,6 +208,10 @@ public class StockController {
 
         model.addAttribute("stock", stock);
         model.addAttribute("productList", productList);
+        
+     // ★追加
+        ProductEntity product = productService.findById(stock.getProductId());
+        model.addAttribute("product", product);
 
         return "stock/StockInEdit";
     }
@@ -198,9 +239,18 @@ public class StockController {
         if (stockProduct != null && !productList.contains(stockProduct)) {
             productList.add(stockProduct);
         }
+        
+        if (!stock.getArrivalDate().equals(LocalDate.now())) {
+            model.addAttribute("errorMessage", "当日のみ編集可能です");
+            return "stock/StockInEditSearch";
+        }
 
         model.addAttribute("stock", stock);
         model.addAttribute("productList", productList);
+        
+     // ★追加
+        ProductEntity product = productService.findById(stock.getProductId());
+        model.addAttribute("product", product);
 
         return "stock/StockInEdit";
     }
@@ -222,7 +272,14 @@ public class StockController {
             model.addAttribute("stock", new StockInEntity());
             return "stock/StockInEditSearch";
         }
-
+        
+     // ★ここ追加
+        if (!stock.getArrivalDate().equals(LocalDate.now())) {
+            model.addAttribute("errorMessage", "当日のみ編集可能です");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
+        
         ProductEntity stockProduct = null;
         if (stock.getProductId() != null) {
             stockProduct = productService.findById(stock.getProductId());
@@ -237,13 +294,43 @@ public class StockController {
 
         model.addAttribute("stock", stock);
         model.addAttribute("productList", productList);
+        
+     // ★追加
+        ProductEntity product = productService.findById(stock.getProductId());
+        model.addAttribute("product", product);
 
         return "stock/StockInEdit";
     }
     
     @PostMapping("/save")
-    public String save(@ModelAttribute StockInEntity stock) {
+    public String save(@ModelAttribute StockInEntity stock, Model model) {
+
+        StockInEntity existing = stockInService.findById(stock.getId());
+
+        // 存在チェック
+        if (existing == null) {
+            model.addAttribute("errorMessage", "データが存在しません");
+            return "stock/StockInEditSearch";
+        }
+
+        // 当日のみ編集可能
+        if (!existing.getArrivalDate().equals(java.time.LocalDate.now())) {
+            model.addAttribute("errorMessage", "当日のみ編集可能です");
+            return "stock/StockInEditSearch";
+        }
+
+        // 数量チェック
+        if (stock.getQuantity() == null || stock.getQuantity() <= 0) {
+            model.addAttribute("errorMessage", "数量は1以上で入力してください");
+            model.addAttribute("stock", existing);
+            return "stock/StockInEdit";
+        }
+
+        // ★重要：日付を上書き防止
+        stock.setArrivalDate(existing.getArrivalDate());
+
         stockInService.update(stock);
+
         return "/stock/StockInEditComplete";
     }
     
