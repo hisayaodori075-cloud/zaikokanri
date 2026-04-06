@@ -108,16 +108,8 @@ public class DisposalController {
     // 廃棄保存処理
     @PostMapping("/stock/DisposalSave")
     public String disposalSave(@ModelAttribute DisposalEntity disposal, Model model) {
-        // 廃棄情報を保存
-        disposalService.save(disposal);
 
-        // 対象商品を取得
-        ProductEntity product = productService.findById(disposal.getProductId());
-
-        // 在庫を減らす
-        int newStock = product.getStock() - disposal.getQuantity();
-        product.setStock(newStock);
-        productService.save(product); // ProductEntity の更新
+        disposalService.executeDisposal(disposal);
 
         return "stock/DisposalComplete";
     }
@@ -212,38 +204,33 @@ public class DisposalController {
     @PostMapping("/stock/DisposalEditSave")
     public String disposalEditSave(@ModelAttribute DisposalEntity disposal, Model model) {
 
-        // 編集前の廃棄データを取得
+        // ① 編集前データ取得
         DisposalEntity oldDisposal = disposalService.findById(disposal.getId());
         if (oldDisposal == null) {
             model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " が存在しません");
             return "stock/DisposalEditConfirm";
         }
 
-        // 差分を計算（新しい廃棄数 - 古い廃棄数）
-        int diff = disposal.getQuantity() - oldDisposal.getQuantity();
-
-        // 対象商品を取得
+        // ② 商品取得
         ProductEntity product = productService.findById(disposal.getProductId());
         if (product == null) {
             model.addAttribute("errorMessage", "対象の商品が存在しません");
             return "stock/DisposalEditConfirm";
         }
 
-        // 在庫に差分を反映
-        int newStock = product.getStock() - diff;
-        if (newStock < 0) {
+        // ③ 在庫計算＆更新はServiceへ
+        boolean result = disposalService.executeEdit(disposal);
+
+        // ④ 失敗時（在庫不足など）
+        if (!result) {
             model.addAttribute("errorMessage", "廃棄数が在庫を超えています");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
             return "stock/DisposalEditConfirm";
         }
-        product.setStock(newStock);
-        productService.save(product); // 在庫更新
 
-        // 廃棄情報を更新
-        disposalService.save(disposal);
-
-        return "stock/DisposalEditComplete"; // 完了画面に遷移
+        // ⑤ 成功
+        return "stock/DisposalEditComplete";
     }
     
  // 廃棄削除画面（検索画面）表示
@@ -285,23 +272,9 @@ public class DisposalController {
             return "stock/DisposalDeleteSearch";
         }
 
-        // 対応する商品を取得
-        ProductEntity product = productService.findById(target.getProductId());
-        if (product == null) {
-            model.addAttribute("errorMessage", "対象の商品が存在しません");
-            return "stock/DisposalDeleteSearch";
-        }
+        disposalService.executeDelete(target.getId());
 
-        // 論理削除フラグを立てる
-        target.setDeleted(true);
-        disposalService.save(target);
-
-        // 在庫を戻す
-        int restoredStock = product.getStock() + target.getQuantity();
-        product.setStock(restoredStock);
-        productService.save(product); // ProductEntity の在庫更新
-
-        return "stock/DisposalDeleteComplete"; // 完了画面
+        return "stock/DisposalDeleteComplete";
     }
     
  // 廃棄一覧表示（論理削除されていないものだけ）

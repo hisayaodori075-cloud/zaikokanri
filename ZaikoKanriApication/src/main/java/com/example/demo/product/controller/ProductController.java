@@ -61,7 +61,21 @@ public class ProductController {
 
     @PostMapping("/ProductEditComplete")
     public String editComplete(@ModelAttribute ProductEntity product) {
-        productService.save(product);
+
+        // DBから元データ取得
+        ProductEntity dbProduct = productService.findById(product.getId());
+
+        // 必要な項目だけ上書き
+        dbProduct.setJanCode(product.getJanCode());
+        dbProduct.setMakerName(product.getMakerName());  
+        dbProduct.setPurchasePrice(product.getPurchasePrice());
+        dbProduct.setPrice(product.getPrice());
+        dbProduct.setSalesStatus(product.getSalesStatus());
+        // ↑画面で編集してる項目だけ書く
+
+        // 保存
+        productService.save(dbProduct);
+
         return "product/ProductEditComplete";
     }
 
