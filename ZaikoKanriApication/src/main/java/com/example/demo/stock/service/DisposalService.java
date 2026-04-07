@@ -1,5 +1,6 @@
 package com.example.demo.stock.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,12 @@ public class DisposalService {
     }
 
     // ★追加：廃棄＋在庫更新（Controllerから呼ぶ用）
-    public void executeDisposal(DisposalEntity disposal) {
+    public boolean executeDisposal(DisposalEntity disposal) {
+
+        // 登録日セット
+        if (disposal.getCreatedAt() == null) {
+            disposal.setCreatedAt(java.time.LocalDateTime.now());
+        }
 
         // ① 廃棄保存
         disposalRepository.save(disposal);
@@ -51,21 +57,28 @@ public class DisposalService {
         ProductEntity product =
                 productRepository.findById(disposal.getProductId()).orElse(null);
 
-        if (product == null) return;
+        if (product == null) return false;
 
-        // ③ 在庫取得（null対策）
+        // ③ 在庫取得
         Integer currentStock = product.getStock();
         if (currentStock == null) currentStock = 0;
 
-        // ④ 廃棄数取得（null対策）
+        // ④ 廃棄数取得
         Integer quantity = disposal.getQuantity();
         if (quantity == null) quantity = 0;
+
+        // ★在庫チェック
+        if (quantity > currentStock) {
+            return false;
+        }
 
         // ⑤ 在庫減算
         product.setStock(currentStock - quantity);
 
         // ⑥ 更新
         productRepository.save(product);
+
+        return true;
     }
 
     // ★追加：廃棄削除＋在庫戻し
@@ -75,6 +88,12 @@ public class DisposalService {
             disposalRepository.findByIdAndDeletedFalse(id).orElse(null);
 
         if (disposal == null) return;
+        
+     // ★7日制限チェック
+        if (disposal.getCreatedAt() != null &&
+            disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+            return;
+        }
 
         // 論理削除
         disposal.setDeleted(true);
@@ -109,6 +128,15 @@ public class DisposalService {
                 .orElse(null);
 
         if (old == null) return false;
+        
+     // ★重要：createdAtを保持
+        newDisposal.setCreatedAt(old.getCreatedAt());
+        
+     // ★7日制限チェック
+        if (old.getCreatedAt() != null &&
+            old.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+            return false;
+        }
 
         // ② 商品取得
         ProductEntity product =

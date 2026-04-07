@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>登録内容確認</title>
+    <title>販売内容確認</title>
     <link rel="stylesheet" th:href="@{/sales/SalesConfirm.css}">
 </head>
 
@@ -11,41 +11,41 @@
 
 <div class="container">
 
-    <h2>商品登録内容確認</h2>
+    <h2>販売内容確認</h2>
 
-    <div class="product-info">
-        商品名: <span th:text="${product.productName}"></span><br>
-        JANコード: <span th:text="${product.janCode}"></span><br>
+    <div class="info-box">
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>JANコード: <span th:text="${product.janCode}"></span></p>
+        <p>販売数: <span th:text="${sales.salesQuantity}"></span></p>
+        <p>販売日: <span th:text="${sales.salesDate}"></span></p>
     </div>
 
-    <h2>販売数と販売日を入力してください</h2>
-	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
-
-    <form th:action="@{/sales/SalesConfirm2}"
+    <!-- 登録 -->
+    <form th:action="@{/sales/SalesSave}"
           th:object="${sales}"
           method="post"
           class="form-box">
 
         <input type="hidden" th:field="*{productId}" />
-
-        <input type="number"
-               th:field="*{salesQuantity}"
-               placeholder="販売数" 
-			   required/>
-
-        <input type="date"
-               th:field="*{salesDate}" 
-			   required/>
+        <input type="hidden" th:field="*{salesQuantity}" />
+        <input type="hidden" th:field="*{salesDate}" />
 
         <div class="button-area">
             <button type="submit">
-                登録確認へ
+                登録する
             </button>
         </div>
-
     </form>
 
-    <form th:action="@{/sales/SalesRegister}" method="get">
+    <!-- 戻る（入力画面へ） -->
+    <form th:action="@{/sales/SalesInputBack}"
+          th:object="${sales}"
+          method="post">
+
+        <input type="hidden" th:field="*{productId}" />
+        <input type="hidden" th:field="*{salesQuantity}" />
+        <input type="hidden" th:field="*{salesDate}" />
+
         <button type="submit">
             戻る
         </button>

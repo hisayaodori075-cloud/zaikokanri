@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登録内容確認</title>
+    <link rel="stylesheet" th:href="@{/sales/SalesInput.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>販売数入力</h1>
+
+    <div class="product-info">
+        商品名: <span th:text="${product.productName}"></span><br>
+        JANコード: <span th:text="${product.janCode}"></span><br>
+    </div>
+
+	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+
+    <form th:action="@{/sales/SalesConfirm}"
+          th:object="${sales}"
+          method="post"
+          class="form-box">
+
+        <input type="hidden" th:field="*{productId}" />
+
+		<label>販売数</label>
+		<input type="number"
+               th:field="*{salesQuantity}"
+			   required/>
+		
+		<label>廃棄日</label>
+        <input type="date"
+               th:field="*{salesDate}" 
+			   required/>
+
+        <div class="button-area">
+            <button type="submit">
+                登録確認へ
+            </button>
+        </div>
+
+    </form>
+
+    <form th:action="@{/sales/SalesRegister}" method="get">
+        <button type="submit">
+            戻る
+        </button>
+    </form>
+
+</div>
+
+</body>
+</html>

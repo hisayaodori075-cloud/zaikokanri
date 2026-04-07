@@ -34,14 +34,69 @@ public class SalesController {
 
     // ---------------- 販売数入力 ----------------
     @GetMapping("/SalesRegister")
-    public String salesRegisterForm(Model model) {
+    public String salesRegister(
+            @RequestParam(required = false) Integer productId,
+            @RequestParam(required = false) String janCode,
+            Model model) {
 
-        model.addAttribute("sales", new SalesEntity());
+        List<ProductEntity> allProducts = productService.findAll();
+        List<ProductEntity> productList = allProducts;
 
-        List<ProductEntity> productList = productService.findAll();
+        // JAN検索
+        if (janCode != null && !janCode.isEmpty()) {
+            productList = productList.stream()
+                    .filter(p -> janCode.equals(p.getJanCode()))
+                    .toList();
+        }
+
+        // 商品ID検索
+        if (productId != null) {
+            productList = productList.stream()
+                    .filter(p -> p.getId().equals(productId))
+                    .toList();
+        }
+
+        if (productList.isEmpty()) {
+            model.addAttribute("message", "一致する商品がありません");
+        }
+
         model.addAttribute("productList", productList);
+        model.addAttribute("allProducts", allProducts);
 
         return "sales/SalesRegister";
+    }
+    
+    @GetMapping("/SalesInput/{id}")
+    public String salesInput(@PathVariable Integer id, Model model) {
+
+        ProductEntity product = productService.findById(id);
+
+        if (product == null) {
+            return "redirect:/sales/SalesRegister";
+        }
+
+        SalesEntity sales = new SalesEntity();
+        sales.setProductId(product.getId());
+
+        model.addAttribute("product", product);
+        model.addAttribute("sales", sales);
+
+        return "sales/SalesInput";
+    }
+    
+    @PostMapping("/SalesInputBack")
+    public String salesInputBack(@ModelAttribute SalesEntity sales, Model model) {
+
+        ProductEntity product = productService.findById(sales.getProductId());
+
+        if (product == null) {
+            return "redirect:/sales/SalesRegister";
+        }
+
+        model.addAttribute("sales", sales);
+        model.addAttribute("product", product);
+
+        return "sales/SalesInput";
     }
     
  // ---------------- 販売履歴一覧 ----------------
@@ -122,11 +177,11 @@ public class SalesController {
         model.addAttribute("product", product);
         model.addAttribute("sales", sales);
 
-        return "sales/SalesConfirm";
+        return "sales/SalesInput";
     }
 
     // ---------------- 販売確認 ----------------
-    @PostMapping("/SalesConfirm")
+    @PostMapping("/SalesInput")
     public String salesConfirm(@ModelAttribute SalesEntity sales, Model model) {
 
         ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
@@ -144,7 +199,7 @@ public class SalesController {
         return "sales/SalesConfirm";
     }
 
-    @PostMapping("/SalesConfirm2")
+    @PostMapping("/SalesConfirm")
     public String confirm(@ModelAttribute SalesEntity sales, Model model) {
 
         ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
@@ -159,7 +214,7 @@ public class SalesController {
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
 
-        return "sales/SalesConfirm2";
+        return "sales/SalesConfirm";
     }
 
     // ---------------- 保存 ----------------
@@ -181,7 +236,7 @@ public class SalesController {
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
 
-            return "sales/SalesConfirm";
+            return "sales/SalesInput";
         }
 
         if (product.getStock() < sales.getSalesQuantity()) {
@@ -190,7 +245,7 @@ public class SalesController {
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
 
-            return "sales/SalesConfirm";
+            return "sales/SalesInput";
         }
 
         salesService.save(sales);

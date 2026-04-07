@@ -22,20 +22,7 @@ public class StockInService {
     // 入荷保存 + 在庫更新（新規入荷）
     public void save(StockInEntity stock) {
 
-
-    	// ★追加：入荷日を自動設定
-        if (stock.getArrivalDate() == null) {
-            stock.setArrivalDate(java.time.LocalDate.now());
-        }
-    	
-    	// ① 入荷履歴保存
-
-    		// ★追加：入荷日を自動設定
-        if (stock.getArrivalDate() == null) {
-            stock.setArrivalDate(java.time.LocalDate.now());
-        }
-    	
-    		// ① 入荷履歴保存
+        // ① 入荷履歴保存
         stockInRepository.save(stock);
 
         // ② 商品取得
@@ -50,16 +37,9 @@ public class StockInService {
             if (currentStock == null) {
                 currentStock = 0;
             }
-            
 
-            // ④ 在庫加算(null対策済み）
-            Integer quantity = stock.getQuantity();
-            
-            if (quantity == null) {
-                quantity = 0;
-            }
-
-            product.setStock(currentStock + quantity);
+            // ④ 在庫加算
+            product.setStock(currentStock + stock.getQuantity());
 
             // ⑤ 商品更新
             productRepository.save(product);
@@ -91,18 +71,12 @@ public class StockInService {
             }
 
             // 在庫計算
-            Integer oldQty = oldStock.getQuantity();
-            Integer newQty = stock.getQuantity();
-
-            if (oldQty == null) oldQty = 0;
-            if (newQty == null) newQty = 0;
-
-            int newStock = currentStock - oldQty + newQty;
+            int newStock =
+                    currentStock
+                    - oldStock.getQuantity()
+                    + stock.getQuantity();
 
             product.setStock(newStock);
-            
-            // ★日付固定
-            stock.setArrivalDate(oldStock.getArrivalDate());
 
             // 更新
             productRepository.save(product);
@@ -152,11 +126,7 @@ public class StockInService {
             }
 
             // 在庫を戻す
-            Integer quantity = stock.getQuantity();
-            if (quantity == null) {
-                quantity = 0;
-            }           
-            product.setStock(currentStock - quantity);
+            product.setStock(currentStock - stock.getQuantity());
 
             productRepository.save(product);
         }

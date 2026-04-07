@@ -1,5 +1,7 @@
 package com.example.demo.stock.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,10 +95,45 @@ public class DisposalController {
             @ModelAttribute DisposalEntity disposal,
             Model model) {
 
-        // productId から商品情報を取得
         ProductEntity product = productService.findById(disposal.getProductId());
 
-        // Model にセット
+        if (product == null) {
+            model.addAttribute("error", "商品が存在しません");
+            return "stock/DisposalInput";
+        }
+
+        // ★在庫チェック（ここ追加）
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
+
+        Integer qty = disposal.getQuantity();
+        if (qty == null) qty = 0;
+
+        if (qty > stock) {
+            model.addAttribute("error", "廃棄数が在庫数を超えています");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalInput";
+        }
+
+     // ★追加：数量1チェック（ここ）
+        if (qty <= 0) {
+            model.addAttribute("error", "廃棄数は1以上で入力してください");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalInput";
+        }
+        
+        // 未来日チェック
+        if (disposal.getDisposalDate() != null &&
+            disposal.getDisposalDate().isAfter(LocalDate.now())) {
+
+            model.addAttribute("error", "廃棄日は未来日を指定できません");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalInput";
+        }
+
         model.addAttribute("product", product);
         model.addAttribute("disposal", disposal);
 
@@ -109,6 +146,50 @@ public class DisposalController {
     @PostMapping("/stock/DisposalSave")
     public String disposalSave(@ModelAttribute DisposalEntity disposal, Model model) {
 
+        // 商品情報取得
+        ProductEntity product = productService.findById(disposal.getProductId());
+
+        if (product == null) {
+            model.addAttribute("error", "商品が存在しません");
+            return "stock/DisposalInput";
+        }
+
+        // ★最終防衛：未来日チェック
+        if (disposal.getDisposalDate() != null &&
+            disposal.getDisposalDate().isAfter(LocalDate.now())) {
+
+            model.addAttribute("error", "廃棄日は未来日を指定できません");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+
+            return "stock/DisposalInput";
+        }
+
+        // ★最終防衛：在庫チェック追加（ここ重要）
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
+
+        Integer qty = disposal.getQuantity();
+        if (qty == null) qty = 0;
+
+        if (qty > stock) {
+            model.addAttribute("error", "廃棄数が在庫数を超えています");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+
+            return "stock/DisposalInput";
+        }
+        
+     // ★追加：数量0チェック（ここ）
+        if (qty <= 0) {
+            model.addAttribute("error", "廃棄数は1以上で入力してください");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+
+            return "stock/DisposalInput";
+        }
+
+        // 登録処理
         disposalService.executeDisposal(disposal);
 
         return "stock/DisposalComplete";
@@ -131,45 +212,69 @@ public class DisposalController {
 
         DisposalEntity disposal = disposalService.findById(id);
 
-        if (disposal != null) {
-            // productId から商品情報を取得して Model にセット
-            ProductEntity product = productService.findById(disposal.getProductId());
-            if (product == null) {
-                model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
-                return "stock/DisposalEditSearch";
-            }
-
-            model.addAttribute("disposal", disposal);
-            model.addAttribute("product", product);
-
-            return "stock/DisposalEdit";
-            
-        } else {
+        if (disposal == null) {
             model.addAttribute("errorMessage", "廃棄ID " + id + " は存在しません");
             return "stock/DisposalEditSearch";
         }
+
+        ProductEntity product = productService.findById(disposal.getProductId());
+
+        if (product == null) {
+            model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
+            return "stock/DisposalEditSearch";
+        }
+
+        // ★① 7日制限
+        if (disposal.getCreatedAt() != null &&
+            disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過しているため編集できません");
+            return "stock/DisposalEditSearch";
+        }
+
+        // ★② 未来日チェック
+        if (disposal.getDisposalDate() != null &&
+            disposal.getDisposalDate().isAfter(LocalDate.now())) {
+
+            model.addAttribute("errorMessage", "廃棄日は未来日を指定できません");
+            return "stock/DisposalEditSearch";
+        }
+
+        // ★③ 在庫チェック
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
+
+        Integer qty = disposal.getQuantity();
+        if (qty == null) qty = 0;
+
+        if (qty > stock) {
+            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています");
+            return "stock/DisposalEditSearch";
+        }
+
+        // ★④ 追加：1以上チェック（今回の本題）
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "廃棄数は1以上で入力してください");
+            return "stock/DisposalEditSearch";
+        }
+
+        model.addAttribute("disposal", disposal);
+        model.addAttribute("product", product);
+
+        return "stock/DisposalEdit";
     }
     
 	 // 編集確認画面
-	    @PostMapping("/stock/DisposalEditConfirm")
-	    public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model) {
-	
-	        // 商品情報を取得
-	        ProductEntity product = productService.findById(disposal.getProductId());
-	
-	        // 在庫が足りるかチェック（必要であれば）
-	        if (disposal.getQuantity() > product.getStock()) {
-	            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています。");
-	            model.addAttribute("disposal", disposal);
-	            model.addAttribute("product", product);
-	            return "stock/DisposalEdit"; // 戻して修正させる
-	        }
-	
-	        model.addAttribute("disposal", disposal);
-	        model.addAttribute("product", product);
-	
-	        return "stock/DisposalEditConfirm"; // 確認画面へ
-	    }
+    @PostMapping("/stock/DisposalEditConfirm")
+    public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model) {
+
+        ProductEntity product = productService.findById(disposal.getProductId());
+
+        model.addAttribute("disposal", disposal);
+        model.addAttribute("product", product);
+
+        return "stock/DisposalEditConfirm";
+    }
     
     // 廃棄編集画面（入力画面に戻る）
     @GetMapping("/stock/DisposalEdit/{id}")
@@ -211,17 +316,48 @@ public class DisposalController {
             return "stock/DisposalEditConfirm";
         }
 
-        // ② 商品取得
-        ProductEntity product = productService.findById(disposal.getProductId());
-        if (product == null) {
-            model.addAttribute("errorMessage", "対象の商品が存在しません");
+        // ★② 7日制限チェック（最終防衛）
+        if (oldDisposal.getCreatedAt() != null &&
+            oldDisposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため編集できません");
+            model.addAttribute("disposal", disposal);
             return "stock/DisposalEditConfirm";
         }
 
-        // ③ 在庫計算＆更新はServiceへ
+        // ③ 商品取得
+        ProductEntity product = productService.findById(disposal.getProductId());
+        if (product == null) {
+            model.addAttribute("errorMessage", "対象の商品が存在しません");
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalEditConfirm";
+        }
+
+        // ★④ 未来日チェック（最終防衛）
+        if (disposal.getDisposalDate() != null &&
+            disposal.getDisposalDate().isAfter(LocalDate.now())) {
+
+            model.addAttribute("errorMessage", "廃棄日は未来日を指定できません");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+
+            return "stock/DisposalEditConfirm";
+        }
+        
+        // ★⑤ 追加：数量チェック（ここが重要）
+        Integer qty = disposal.getQuantity();
+        if (qty == null) qty = 0;
+
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "廃棄数は1以上で入力してください");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalEditConfirm";
+        }
+
+        // ⑥ 在庫チェック＆更新処理
         boolean result = disposalService.executeEdit(disposal);
 
-        // ④ 失敗時（在庫不足など）
         if (!result) {
             model.addAttribute("errorMessage", "廃棄数が在庫を超えています");
             model.addAttribute("product", product);
@@ -229,11 +365,11 @@ public class DisposalController {
             return "stock/DisposalEditConfirm";
         }
 
-        // ⑤ 成功
+        // ⑦ 成功
         return "stock/DisposalEditComplete";
     }
     
- // 廃棄削除画面（検索画面）表示
+    // 廃棄削除画面（検索画面）表示
     @GetMapping("/stock/DisposalDeleteSearch")
     public String showDisposalDeleteSearch() {
         return "stock/DisposalDeleteSearch";
@@ -255,6 +391,15 @@ public class DisposalController {
             model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
             return "stock/DisposalDeleteSearch";
         }
+        
+     // ★追加：7日制限チェック
+        if (disposal.getCreatedAt() != null &&
+            disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
+            return "stock/DisposalDeleteSearch";
+        }
+
 
         model.addAttribute("disposal", disposal);
         model.addAttribute("product", product);
@@ -272,6 +417,15 @@ public class DisposalController {
             return "stock/DisposalDeleteSearch";
         }
 
+        // ★最終防衛：7日制限チェック（必須）
+        if (target.getCreatedAt() != null &&
+            target.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
+            return "stock/DisposalDeleteSearch";
+        }
+
+        // 論理削除実行
         disposalService.executeDelete(target.getId());
 
         return "stock/DisposalDeleteComplete";

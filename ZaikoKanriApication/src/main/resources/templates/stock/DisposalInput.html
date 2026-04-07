@@ -13,7 +13,11 @@
 
 		<h1>廃棄商品入力</h1>
 
-        <div class="product-info">
+		<div th:if="${error}" style="color:red; margin-bottom:10px;">
+		    <p th:text="${error}"></p>
+		</div>
+		
+		<div class="product-info">
 
             <p>商品名: <span th:text="${product.productName}"></span></p>
             <p>JANコード: <span th:text="${product.janCode}"></span></p>

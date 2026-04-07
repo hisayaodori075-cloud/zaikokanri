@@ -3,60 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>入荷処理登録</title>
+    <title>入荷商品入力</title>
     <link rel="stylesheet" th:href="@{/stock/StockIn.css}">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h2>入荷処理登録</h2>
+        <h1>入荷商品入力</h1>
 
-    <div class="back-area">
-        <form th:action="@{/stock/ArrivalControll}" method="get">
-            <button type="submit">戻る</button>
-        </form>
-    </div>
-
-    <form th:action="@{/stock/StockInConfirm}"
-          th:object="${stock}"
-          method="post"
-          class="form-box">
-
-        <!-- 商品選択 -->
-        <label>商品</label>
-        <select th:field="*{productId}" required>
-            <option value="">商品を選択</option>
-
-            <option th:each="product : ${productList}"
-                    th:value="${product.id}"
-                    th:text="${product.productName}">
-            </option>
-        </select>
-
-        <!-- 入荷数 -->
-        <label>入荷数</label>
-        <input type="number"
-               th:field="*{quantity}"
-               placeholder="入荷数"
-			   min="1"
-               required>
-
-
-        <!-- 入荷日 -->
-		<label>入荷日</label>
-		<span th:text="${#temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}"></span>
-
-        <div class="button-area">
-            <button type="submit">
-                確認へ
-            </button>
+        <!-- エラーメッセージ -->
+        <div th:if="${error}" style="color:red; margin-bottom:10px;">
+            <p th:text="${error}"></p>
         </div>
 
-    </form>
+        <!-- 商品情報表示 -->
+        <div class="product-info">
+            <p>商品名: <span th:text="${product.productName}"></span></p>
+            <p>JANコード: <span th:text="${product.janCode}"></span></p>
+        </div>
 
-</div>
+        <form th:action="@{/stock/StockInConfirm}"
+              th:object="${stock}"
+              method="post"
+              class="form-box">
+
+            <!-- ★商品IDはhidden -->
+            <input type="hidden" th:field="*{productId}" th:value="${product.id}">
+
+            <!-- 入荷数 -->
+            <label>入荷数</label>
+            <input type="number" th:field="*{quantity}" min="1" required>
+
+            
+			<label>入荷日</label>
+			        <input type="date"
+			               th:field="*{arrivalDate}"
+			               required>
+
+            <div class="button-area">
+                <button type="submit">
+                    入荷登録内容確認へ
+                </button>
+            </div>
+
+        </form>
+
+        <!-- 戻る -->
+        <div class="back-area">
+            <a th:href="@{/stock/StockInRegister}">
+                <button type="button">戻る</button>
+            </a>
+        </div>
+
+    </div>
 
 </body>
 </html>

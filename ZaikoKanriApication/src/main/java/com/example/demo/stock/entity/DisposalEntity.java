@@ -36,6 +36,9 @@ public class DisposalEntity {
     // 廃棄理由
     @Column(name = "reason")
     private String reason;
+    
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     // 論理削除用（将来必要になれば）
     @Column(name = "deleted", nullable = false)
@@ -53,6 +56,7 @@ public class DisposalEntity {
     public boolean isDeleted() { return deleted; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
     public String getReason() { return reason; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
     
 
     // ===== setter =====
@@ -63,4 +67,5 @@ public class DisposalEntity {
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
     public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
     public void setReason(String reason) { this.reason = reason; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

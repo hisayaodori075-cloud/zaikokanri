@@ -3,25 +3,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>販売商品検索</title>
-    <link rel="stylesheet" th:href="@{/sales/SalesRegister.css}">
+    <title>入荷商品検索</title>
+    <link rel="stylesheet" th:href="@{/stock/StockInRegister.css}">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>販売商品検索</h1>
+    <h1>入荷商品検索</h1>
 
     <div class="back-area">
-        <a th:href="@{/sales/SalesManagement}">
+        <a th:href="@{/stock/ArrivalControll}">
             <button type="button">戻る</button>
         </a>
     </div>
 
-    <!-- 検索フォーム -->
-    <form th:action="@{/sales/SalesRegister}" method="get" class="search-form">
+    <form th:action="@{/stock/StockInRegister}" method="get" class="search-form">
 
+        <!-- 商品名 -->
         <label>商品名</label>
         <select name="productId">
             <option value="">商品名を選択してください</option>
@@ -32,19 +32,22 @@
             </option>
         </select>
 
+        <!-- JAN -->
         <label>JANコード</label>
         <input type="text" name="janCode">
 
         <div class="button-area">
             <button type="submit">検索</button>
-            <button type="button" onclick="location.href='/sales/SalesRegister'">
+
+            <button type="button"
+                    onclick="location.href='/stock/StockInRegister'">
                 一覧
             </button>
         </div>
 
     </form>
 
-    <!-- 一覧テーブル -->
+    <!-- 表 -->
     <table class="product-table">
 
         <thead>
@@ -60,17 +63,18 @@
         <tbody>
 
             <tr th:each="product : ${productList}">
+
                 <td th:text="${product.janCode}"></td>
                 <td th:text="${product.id}"></td>
                 <td th:text="${product.productName}"></td>
                 <td th:text="${product.stock}"></td>
 
                 <td>
-                    <!-- ★ここ重要 -->
-                    <a th:href="@{/sales/SalesInput/{id}(id=${product.id})}">
-                        販売入力へ
+                    <a th:href="@{/stock/StockIn/{id}(id=${product.id})}">
+                        入荷登録へ
                     </a>
                 </td>
+
             </tr>
 
         </tbody>
