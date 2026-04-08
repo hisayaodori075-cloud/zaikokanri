@@ -152,13 +152,10 @@ public class DisposalService {
         int oldQty = old.getQuantity() == null ? 0 : old.getQuantity();
         int newQty = newDisposal.getQuantity() == null ? 0 : newDisposal.getQuantity();
 
-        // ⑤ 差分計算
-        int diff = newQty - oldQty;
+     // ★在庫再計算（修正版）
+        int newStock = currentStock + oldQty - newQty;
 
-        // ⑥ 在庫反映
-        int newStock = currentStock - diff;
-
-        // ❗在庫不足はfalseで返す（例外禁止）
+        // ❗在庫不足チェック
         if (newStock < 0) {
             return false;
         }

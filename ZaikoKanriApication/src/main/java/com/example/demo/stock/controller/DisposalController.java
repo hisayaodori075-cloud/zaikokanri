@@ -224,37 +224,11 @@ public class DisposalController {
             return "stock/DisposalEditSearch";
         }
 
-        // ★① 7日制限
+        // ★① 7日制限のみ残す
         if (disposal.getCreatedAt() != null &&
             disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
 
             model.addAttribute("errorMessage", "登録から7日経過しているため編集できません");
-            return "stock/DisposalEditSearch";
-        }
-
-        // ★② 未来日チェック
-        if (disposal.getDisposalDate() != null &&
-            disposal.getDisposalDate().isAfter(LocalDate.now())) {
-
-            model.addAttribute("errorMessage", "廃棄日は未来日を指定できません");
-            return "stock/DisposalEditSearch";
-        }
-
-        // ★③ 在庫チェック
-        Integer stock = product.getStock();
-        if (stock == null) stock = 0;
-
-        Integer qty = disposal.getQuantity();
-        if (qty == null) qty = 0;
-
-        if (qty > stock) {
-            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています");
-            return "stock/DisposalEditSearch";
-        }
-
-        // ★④ 追加：1以上チェック（今回の本題）
-        if (qty <= 0) {
-            model.addAttribute("errorMessage", "廃棄数は1以上で入力してください");
             return "stock/DisposalEditSearch";
         }
 
@@ -269,6 +243,45 @@ public class DisposalController {
     public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model) {
 
         ProductEntity product = productService.findById(disposal.getProductId());
+
+        if (product == null) {
+            model.addAttribute("errorMessage", "対象商品が存在しません");
+            return "stock/DisposalEdit";
+        }
+
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
+
+        Integer qty = disposal.getQuantity();
+        if (qty == null) qty = 0;
+
+        // ★① 未来日チェック
+        if (disposal.getDisposalDate() != null &&
+            disposal.getDisposalDate().isAfter(LocalDate.now())) {
+
+            model.addAttribute("errorMessage", "廃棄日は未来日を指定できません");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalEdit";
+        } 
+        
+        // ★②　在庫数チェック
+        boolean result = disposalService.executeEdit(disposal);
+
+        if (!result) {
+            model.addAttribute("errorMessage", "廃棄数が在庫を超えています");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalEdit";
+        }
+
+        // ★③ 1以上チェック
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "廃棄数は1以上で入力してください");
+            model.addAttribute("product", product);
+            model.addAttribute("disposal", disposal);
+            return "stock/DisposalEdit";
+        }
 
         model.addAttribute("disposal", disposal);
         model.addAttribute("product", product);
@@ -362,7 +375,7 @@ public class DisposalController {
             model.addAttribute("errorMessage", "廃棄数が在庫を超えています");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
-            return "stock/DisposalEditConfirm";
+            return "stock/DisposalConfirm";
         }
 
         // ⑦ 成功
