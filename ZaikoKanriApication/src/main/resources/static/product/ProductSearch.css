@@ -12,34 +12,54 @@ body {
 }
 
 h1 {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
+/* フォーム全体 */
 .form-box {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 6px; /* 少し詰める */
 }
 
+/* ラベル追加 */
+label {
+    text-align: left;
+    font-size: 13px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* 入力 */
 .form-box select,
 .form-box input {
     width: 100%;
-    padding: 10px 12px;
+    padding: 8px 10px;   /* 少しコンパクト */
     border: 1px solid #999;
     border-radius: 4px;
     font-size: 14px;
     box-sizing: border-box;
 }
 
+/* フォーカス強調 */
+.form-box input:focus,
+.form-box select:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+/* ボタンエリア */
 .button-area {
     margin-top: 20px;
 }
 
+/* ボタン */
 button {
     padding: 8px 20px;
     border: 1px solid #999;
     background-color: #e6e6e6;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 button:hover {

@@ -12,6 +12,11 @@
 <div class="container">
 
     <h1>入荷処理編集</h1>
+	
+	<!-- エラーメッセージ -->
+	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
 
     <div class="back-area">
         <a th:href="@{/stock/StockInEditSearch}">
@@ -45,8 +50,9 @@
 		       required>
 
 		<label>入荷日</label>
-		<span th:text="${#temporals.format(stock.arrivalDate, 'yyyy-MM-dd')}"></span>
-		<input type="hidden" th:field="*{arrivalDate}">
+			<input type="date"
+			   	   th:field="*{arrivalDate}"
+			   	   required>
 
         <div class="button-area">
             <button type="submit">

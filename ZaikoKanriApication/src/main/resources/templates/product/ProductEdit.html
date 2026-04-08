@@ -11,31 +11,36 @@
 
 <div class="container">
 
-    
-
     <!-- 入力カード -->
     <form th:action="@{/product/ProductEdit/{id}(id=${product.id})}"
           method="post"
           th:object="${product}"
           class="form-card">
-		  
-		<h1>商品編集</h1>
+
+        <h1>商品編集</h1>
 
         <input type="hidden" th:field="*{id}">
 
-        <input type="number" th:field="*{janCode}" placeholder="JANコード" required>
+        <label>JANコード</label>
+        <input type="number" th:field="*{janCode}"  required>
 
-        <input type="text" th:field="*{makerName}" placeholder="メーカー名" required>
+        <label>メーカー名</label>
+        <input type="text" th:field="*{makerName}"  required>
 
-        <input type="text" th:field="*{productName}" placeholder="商品名" required>
+        <label>商品名</label>
+        <input type="text" th:field="*{productName}"  required>
 
-        <input type="number" th:field="*{purchasePrice}" placeholder="仕入価格" required>
+        <label>仕入価格</label>
+        <input type="number" th:field="*{purchasePrice}"  required>
 
-        <input type="number" th:field="*{price}" placeholder="売価" required>
+        <label>売価</label>
+        <input type="number" th:field="*{price}"  required>
 
+        <label>ステータス</label>
         <select th:field="*{salesStatus}">
             <option value="販売中">販売中</option>
             <option value="販売停止">販売停止</option>
+			<option value="販売終了">販売終了</option>
         </select>
 
         <!-- ボタンエリア（横並び） -->

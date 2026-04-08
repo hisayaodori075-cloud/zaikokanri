@@ -14,8 +14,8 @@
         <h1>入荷商品入力</h1>
 
         <!-- エラーメッセージ -->
-        <div th:if="${error}" style="color:red; margin-bottom:10px;">
-            <p th:text="${error}"></p>
+        <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+            <p th:text="${errorMessage}"></p>
         </div>
 
         <!-- 商品情報表示 -->
@@ -30,7 +30,7 @@
               class="form-box">
 
             <!-- ★商品IDはhidden -->
-            <input type="hidden" th:field="*{productId}" th:value="${product.id}">
+            <input type="hidden" th:field="*{productId}">
 
             <!-- 入荷数 -->
             <label>入荷数</label>

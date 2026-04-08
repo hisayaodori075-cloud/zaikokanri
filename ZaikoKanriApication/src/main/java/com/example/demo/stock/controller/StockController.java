@@ -1,5 +1,6 @@
 package com.example.demo.stock.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,19 @@ public class StockController {
     
     @PostMapping("/StockInConfirm")
     public String confirm(@ModelAttribute StockInEntity stock, Model model) {
+
+        LocalDate today = LocalDate.now();
+
+        if (stock.getArrivalDate() != null && stock.getArrivalDate().isAfter(today)) {
+            model.addAttribute("errorMessage", "未来の日付は入力できません");
+
+            // 入力画面に戻す
+            ProductEntity product = productService.findById(stock.getProductId());
+            model.addAttribute("product", product);
+            model.addAttribute("stock", stock);
+
+            return "stock/StockIn";
+        }
 
         ProductEntity product = productService.findById(stock.getProductId());
 
@@ -140,10 +154,25 @@ public class StockController {
 
         ProductEntity product = stockInService.findProductById(stock.getProductId());
 
+        // 商品存在チェック
         if (product == null) {
             model.addAttribute("errorMessage", "この入荷データの対象商品は編集不可です");
             model.addAttribute("stock", stock);
             return "stock/StockInEditSearch";
+        }
+
+        // 未来日付チェック
+        LocalDate today = LocalDate.now();
+        if (stock.getArrivalDate() != null && stock.getArrivalDate().isAfter(today)) {
+
+            model.addAttribute("errorMessage", "未来の日付は入力できません");
+
+            // ★入力内容保持
+            model.addAttribute("stock", stock);
+            model.addAttribute("product", product);
+
+            // ★編集画面に戻す
+            return "stock/StockInEdit";
         }
 
         model.addAttribute("stock", stock);
@@ -219,6 +248,7 @@ public class StockController {
 
         model.addAttribute("stock", stock);
         model.addAttribute("productList", productList);
+        model.addAttribute("product", stockProduct); // ←追加
 
         return "stock/StockInEdit";
     }
@@ -249,6 +279,7 @@ public class StockController {
 
         model.addAttribute("stock", stock);
         model.addAttribute("productList", productList);
+        model.addAttribute("product", stockProduct); // ←追加
 
         return "stock/StockInEdit";
     }
@@ -285,18 +316,54 @@ public class StockController {
 
         model.addAttribute("stock", stock);
         model.addAttribute("productList", productList);
+        model.addAttribute("product", stockProduct); // ←これ追加
 
         return "stock/StockInEdit";
     }
     
     @PostMapping("/save")
-    public String save(@ModelAttribute StockInEntity stock) {
+    public String save(@ModelAttribute StockInEntity stock, Model model) {
+
+        LocalDate today = LocalDate.now();
+
+        // 未来日付チェック
+        if (stock.getArrivalDate() != null && stock.getArrivalDate().isAfter(today)) {
+
+            model.addAttribute("errorMessage", "未来の日付は入力できません");
+
+            // ★商品情報再取得
+            ProductEntity product = productService.findById(stock.getProductId());
+
+            // ★値保持
+            model.addAttribute("stock", stock);
+            model.addAttribute("product", product);
+
+            // ★編集画面に戻す
+            return "stock/StockInEdit";
+        }
+
         stockInService.update(stock);
         return "/stock/StockInEditComplete";
     }
     
     @PostMapping("/StockInSave")
-    public String stockInSave(@ModelAttribute StockInEntity stock) {
+    public String stockInSave(@ModelAttribute StockInEntity stock, Model model) {
+
+        LocalDate today = LocalDate.now();
+
+        // 未来日付チェック
+        if (stock.getArrivalDate() != null && stock.getArrivalDate().isAfter(today)) {
+
+            model.addAttribute("errorMessage", "未来の日付は入力できません");
+
+            // 入力画面に戻すためのデータ再設定
+            ProductEntity product = productService.findById(stock.getProductId());
+            model.addAttribute("product", product);
+            model.addAttribute("stock", stock);
+
+            return "stock/StockIn";
+        }
+
         stockInService.save(stock);
         return "/stock/StockInComplete";
     }

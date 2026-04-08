@@ -33,7 +33,8 @@ public class RotationAlertDisplayService {
 
         List<ProductEntity> productList = productService.findAll();
 
-        AlertRotationSettingEntity setting = rotationSettingService.getSetting();
+        AlertRotationSettingEntity setting =
+                rotationSettingService.getSetting();
 
         int attentionDays = setting.getAttentionDays();
         int urgentDays = setting.getUrgentDays();
@@ -47,26 +48,27 @@ public class RotationAlertDisplayService {
         return productList.stream()
                 .filter(product -> {
 
+                    // ★販売中チェック（最優先）
+                    if (!"販売中".equals(product.getSalesStatus())) {
+                        return false;
+                    }
+
+                    // ★null対策（在庫ではなく売上）
                     int urgentCount =
                             salesService.getSalesCountLastDays(product.getId(), urgentDays);
 
                     int attentionCount =
                             salesService.getSalesCountLastDays(product.getId(), attentionDays);
 
-                    double urgentActualRate = (double) urgentCount / urgentDays;
-                    double attentionActualRate = (double) attentionCount / attentionDays;
+                    double urgentActualRate =
+                            urgentDays == 0 ? 0 : (double) urgentCount / urgentDays;
 
-                    // 緊急
-                    if (urgentActualRate < urgentRate) {
-                        return true;
-                    }
+                    double attentionActualRate =
+                            attentionDays == 0 ? 0 : (double) attentionCount / attentionDays;
 
-                    // 注意
-                    if (attentionActualRate < attentionRate) {
-                        return true;
-                    }
-
-                    return false;
+                    // ★判定
+                    return urgentActualRate < urgentRate
+                            || attentionActualRate < attentionRate;
 
                 })
                 .toList();
@@ -121,8 +123,16 @@ public class RotationAlertDisplayService {
         return productList.stream()
                 .filter(product -> {
 
+                    // ★一覧と同じ条件を必ず入れる
+                    if (!"販売中".equals(product.getSalesStatus())) {
+                        return false;
+                    }
+
                     int urgentCount =
-                            salesService.getSalesCountLastDays(product.getId(), setting.getUrgentDays());
+                            salesService.getSalesCountLastDays(
+                                    product.getId(),
+                                    setting.getUrgentDays()
+                            );
 
                     return urgentCount < setting.getUrgentSales();
 

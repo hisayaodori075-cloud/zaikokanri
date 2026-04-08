@@ -2,7 +2,7 @@
 
 /* 背景（緑系） */
 body {
-    background: #e8f5e9; /* 薄い緑 */
+    background: #e8f5e9;
     font-family: Arial, sans-serif;
     margin: 0;
     padding-top: 40px;
@@ -11,7 +11,7 @@ body {
 
 /* タイトル */
 h1 {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     font-size: 26px;
     color: #2e7d32;
 }
@@ -28,15 +28,23 @@ h1 {
 
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px; /* 少し詰める */
 }
 
-/* 入力 */
-input, select {
-    height: 45px;
-    padding: 8px 10px;
+/* ラベル */
+label {
+    text-align: left;
+    font-size: 13px;
+    color: #555;
+    margin-top: 8px;
+}
 
-    font-size: 15px;
+/* 入力（少し小さく調整） */
+input, select {
+    height: 40px;   /* ← 45 → 40に縮小 */
+    padding: 6px 10px;
+
+    font-size: 14px;
 
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -44,15 +52,16 @@ input, select {
     box-sizing: border-box;
 }
 
+/* フォーカス */
 input:focus, select:focus {
     border-color: #2e7d32;
     outline: none;
 }
 
-/* ボタンエリア（横並び） */
+/* ボタンエリア */
 .form-actions {
     display: flex;
-    flex-direction: row; /* 横並び */
+    flex-direction: row;
     gap: 12px;
     margin-top: 15px;
 }
@@ -60,7 +69,7 @@ input:focus, select:focus {
 /* 共通ボタン */
 .form-actions button {
     flex: 1;
-    height: 50px;
+    height: 48px;
 
     font-size: 15px;
     cursor: pointer;
@@ -71,7 +80,7 @@ input:focus, select:focus {
 
 /* 戻るボタン */
 .btn-back {
-    background: #e0e0e0;  /* ←少し濃いグレー */
+    background: #e0e0e0;
     color: #333;
     border: 1px solid #bdbdbd;
 }

@@ -34,21 +34,22 @@ public class AlertDisplayService {
                 .filter(product -> {
 
                     AlertSettingEntity setting = alertMap.get(product.getId());
+                    
+                    
 
                     if (setting == null) {
                         return false;
                     }
 
-                    // stockがnullの場合は0
                     int stock = product.getStock() != null ? product.getStock() : 0;
 
-                    // ★ ここ追加
                     Integer minStock = setting.getMinStock();
                     if (minStock == null) {
-                        return false; // または 0扱いにするなら下の別案
+                        return false;
                     }
 
-                    return stock < minStock;
+                    return stock < minStock
+                            && "販売中".equals(product.getSalesStatus());
 
                 })
                 .toList();
