@@ -66,8 +66,16 @@ public class SalesService {
             salesRepository.findById(newSales.getId()).orElse(null);
 
         if (old == null || old.isDeleted()) return false;
+        
+        if (old.getCreatedAt() != null &&
+                old.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+                return false;
+            }
+
 
         newSales.setCreatedAt(old.getCreatedAt());
+        
+        
 
         ProductEntity product =
             productRepository.findById(newSales.getProductId()).orElse(null);

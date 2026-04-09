@@ -230,6 +230,16 @@ public class SalesController {
             model.addAttribute("product", product);
             return "sales/SalesInput";
         }
+        
+        // ★③ 未来日チェック（追加ここ）
+        if (sales.getSalesDate() != null &&
+            sales.getSalesDate().isAfter(java.time.LocalDate.now())) {
+
+            model.addAttribute("errorMessage", "販売日は未来日を指定できません");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesInput";
+        }
 
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
@@ -263,13 +273,23 @@ public class SalesController {
         if (stock == null) stock = 0;
 
         if (qty > stock) {
-            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています");
+            model.addAttribute("errorMessage", "販売数が在庫数を超えています");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesInput";
+        }
+        
+     // ★③ 未来日チェック（最終防衛）
+        if (sales.getSalesDate() != null &&
+            sales.getSalesDate().isAfter(java.time.LocalDate.now())) {
+
+            model.addAttribute("errorMessage", "販売日は未来日を指定できません");
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
             return "sales/SalesInput";
         }
 
-        // ★③ 登録処理
+        // ★④ 登録処理
         salesService.executeSales(sales);
 
         return "sales/SalesComplete";
@@ -348,6 +368,15 @@ public class SalesController {
             model.addAttribute("product", product);
             return "sales/SalesEdit";
         }
+        
+        if (sales.getSalesDate() != null &&
+        	    sales.getSalesDate().isAfter(java.time.LocalDate.now())) {
+
+        	    model.addAttribute("errorMessage", "販売日は未来日を指定できません");
+        	    model.addAttribute("sales", sales);
+        	    model.addAttribute("product", product);
+        	    return "sales/SalesEdit";
+        	}
 
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
@@ -473,6 +502,15 @@ public class SalesController {
             model.addAttribute("sales", sales);
             return "sales/SalesEdit";
         }
+        
+        if (sales.getSalesDate() != null &&
+        	    sales.getSalesDate().isAfter(java.time.LocalDate.now())) {
+
+        	    model.addAttribute("errorMessage", "販売日は未来日を指定できません");
+        	    model.addAttribute("product", product);
+        	    model.addAttribute("sales", sales);
+        	    return "sales/SalesEditConfirm";
+        	}
 
         // ⑥ 成功
         return "sales/SalesEditComplete";
