@@ -205,10 +205,30 @@ public class SalesController {
         ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
         if (product == null) {
-
             model.addAttribute("errorMessage", "商品が見つかりません");
-
             return "sales/SalesManagement";
+        }
+
+        Integer qty = sales.getSalesQuantity();
+        if (qty == null) qty = 0;
+
+        // ★① 数量チェック
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "販売数は1以上で入力してください");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesInput";
+        }
+
+        // ★② 在庫チェック（追加）
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
+
+        if (qty > stock) {
+            model.addAttribute("errorMessage", "販売数が在庫数を超えています");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesInput";
         }
 
         model.addAttribute("sales", sales);
@@ -216,7 +236,6 @@ public class SalesController {
 
         return "sales/SalesConfirm";
     }
-
     // ---------------- 保存 ----------------
     @PostMapping("/SalesSave")
     public String salesSave(@ModelAttribute SalesEntity sales, Model model) {
@@ -224,31 +243,34 @@ public class SalesController {
         ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
         if (product == null) {
-
             model.addAttribute("errorMessage", "商品が存在しません");
-
             return "sales/SalesManagement";
         }
 
-        if (sales.getSalesQuantity() == null) {
+        Integer qty = sales.getSalesQuantity();
+        if (qty == null) qty = 0;
 
-            model.addAttribute("errorMessage", "販売数を入力してください");
+        // ★① 数量チェック（最終防衛）
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "販売数は1以上で入力してください");
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
-
             return "sales/SalesInput";
         }
 
-        if (product.getStock() < sales.getSalesQuantity()) {
+        // ★② 在庫チェック（最終防衛）
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
 
-            model.addAttribute("errorMessage", "在庫が不足しています");
+        if (qty > stock) {
+            model.addAttribute("errorMessage", "廃棄数が在庫数を超えています");
             model.addAttribute("sales", sales);
             model.addAttribute("product", product);
-
             return "sales/SalesInput";
         }
 
-        salesService.save(sales);
+        // ★③ 登録処理
+        salesService.executeSales(sales);
 
         return "sales/SalesComplete";
     }
@@ -266,16 +288,31 @@ public class SalesController {
         SalesEntity sales = salesService.findById(id);
 
         if (sales == null) {
-
             model.addAttribute("errorMessage", "そのIDの販売数データは存在しません");
-            model.addAttribute("sales", new SalesEntity());
-
             return "sales/SalesEditSearch";
         }
 
+        // ★① 商品取得
+        ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
+
+        if (product == null) {
+            model.addAttribute("errorMessage", "対象商品が存在しません");
+            return "sales/SalesEditSearch";
+        }
+
+        // ★② 7日制限チェック（廃棄と統一）
+        if (sales.getCreatedAt() != null &&
+            sales.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過しているため編集できません");
+            return "sales/SalesEditSearch";
+        }
+
+        // ★③ 商品リスト取得（そのまま）
         List<ProductEntity> productList = productService.findAll();
 
         model.addAttribute("sales", sales);
+        model.addAttribute("product", product);
         model.addAttribute("productList", productList);
 
         return "sales/SalesEdit";
@@ -287,10 +324,29 @@ public class SalesController {
         ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
 
         if (product == null) {
+            model.addAttribute("errorMessage", "対象商品が存在しません");
+            return "sales/SalesEdit";
+        }
 
-            model.addAttribute("errorMessage", "商品が存在しません");
+        Integer qty = sales.getSalesQuantity();
+        if (qty == null) qty = 0;
 
-            return "sales/SalesEditSearch";
+        // ★① 数量チェック
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "販売数は1以上で入力してください");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesEdit";
+        }
+
+        // ★② 在庫チェック（Serviceで判定）
+        boolean result = salesService.executeEdit(sales);
+
+        if (!result) {
+            model.addAttribute("errorMessage", "販売数が在庫を超えています");
+            model.addAttribute("sales", sales);
+            model.addAttribute("product", product);
+            return "sales/SalesEdit";
         }
 
         model.addAttribute("sales", sales);
@@ -298,7 +354,6 @@ public class SalesController {
 
         return "sales/SalesEditConfirm";
     }
-
     // ---------------- 削除 ----------------
     @GetMapping("/SalesDeleteSearch")
     public String salesDeleteSearchForm(Model model) {
@@ -311,14 +366,26 @@ public class SalesController {
 
         SalesEntity sales = salesService.findById(id);
 
-        if (sales == null || sales.isDeleted()) {
-
-            model.addAttribute("errorMessage", "そのIDの販売数データは存在しません");
-
+        if (sales == null) {
+            model.addAttribute("errorMessage", "販売ID " + id + " は存在しません");
             return "sales/SalesDeleteSearch";
         }
 
+        // ★① 商品チェック
         ProductEntity product = productService.findByIdAndDeletedFalse(sales.getProductId());
+
+        if (product == null) {
+            model.addAttribute("errorMessage", "販売ID " + id + " の対象商品が存在しません");
+            return "sales/SalesDeleteSearch";
+        }
+
+        // ★② 7日制限チェック
+        if (sales.getCreatedAt() != null &&
+            sales.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
+            return "sales/SalesDeleteSearch";
+        }
 
         model.addAttribute("sales", sales);
         model.addAttribute("product", product);
@@ -333,18 +400,81 @@ public class SalesController {
     }
 
     @PostMapping("/SalesDeleteComplete/{id}")
-    public String deleteComplete(@PathVariable Integer id) {
+    public String deleteComplete(@PathVariable Integer id, Model model) {
 
-        salesService.delete(id);
+        // ① データ取得
+        SalesEntity sales = salesService.findById(id);
+
+        if (sales == null) {
+            model.addAttribute("errorMessage", "販売ID " + id + " は存在しません");
+            return "sales/SalesDeleteSearch";
+        }
+
+        // ★② 7日制限チェック（最終防衛）
+        if (sales.getCreatedAt() != null &&
+            sales.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
+            return "sales/SalesDeleteSearch";
+        }
+
+        // ③ 削除実行
+        salesService.executeDelete(id);
 
         return "sales/SalesDeleteComplete";
     }
 
     @PostMapping("/SalesEditSave")
-    public String salesEditSave(@ModelAttribute SalesEntity sales) {
+    public String salesEditSave(@ModelAttribute SalesEntity sales, Model model) {
 
-        salesService.update(sales);
+        // ① 旧データ取得
+        SalesEntity oldSales = salesService.findById(sales.getId());
+        if (oldSales == null) {
+            model.addAttribute("errorMessage", "販売ID " + sales.getId() + " が存在しません");
+            return "sales/SalesEditSearch";
+        }
 
+        // ★② 7日制限チェック（最終防衛）
+        if (oldSales.getCreatedAt() != null &&
+            oldSales.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため編集できません");
+            model.addAttribute("sales", sales);
+            return "sales/SalesEditConfirm";
+        }
+
+        // ③ 商品取得
+        ProductEntity product =
+            productService.findByIdAndDeletedFalse(sales.getProductId());
+
+        if (product == null) {
+            model.addAttribute("errorMessage", "対象商品が存在しません");
+            model.addAttribute("sales", sales);
+            return "sales/SalesEditConfirm";
+        }
+
+        // ★④ 数量チェック（最終防衛）
+        Integer qty = sales.getSalesQuantity();
+        if (qty == null) qty = 0;
+
+        if (qty <= 0) {
+            model.addAttribute("errorMessage", "販売数は1以上で入力してください");
+            model.addAttribute("product", product);
+            model.addAttribute("sales", sales);
+            return "sales/SalesEditConfirm";
+        }
+
+        // ★⑤ 在庫チェック＆更新
+        boolean result = salesService.executeEdit(sales);
+
+        if (!result) {
+            model.addAttribute("errorMessage", "販売数が在庫を超えています");
+            model.addAttribute("product", product);
+            model.addAttribute("sales", sales);
+            return "sales/SalesEdit";
+        }
+
+        // ⑥ 成功
         return "sales/SalesEditComplete";
     }
 }

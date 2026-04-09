@@ -43,6 +43,9 @@ public class ReturnEntity {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+    
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     // ===== getter =====
     public Integer getId() { return id; }
@@ -52,6 +55,7 @@ public class ReturnEntity {
     public boolean isDeleted() { return deleted; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
     public String getReason() { return reason; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 
     // ===== setter =====
     public void setId(Integer id) { this.id = id; }
@@ -61,4 +65,5 @@ public class ReturnEntity {
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
     public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
     public void setReason(String reason) { this.reason = reason; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

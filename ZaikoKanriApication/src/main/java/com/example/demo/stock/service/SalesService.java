@@ -23,66 +23,72 @@ public class SalesService {
     // -----------------------------
     // 販売情報保存（新規）
     // -----------------------------
-    public SalesEntity save(SalesEntity sales) {
+    public boolean executeSales(SalesEntity sales) {
 
-        SalesEntity saved = salesRepository.save(sales);
+        // ★① createdAtセット
+        if (sales.getCreatedAt() == null) {
+            sales.setCreatedAt(java.time.LocalDateTime.now());
+        }
 
+        // ② 商品取得
         ProductEntity product =
                 productRepository.findById(sales.getProductId()).orElse(null);
 
-        if (product != null) {
+        if (product == null) return false;
 
-            Integer stock = product.getStock();
-            if (stock == null) stock = 0;
+        // ③ 在庫取得
+        Integer stock = product.getStock();
+        if (stock == null) stock = 0;
 
-            // 新規はそのまま減算
-            product.setStock(stock - sales.getSalesQuantity());
+        // ④ 数量取得
+        Integer qty = sales.getSalesQuantity();
+        if (qty == null) qty = 0;
 
-            productRepository.save(product);
+        // ★⑤ 在庫チェック（先にやる）
+        if (qty > stock) {
+            return false;
         }
 
-        return saved;
+        // ⑥ 保存
+        salesRepository.save(sales);
+
+        // ⑦ 在庫減算
+        product.setStock(stock - qty);
+
+        productRepository.save(product);
+
+        return true;
     }
 
-    // -----------------------------
-    // ★追加：販売情報更新（差分調整）
-    // -----------------------------
-    public SalesEntity update(SalesEntity sales) {
+    public boolean executeEdit(SalesEntity newSales) {
 
-        // ① 旧データ取得
-        SalesEntity old = salesRepository.findById(sales.getId()).orElse(null);
-        if (old == null) {
-            return null;
-        }
+        SalesEntity old =
+            salesRepository.findById(newSales.getId()).orElse(null);
 
-        // ③ 商品取得（先に取る方が安全）
+        if (old == null || old.isDeleted()) return false;
+
+        newSales.setCreatedAt(old.getCreatedAt());
+
         ProductEntity product =
-                productRepository.findById(sales.getProductId()).orElse(null);
+            productRepository.findById(newSales.getProductId()).orElse(null);
 
-        if (product != null) {
+        if (product == null) return false;
 
-            Integer stock = product.getStock();
-            if (stock == null) stock = 0;
+        int currentStock = product.getStock() == null ? 0 : product.getStock();
 
-            // ④ 差分計算（null対策込み）
-            Integer newQty = sales.getSalesQuantity();
-            Integer oldQty = old.getSalesQuantity();
+        int oldQty = old.getSalesQuantity() == null ? 0 : old.getSalesQuantity();
+        int newQty = newSales.getSalesQuantity() == null ? 0 : newSales.getSalesQuantity();
 
-            if (newQty == null) newQty = 0;
-            if (oldQty == null) oldQty = 0;
+        int newStock = currentStock + oldQty - newQty;
 
-            int diff = newQty - oldQty;
+        if (newStock < 0) return false;
 
-            // ⑤ 在庫調整（差分方式）
-            product.setStock(stock - diff);
+        product.setStock(newStock);
 
-            productRepository.save(product);
-        }
+        productRepository.save(product);
+        salesRepository.save(newSales);
 
-        // ② 更新保存（最後の方が安全）
-        SalesEntity saved = salesRepository.save(sales);
-
-        return saved;
+        return true;
     }
 
     // -----------------------------
@@ -109,31 +115,43 @@ public class SalesService {
     // -----------------------------
     // 論理削除
     // -----------------------------
-    public void delete(Integer id) {
+    public void executeDelete(Integer id) {
 
-        // ① 販売データ取得
-        SalesEntity sales = salesRepository.findById(id).orElse(null);
-        if (sales == null || sales.isDeleted()) {
+        // ① データ取得（論理削除除外）
+    		SalesEntity sales = salesRepository.findById(id).orElse(null);
+
+        if (sales == null) return;
+
+        // ★② 7日制限チェック
+        if (sales.getCreatedAt() != null &&
+            sales.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
             return;
         }
 
-        // ② 商品取得
+        // ③ 商品取得
         ProductEntity product =
-                productRepository.findById(sales.getProductId()).orElse(null);
+            productRepository.findById(sales.getProductId()).orElse(null);
 
         if (product != null) {
 
             Integer stock = product.getStock();
             if (stock == null) stock = 0;
 
-            // ③ 在庫を戻す（ここがポイント）
-            product.setStock(stock + sales.getSalesQuantity());
+            Integer qty = sales.getSalesQuantity();
+            if (qty == null) qty = 0;
+
+            // ④ 在庫戻し
+            product.setStock(stock + qty);
 
             productRepository.save(product);
         }
 
-        // ④ 論理削除
+        // ⑤ 論理削除
         sales.setDeleted(true);
+
+        // （余裕あれば）
+        sales.setDeletedAt(java.time.LocalDateTime.now());
+
         salesRepository.save(sales);
     }
 
