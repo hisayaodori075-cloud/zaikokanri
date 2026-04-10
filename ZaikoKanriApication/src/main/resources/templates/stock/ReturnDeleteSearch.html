@@ -14,10 +14,9 @@
     <h1>返品削除検索</h1>
 
     <!-- エラーメッセージ -->
-    <p class="error-message"
-       th:if="${errorMessage}"
-       th:text="${errorMessage}">
-    </p>
+	<div th:if="${error}" style="color:red; margin-bottom:10px;">
+		<p th:text="${error}"></p>
+	</div>
 
     <!-- 戻る -->
     <div class="button-area">

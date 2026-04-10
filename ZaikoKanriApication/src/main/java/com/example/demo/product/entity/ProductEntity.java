@@ -41,6 +41,12 @@ public class ProductEntity {
     @Column(name = "stock")
     private Integer stock;
     
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "last_arrival_date")
+    private LocalDateTime lastArrivalDate;
+    
  // ---------------- 論理削除用 ----------------
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
@@ -105,6 +111,14 @@ public class ProductEntity {
     public Integer getStock() {
         return stock;
     }
+    
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    public LocalDateTime getLastArrivalDate() {
+        return lastArrivalDate;
+    }
 
     // ===== setter =====
     public void setId(Integer id) {
@@ -149,5 +163,13 @@ public class ProductEntity {
 	
 	public void setStock(Integer stock) {
 	    this.stock = stock;
+	}
+	
+	public void setCreatedAt(LocalDateTime createdAt) {
+	    this.createdAt = createdAt;
+	}
+	
+	public void setLastArrivalDate(LocalDateTime lastArrivalDate) {
+	    this.lastArrivalDate = lastArrivalDate;
 	}
 }

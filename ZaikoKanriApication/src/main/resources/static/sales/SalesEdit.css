@@ -25,6 +25,15 @@ h1 {
     gap: 15px;
 }
 
+.form-box p {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #888;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #eaeaea; /* inputより少し濃いグレー */
+}
+
 .form-box input,
 .form-box select {
     width: 100%;

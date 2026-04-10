@@ -12,6 +12,10 @@
 <div class="container">
 
     <h2>在庫最低数登録</h2>
+	
+	<div th:if="${error}" style="color:red; margin-bottom:10px;">
+		<p th:text="${error}"></p>
+	</div>
 
     <div class="product-info">
         メーカー名:
@@ -33,7 +37,7 @@
 
         <label>
             在庫最低数：
-            <input type="number" th:field="*{minStock}" required />
+            <input type="number" th:field="*{minStock}" min="1" required />
         </label>
 
         <div class="button-area">

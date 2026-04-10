@@ -124,21 +124,46 @@ public class AlertController {
     @PostMapping("AlertSettingConfirm")
     public String alertSettingConfirm(@ModelAttribute AlertSettingEntity alertSetting, Model model) {
         ProductEntity product = productService.findById(alertSetting.getProductId());
+        
+        Integer minStock = alertSetting.getMinStock();
+        if (minStock == null || minStock <= 0) {
+            model.addAttribute("error", "最低在庫数は1以上で入力してください");
+            model.addAttribute("product", product);
+            model.addAttribute("alertSetting", alertSetting);
+            return "alert/AlertSettingRegister";
+        }
+        
         model.addAttribute("product", product);
         model.addAttribute("alertSetting", alertSetting);
+        
         return "alert/AlertSettingConfirm"; // 確認画面テンプレート
     }
 
-    // 完了画面（DB保存）
+ // 完了画面（DB保存）
     @PostMapping("AlertSettingComplete")
-    public String minStockComplete(@ModelAttribute AlertSettingEntity alertSetting, Model model) {
+    public String minStockComplete(
+            @ModelAttribute AlertSettingEntity alertSetting,
+            Model model) {
+
+        // ★数量チェック（最終防衛）
+        Integer minStock = alertSetting.getMinStock();
+        if (minStock == null || minStock <= 0) {
+            model.addAttribute("error", "最低在庫数は1以上で入力してください");
+
+            ProductEntity product = productService.findById(alertSetting.getProductId());
+            model.addAttribute("product", product);
+            model.addAttribute("alertSetting", alertSetting);
+
+            return "alert/AlertSettingRegister";
+        }
+
         // 保存
         alertService.save(alertSetting);
 
         ProductEntity product = productService.findById(alertSetting.getProductId());
         model.addAttribute("productName", product != null ? product.getProductName() : "");
 
-        return "alert/AlertSettingComplete"; // 完了画面テンプレート
+        return "alert/AlertSettingComplete";
     }
     
     @GetMapping("/AlertRotationSetting")
@@ -160,6 +185,32 @@ public class AlertController {
             @ModelAttribute AlertRotationSettingEntity rotationSetting,
             Model model) {
 
+        // ★日数チェック
+        Integer urgentDays = rotationSetting.getUrgentDays();
+        Integer attentionDays = rotationSetting.getAttentionDays();
+
+        if (urgentDays == null || urgentDays <= 0 ||
+            attentionDays == null || attentionDays <= 0) {
+
+            model.addAttribute("error", "日数は1以上で入力してください");
+            model.addAttribute("rotationSetting", rotationSetting);
+
+            return "alert/AlertRotationSetting";
+        }
+
+        // ★数量チェック（追加）
+        Integer urgentQty = rotationSetting.getUrgentSales();
+        Integer attentionQty = rotationSetting.getAttentionSales();
+
+        if (urgentQty == null || urgentQty <= 0 ||
+            attentionQty == null || attentionQty <= 0) {
+
+            model.addAttribute("error", "数量は1以上で入力してください");
+            model.addAttribute("rotationSetting", rotationSetting);
+
+            return "alert/AlertRotationSetting";
+        }
+
         model.addAttribute("rotationSetting", rotationSetting);
 
         return "alert/AlertRotationSettingConfirm";
@@ -169,6 +220,30 @@ public class AlertController {
     public String rotationSettingComplete(
             @ModelAttribute AlertRotationSettingEntity rotationSetting,
             Model model) {
+
+        // ★日数チェック
+        Integer urgentDays = rotationSetting.getUrgentDays();
+        Integer attentionDays = rotationSetting.getAttentionDays();
+
+        if (urgentDays == null || urgentDays <= 0 ||
+            attentionDays == null || attentionDays <= 0) {
+
+            model.addAttribute("error", "日数は1以上で入力してください");
+            model.addAttribute("rotationSetting", rotationSetting);
+            return "alert/AlertRotationSetting";
+        }
+
+        // ★数量チェック
+        Integer urgentQty = rotationSetting.getUrgentSales();
+        Integer attentionQty = rotationSetting.getAttentionSales();
+
+        if (urgentQty == null || urgentQty <= 0 ||
+            attentionQty == null || attentionQty <= 0) {
+
+            model.addAttribute("error", "数量は1以上で入力してください");
+            model.addAttribute("rotationSetting", rotationSetting);
+            return "alert/AlertRotationSetting";
+        }
 
         AlertRotationSettingEntity existing = rotationService.getSetting();
 
@@ -182,7 +257,6 @@ public class AlertController {
             // 更新（UPDATE）
             rotationSetting.setId(existing.getId());
             rotationService.save(rotationSetting);
-
         }
 
         model.addAttribute("rotationSetting", rotationSetting);

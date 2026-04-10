@@ -1,11 +1,12 @@
 package com.example.demo.stock.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.product.entity.ProductEntity;
+import com.example.demo.product.repository.ProductRepository;
 import com.example.demo.stock.entity.ReturnEntity;
 import com.example.demo.stock.repository.ReturnRepository;
 
@@ -15,42 +16,74 @@ public class ReturnService {
     @Autowired
     private ReturnRepository returnRepository;
 
-    // すべて取得（論理削除されていないものだけ）
-    public List<ReturnEntity> findAll() {
-        return returnRepository.findByDeletedFalse();
-    }
+    @Autowired
+    private ProductRepository productRepository;
 
-    // IDで取得（nullの場合はOptional.empty、論理削除されていないものだけ）
-    public Optional<ReturnEntity> findOptionalById(Integer id) {
-        return returnRepository.findByIdAndDeletedFalse(id);
-    }
-
-    // IDで取得（null許容版、従来のメソッド、論理削除対応）
     public ReturnEntity findById(Integer id) {
         return returnRepository.findByIdAndDeletedFalse(id).orElse(null);
     }
 
-    // 保存（新規 or 更新）
-    public ReturnEntity save(ReturnEntity returnData) {
-        return returnRepository.save(returnData);
-    }
-
-    // 論理削除
-    public void delete(Integer id) {
-        ReturnEntity returnData = findById(id);
-        if (returnData != null) {
-            returnData.setDeleted(true); // 論理削除フラグ
-            returnRepository.save(returnData);
-        }
-    }
-
-    // 複数ID検索（論理削除されていないものだけ）
-    public List<ReturnEntity> findByIds(List<Integer> ids) {
-        return returnRepository.findByIdInAndDeletedFalse(ids);
-    }
-
-    // 論理削除されていないものだけ取得
     public List<ReturnEntity> findAllNotDeleted() {
         return returnRepository.findByDeletedFalse();
+    }
+
+    // ★返品登録＋在庫更新
+    public boolean executeReturn(ReturnEntity returnData) {
+
+        if (returnData.getCreatedAt() == null) {
+            returnData.setCreatedAt(java.time.LocalDateTime.now());
+        }
+
+        ProductEntity product =
+            productRepository.findById(returnData.getProductId()).orElse(null);
+
+        if (product == null) return false;
+
+        int stock = product.getStock() == null ? 0 : product.getStock();
+        int qty = returnData.getReturnQuantity() == null ? 0 : returnData.getReturnQuantity();
+
+        // ★最終防衛：在庫チェック
+        if (qty > stock) {
+            return false;
+        }
+
+        // ★最終防衛：数量チェック
+        if (qty <= 0) {
+            return false;
+        }
+
+        // 保存
+        returnRepository.save(returnData);
+
+        // 在庫減算
+        product.setStock(stock - qty);
+        productRepository.save(product);
+
+        return true;
+    }
+
+    // ★返品削除＋在庫戻し
+    public void executeDelete(Integer id) {
+
+        ReturnEntity data =
+            returnRepository.findByIdAndDeletedFalse(id).orElse(null);
+
+        if (data == null) return;
+
+        data.setDeleted(true);
+
+        ProductEntity product =
+            productRepository.findById(data.getProductId()).orElse(null);
+
+        if (product != null) {
+            int stock = product.getStock() == null ? 0 : product.getStock();
+            int qty = data.getReturnQuantity() == null ? 0 : data.getReturnQuantity();
+
+            // 在庫戻し
+            product.setStock(stock + qty);
+            productRepository.save(product);
+        }
+
+        returnRepository.save(data);
     }
 }

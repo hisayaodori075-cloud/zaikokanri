@@ -1,5 +1,6 @@
 package com.example.demo.stock.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class StockInService {
 
     // 入荷保存 + 在庫更新（新規入荷）
     public void save(StockInEntity stock) {
+    	
+    	// ★追加：作成日時セット（これが今回の本体）
+        stock.setCreatedAt(LocalDateTime.now());
 
         // ① 入荷履歴保存
         stockInRepository.save(stock);
@@ -40,6 +44,8 @@ public class StockInService {
 
             // ④ 在庫加算
             product.setStock(currentStock + stock.getQuantity());
+            
+            product.setLastArrivalDate(stock.getArrivalDate().atStartOfDay());
 
             // ⑤ 商品更新
             productRepository.save(product);
@@ -77,6 +83,9 @@ public class StockInService {
                     + stock.getQuantity();
 
             product.setStock(newStock);
+            
+            // ★追加（ここ！）
+            product.setLastArrivalDate(stock.getArrivalDate().atStartOfDay());
 
             // 更新
             productRepository.save(product);

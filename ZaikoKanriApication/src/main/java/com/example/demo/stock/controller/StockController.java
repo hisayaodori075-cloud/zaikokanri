@@ -106,6 +106,11 @@ public class StockController {
         return "stock/StockInRegister";
     }
     
+    @GetMapping("/StockIn")
+    public String stockInTop() {
+        return "/stock/StockIn";
+    }
+    
     
     @GetMapping("/StockIn/{id}")
     public String stockInFromList(@PathVariable Integer id, Model model) {

@@ -12,6 +12,10 @@
     <div class="container">
 
         <h1>発注回転数アラート設定</h1>
+		
+		<div th:if="${error}" style="color:red; margin-bottom:10px;">
+			<p th:text="${error}"></p>
+		</div>
 
         <form th:action="@{/alert/AlertRotationSettingConfirm}"
               th:object="${rotationSetting}"
@@ -22,11 +26,11 @@
             <div>
                 <label>対象期間（日）</label><br>
                 注意：直近
-                <input type="number" th:field="*{attentionDays}" required>
+                <input type="number" th:field="*{attentionDays}" min="1" required>
                 日
                 <br>
                 緊急：直近
-                <input type="number" th:field="*{urgentDays}" required>
+                <input type="number" th:field="*{urgentDays}" min="1" required>
                 日
             </div>
 
@@ -34,11 +38,11 @@
             <div>
                 <label>販売数基準（<=）</label><br>
                 注意：販売数が
-                <input type="number" th:field="*{attentionSales}" required>
+                <input type="number" th:field="*{attentionSales}" min="1" required>
                 以下
                 <br>
                 緊急：販売数が
-                <input type="number" th:field="*{urgentSales}" required>
+                <input type="number" th:field="*{urgentSales}" min="1" required>
                 以下
             </div>
 
