@@ -12,47 +12,46 @@
 <div class="container">
 
     <h1>入荷処理編集</h1>
-	
-	<!-- エラーメッセージ -->
-	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
 
-    <div class="back-area">
-        <a th:href="@{/stock/StockInEditSearch}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
+    <!-- エラーメッセージ -->
+    <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+        <p th:text="${errorMessage}"></p>
     </div>
 
+    <!-- ★ formを外に統一（廃棄と同じ構造） -->
     <form th:action="@{/stock/StockInEditConfirm}"
           th:object="${stock}"
-          method="post"
-          class="form-box">
+          method="post">
 
         <!-- ID -->
-        <label>ID</label>
-		<span th:text="${stock.id}"></span>
-		<input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{id}">
 
-        <!-- 商品 -->
-		<label>商品</label>
-		<span th:text="${product.productName}"></span>
-		<input type="hidden" th:field="*{productId}">
+        <div class="form-box">
 
-        <!-- 入荷数 -->
-        <label>入荷数</label>
-		<input type="number"
-		       th:field="*{quantity}"
-		       placeholder="入荷数"
-		       min="1"
-		       required>
+            <!-- 商品 -->
+            <label>商品名</label>
+            <p th:text="${product != null} ? ${product.productName} : '商品情報なし'"></p>
 
-		<label>入荷日</label>
-			<input type="date"
-			   	   th:field="*{arrivalDate}"
-			   	   required>
+            <!-- hiddenで送信 -->
+            <input type="hidden" th:field="*{productId}">
+
+            <!-- 入荷数 -->
+            <label>入荷数</label>
+            <input type="number"
+                   th:field="*{quantity}"
+                   min="1"
+                   required>
+
+            <!-- 入荷日 -->
+            <label>入荷日</label>
+            <input type="date"
+                   th:field="*{arrivalDate}"
+                   required>
+
+            <!-- ★ 追加（重要） -->
+            <input type="hidden" th:field="*{createdAt}">
+
+        </div>
 
         <div class="button-area">
             <button type="submit">
@@ -61,6 +60,13 @@
         </div>
 
     </form>
+
+    <!-- 戻る -->
+    <div class="button-area">
+        <a th:href="@{/stock/StockInEditSearch}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
 
 </div>
 

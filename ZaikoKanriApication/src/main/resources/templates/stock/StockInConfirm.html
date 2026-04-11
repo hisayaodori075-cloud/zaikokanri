@@ -3,50 +3,59 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>登録内容確認</title>
+    <title>入荷内容確認</title>
     <link rel="stylesheet" th:href="@{/stock/StockInConfirm.css}">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h2>登録内容確認</h2>
+        <h2>入荷内容確認</h2>
 
-    <div class="info-box">
+        <div class="info-box">
 
-        <p>商品名: <span th:text="${product.productName}"></span></p>
-        <p>入荷数: <span th:text="${stock.quantity}"></span></p>
-		<p>入荷日: <span th:text="${stock.arrivalDate}"></span></p>
+            <!-- 商品情報 -->
+            <p>商品名: <span th:text="${product.productName}"></span></p>
+            <p>JANコード: <span th:text="${product.janCode}"></span></p>
 
+            <!-- 入荷情報 -->
+            <p>入荷数: <span th:text="${stock.quantity}"></span></p>
+            <p>入荷日: <span th:text="${stock.arrivalDate}"></span></p>
+
+        </div>
+
+        <div class="button-area">
+
+            <!-- 登録 -->
+            <form th:action="@{/stock/StockInSave}" th:object="${stock}" method="post">
+
+                <input type="hidden" th:field="*{productId}">
+                <input type="hidden" th:field="*{quantity}">
+                <input type="hidden" th:field="*{arrivalDate}">
+
+                <button type="submit">
+                    登録する
+                </button>
+
+            </form>
+
+            <!-- 戻る（POSTで入力画面へ戻す） -->
+            <form th:action="@{/stock/StockIn}" th:object="${stock}" method="post">
+
+                <input type="hidden" th:field="*{productId}">
+                <input type="hidden" th:field="*{quantity}">
+                <input type="hidden" th:field="*{arrivalDate}">
+
+                <button type="submit">
+                    戻る
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
-
-    <div class="button-area">
-
-        <form th:action="@{/stock/StockInSave}"
-              th:object="${stock}"
-              method="post">
-
-            <input type="hidden" th:field="*{productId}">
-            <input type="hidden" th:field="*{quantity}">
-            <input type="hidden" th:field="*{arrivalDate}">
-
-            <button type="submit">
-                登録する
-            </button>
-
-        </form>
-
-        <form th:action="@{/stock/StockIn}" method="get">
-            <button type="submit">
-                戻る
-            </button>
-        </form>
-
-    </div>
-
-</div>
 
 </body>
 </html>

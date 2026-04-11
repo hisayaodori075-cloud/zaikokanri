@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>入荷登録削除確認</title>
+    <title>入荷削除確認</title>
     <link rel="stylesheet" th:href="@{/stock/StockInDeleteConfirm.css}">
 </head>
 
@@ -11,30 +11,28 @@
 
 <div class="container">
 
-    <h1>次の項目を削除しますか？</h1>
-
-    <div class="back-area">
-        <a th:href="@{/stock/StockInDeleteSearch}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
+    <h2>入荷削除確認</h2>
 
     <div class="info-box">
 
-        商品名: <span th:text="${product.productName}"></span><br>
-        入荷数: <span th:text="${stock.quantity}"></span><br>
-        入荷日: <span th:text="${stock.arrivalDate}"></span><br>
+        <p>入荷ID: <span th:text="${stock.id}"></span></p>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>入荷数: <span th:text="${stock.quantity}"></span></p>
+        <p>入荷日: <span th:text="${stock.arrivalDate}"></span></p>
 
     </div>
 
     <div class="button-area">
 
-        <form th:action="@{/stock/StockInDeleteComplete/{id}(id=${stock.id})}" method="post">
-            <button type="submit">
-                削除する
-            </button>
+        <!-- 削除確定 -->
+        <form th:action="@{/stock/StockInDeleteComplete}" th:object="${stock}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <button type="submit">削除する</button>
+        </form>
+
+        <!-- 戻る -->
+        <form th:action="@{/stock/StockInDeleteSearch}" method="get">
+            <button type="submit">戻る</button>
         </form>
 
     </div>

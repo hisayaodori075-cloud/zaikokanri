@@ -79,6 +79,7 @@ public class DisposalController {
         return "stock/DisposalInput";
     }
     
+    // 戻る用
     @PostMapping("/stock/DisposalInput")
     public String backToInput(@ModelAttribute DisposalEntity disposal, Model model) {
 
@@ -139,7 +140,6 @@ public class DisposalController {
 
         return "stock/DisposalConfirm";
     }
-    
     
 
     // 廃棄保存処理
