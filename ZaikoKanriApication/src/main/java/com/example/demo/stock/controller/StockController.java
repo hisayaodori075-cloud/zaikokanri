@@ -74,7 +74,7 @@ public class StockController {
         }
 
         if (productList.isEmpty()) {
-            model.addAttribute("message", "一致する商品がありません");
+            model.addAttribute("errorMessage", "一致する商品がありません");
         }
 
         model.addAttribute("productList", productList);
@@ -452,15 +452,12 @@ public class StockController {
         // 在庫不足チェック（ここが追加）
         // ===============================
         int currentStock = product.getStock() == null ? 0 : product.getStock();
-        int deleteQty = stock.getQuantity() == null ? 0 : stock.getQuantity();
+        int qty = stock.getQuantity() == null ? 0 : stock.getQuantity();
 
-        int newStock = currentStock - deleteQty;
+        int newStock = currentStock - qty;
 
         if (newStock < 0) {
-            model.addAttribute("errorMessage", "在庫不足のため削除できません（在庫が不足します）");
-            model.addAttribute("stock", stock);
-            model.addAttribute("product", product);
-
+            model.addAttribute("errorMessage", "在庫不足のため削除できません（在庫がマイナスになります）");
             return "stock/StockInDeleteSearch";
         }
 
@@ -497,23 +494,21 @@ public class StockController {
             return "stock/StockInDeleteSearch";
         }
 
-        // ===============================
-        // 削除実行
-        // ===============================
-        stockInService.executeDelete(id);
-        
-        // ===============================
-        // ★在庫不足エラー
-        // ===============================
-        boolean result = stockInService.executeDelete(id);
-        
-        if (!result) {
-            model.addAttribute("errorMessage", "在庫不足のため削除できません（在庫がマイナスになります）");
-            model.addAttribute("stock", stock);
-            return "stock/StockInDeleteSearch";
-        }
+     // ===============================
+     // 削除実行
+     // ===============================
+     boolean result = stockInService.executeDelete(id);
 
-        return "stock/StockInDeleteComplete";
+     // ===============================
+     // 在庫不足エラー
+     // ===============================
+     if (!result) {
+         model.addAttribute("errorMessage", "在庫不足のため削除できません（在庫がマイナスになります）");
+         model.addAttribute("stock", stock);
+         return "stock/StockInDeleteSearch";
+     }
+
+     return "stock/StockInDeleteComplete";
     }
     
     @GetMapping("/StockList")
