@@ -38,10 +38,19 @@ public class ProductSearchController {
             (form.getSalesStatus() == null || form.getSalesStatus().isEmpty())) {
 
             model.addAttribute("errorMessage", "検索条件を1つ以上入力してください");
+            model.addAttribute("productSearchForm", form); // ★これあると親切
             return "product/ProductSearch";
         }
 
         List<ProductEntity> result = productService.search(form);
+
+        // ★ここ追加（今回の本題）
+        if (result.isEmpty()) {
+            model.addAttribute("errorMessage", "該当する商品は存在しません");
+            model.addAttribute("productSearchForm", form); // ★入力保持
+            return "product/ProductSearch";
+        }
+
         model.addAttribute("productList", result);
 
         return "product/ProductSearchConfirm";

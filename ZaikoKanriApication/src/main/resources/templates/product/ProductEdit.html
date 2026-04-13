@@ -18,29 +18,42 @@
           class="form-card">
 
         <h1>商品編集</h1>
+		
+		<!-- エラーメッセージ -->
+		<div th:if="${error}" style="color:red; margin-bottom:10px;">
+			<p th:text="${error}"></p>
+		</div>
 
         <input type="hidden" th:field="*{id}">
 
         <label>JANコード</label>
-        <input type="number" th:field="*{janCode}"  required>
+        <input type="number"
+               th:field="*{janCode}"
+               required>
 
         <label>メーカー名</label>
-        <input type="text" th:field="*{makerName}"  required>
+        <input type="text" th:field="*{makerName}" required>
 
         <label>商品名</label>
-        <input type="text" th:field="*{productName}"  required>
+        <input type="text" th:field="*{productName}" required>
 
         <label>仕入価格</label>
-        <input type="number" th:field="*{purchasePrice}"  required>
+        <input type="number"
+               th:field="*{purchasePrice}"
+               min="0"
+               required>
 
         <label>売価</label>
-        <input type="number" th:field="*{price}"  required>
+        <input type="number"
+               th:field="*{price}"
+               min="0"
+               required>
 
         <label>ステータス</label>
         <select th:field="*{salesStatus}">
             <option value="販売中">販売中</option>
             <option value="販売停止">販売停止</option>
-			<option value="販売終了">販売終了</option>
+            <option value="販売終了">販売終了</option>
         </select>
 
         <!-- ボタンエリア（横並び） -->

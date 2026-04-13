@@ -304,9 +304,4 @@ public class AlertController {
 
         return "alert/RotationAlertDisplay";
     }
-    
-    
-    
-    
-
 }

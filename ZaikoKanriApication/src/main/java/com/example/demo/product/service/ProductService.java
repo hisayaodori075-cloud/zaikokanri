@@ -60,6 +60,12 @@ public class ProductService {
     }
 
     public void save(ProductEntity product) {
+
+        // ★新規登録時のみ作成日をセット
+        if (product.getId() == null) {
+            product.setCreatedAt(java.time.LocalDateTime.now());
+        }
+
         productRepository.save(product);
     }
 

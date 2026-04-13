@@ -33,11 +33,16 @@ public class AlertDisplayService {
         return productList.stream()
                 .filter(product -> {
 
-                    AlertSettingEntity setting = alertMap.get(product.getId());
-                    
-                    
+                    AlertSettingEntity setting = alertMap.get(product.getId());           
 
                     if (setting == null) {
+                        return false;
+                    }
+                    
+                    // ★ここ追加（超重要）
+                    if (product.getCreatedAt() != null &&
+                        product.getCreatedAt()
+                            .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
                         return false;
                     }
 

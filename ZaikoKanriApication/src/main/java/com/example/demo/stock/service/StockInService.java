@@ -41,7 +41,14 @@ public class StockInService {
         if (qty <= 0) return false;
 
         product.setStock(currentStock + qty);
-        product.setLastArrivalDate(stock.getArrivalDate().atStartOfDay());
+        LocalDateTime newArrival =
+        	    stock.getArrivalDate().atStartOfDay();
+
+        	LocalDateTime current = product.getLastArrivalDate();
+
+        	if (current == null || newArrival.isAfter(current)) {
+        	    product.setLastArrivalDate(newArrival);
+        	}
 
         stockInRepository.save(stock);
         productRepository.save(product);
@@ -78,7 +85,15 @@ public class StockInService {
         product.setStock(newStock);
 
         if (stock.getArrivalDate() != null) {
-            product.setLastArrivalDate(stock.getArrivalDate().atStartOfDay());
+
+            LocalDateTime newArrival =
+                stock.getArrivalDate().atStartOfDay();
+
+            LocalDateTime current = product.getLastArrivalDate();
+
+            if (current == null || newArrival.isAfter(current)) {
+                product.setLastArrivalDate(newArrival);
+            }
         }
 
         productRepository.save(product);

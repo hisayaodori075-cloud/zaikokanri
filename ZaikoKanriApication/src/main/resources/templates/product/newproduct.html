@@ -16,6 +16,11 @@
           method="post">
 
         <h2>商品新規登録</h2>
+		
+		<!-- エラーメッセージ -->
+		<div th:if="${error}" style="color:red; margin-bottom:10px;">
+		   <p th:text="${error}"></p>
+		</div>
 
         <label>JANコード</label>
         <input type="number"
@@ -35,11 +40,13 @@
         <label>仕入価格</label>
         <input type="number"
                th:field="*{PurchasePrice}"
+               min="0"
                required>
 
         <label>売価</label>
         <input type="number"
                th:field="*{price}"
+               min="0"
                required>
 
 		<label>ステータス</label>

@@ -13,7 +13,9 @@
 
     <h1>商品検索</h1>
 
-    <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+		<p th:text="${errorMessage}"></p>
+	</div>
 
     <a th:href="@{/product/ProductMasterList}">
         <button type="button">戻る</button>

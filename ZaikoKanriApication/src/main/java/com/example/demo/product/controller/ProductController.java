@@ -30,13 +30,50 @@ public class ProductController {
 
     @PostMapping("/confirm")
     public String confirm(@ModelAttribute ProductEntity product, Model model) {
+
+        // ★バリデーション追加
+        if (product.getPurchasePrice() != null && product.getPurchasePrice() < 0) {
+            model.addAttribute("error", "仕入価格にマイナスは入力できません");
+            return "product/newproduct";
+        }
+
+        if (product.getPrice() != null && product.getPrice() < 0) {
+            model.addAttribute("error", "売価にマイナスは入力できません");
+            return "product/newproduct";
+        }
+
+        if (product.getJanCode() != null &&
+                product.getJanCode().contains("-")) {
+                model.addAttribute("error", "JANコードにマイナスは使用できません");
+                model.addAttribute("product", product); // ★これ追加
+                return "product/newproduct";
+            }
+
         model.addAttribute("product", product);
         return "product/confirm";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute ProductEntity product, Model model) {
-        // Service経由で保存
+
+        // ★バリデーション追加
+        if (product.getPurchasePrice() != null && product.getPurchasePrice() < 0) {
+            model.addAttribute("error", "仕入価格にマイナスは入力できません");
+            return "product/newproduct";
+        }
+
+        if (product.getPrice() != null && product.getPrice() < 0) {
+            model.addAttribute("error", "売価にマイナスは入力できません");
+            return "product/newproduct";
+        }
+
+        if (product.getJanCode() != null &&
+                product.getJanCode().contains("-")) {
+                model.addAttribute("error", "JANコードにマイナスは使用できません");
+                model.addAttribute("product", product); // ★これ追加
+                return "product/newproduct";
+            }
+
         productService.save(product);
         model.addAttribute("product", product);
         return "product/complete";
@@ -55,25 +92,60 @@ public class ProductController {
 
     @PostMapping("/ProductEdit/{id}")
     public String editSubmit(@ModelAttribute ProductEntity product, Model model) {
+
+        // ★バリデーション追加
+        if (product.getPurchasePrice() != null && product.getPurchasePrice() < 0) {
+            model.addAttribute("error", "仕入価格にマイナスは入力できません");
+            return "product/ProductEdit";
+        }
+
+        if (product.getPrice() != null && product.getPrice() < 0) {
+            model.addAttribute("error", "売価にマイナスは入力できません");
+            return "product/ProductEdit";
+        }
+
+        if (product.getJanCode() != null &&
+                product.getJanCode().contains("-")) {
+                model.addAttribute("error", "JANコードにマイナスは使用できません");
+                model.addAttribute("product", product); // ★これ追加
+                return "product/newproduct";
+            }
+
         model.addAttribute("product", product);
         return "product/ProductEditConfirm";
     }
 
     @PostMapping("/ProductEditComplete")
-    public String editComplete(@ModelAttribute ProductEntity product) {
+    public String editComplete(@ModelAttribute ProductEntity product, Model model) {
+
+        // ★バリデーション追加
+        if (product.getPurchasePrice() != null && product.getPurchasePrice() < 0) {
+            model.addAttribute("error", "仕入価格にマイナスは入力できません");
+            return "product/ProductEdit";
+        }
+
+        if (product.getPrice() != null && product.getPrice() < 0) {
+            model.addAttribute("error", "売価にマイナスは入力できません");
+            return "product/ProductEdit";
+        }
+
+        if (product.getJanCode() != null &&
+                product.getJanCode().contains("-")) {
+                model.addAttribute("error", "JANコードにマイナスは使用できません");
+                model.addAttribute("product", product); // ★これ追加
+                return "product/newproduct";
+            }
 
         // DBから元データ取得
         ProductEntity dbProduct = productService.findById(product.getId());
 
         // 必要な項目だけ上書き
         dbProduct.setJanCode(product.getJanCode());
-        dbProduct.setMakerName(product.getMakerName());  
+        dbProduct.setMakerName(product.getMakerName());
         dbProduct.setPurchasePrice(product.getPurchasePrice());
         dbProduct.setPrice(product.getPrice());
         dbProduct.setSalesStatus(product.getSalesStatus());
-        // ↑画面で編集してる項目だけ書く
 
-        // 保存
         productService.save(dbProduct);
 
         return "product/ProductEditComplete";

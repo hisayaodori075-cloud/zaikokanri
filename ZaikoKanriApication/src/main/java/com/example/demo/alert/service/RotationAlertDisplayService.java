@@ -46,31 +46,53 @@ public class RotationAlertDisplayService {
         double urgentRate = (double) urgentSales / urgentDays;
 
         return productList.stream()
-                .filter(product -> {
+        		.filter(product -> {
 
-                    // ★販売中チェック（最優先）
-                    if (!"販売中".equals(product.getSalesStatus())) {
-                        return false;
-                    }
+        		    // ★販売中チェック
+        		    if (!"販売中".equals(product.getSalesStatus())) {
+        		        return false;
+        		    }
 
-                    // ★null対策（在庫ではなく売上）
-                    int urgentCount =
-                            salesService.getSalesCountLastDays(product.getId(), urgentDays);
+        		    // ★削除除外
+        		    if (product.isDeleted()) {
+        		        return false;
+        		    }
 
-                    int attentionCount =
-                            salesService.getSalesCountLastDays(product.getId(), attentionDays);
+        		    // ★① 新規登録ガード（超重要）
+        		    if (product.getCreatedAt() != null &&
+        		        product.getCreatedAt()
+        		            .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
+        		        return false;
+        		    }
 
-                    double urgentActualRate =
-                            urgentDays == 0 ? 0 : (double) urgentCount / urgentDays;
+        		    // ★② 最終入荷日ガード
+        		    if (product.getLastArrivalDate() == null) {
+        		        return false;
+        		    }
 
-                    double attentionActualRate =
-                            attentionDays == 0 ? 0 : (double) attentionCount / attentionDays;
+        		    if (product.getLastArrivalDate()
+        		            .isAfter(java.time.LocalDateTime.now().minusDays(attentionDays))) {
+        		        return false;
+        		    }
 
-                    // ★判定
-                    return urgentActualRate < urgentRate
-                            || attentionActualRate < attentionRate;
+        		    // ===== ここから既存ロジック =====
 
-                })
+        		    int urgentCount =
+        		        salesService.getSalesCountLastDays(product.getId(), urgentDays);
+
+        		    int attentionCount =
+        		        salesService.getSalesCountLastDays(product.getId(), attentionDays);
+
+        		    double urgentActualRate =
+        		        urgentDays == 0 ? 0 : (double) urgentCount / urgentDays;
+
+        		    double attentionActualRate =
+        		        attentionDays == 0 ? 0 : (double) attentionCount / attentionDays;
+
+        		    return urgentActualRate < urgentRate
+        		            || attentionActualRate < attentionRate;
+
+        		})
                 .toList();
     }
     
@@ -123,10 +145,34 @@ public class RotationAlertDisplayService {
         return productList.stream()
                 .filter(product -> {
 
-                    // ★一覧と同じ条件を必ず入れる
+                    // ★販売中チェック
                     if (!"販売中".equals(product.getSalesStatus())) {
                         return false;
                     }
+
+                    // ★削除除外
+                    if (product.isDeleted()) {
+                        return false;
+                    }
+
+                    // ★① 新規登録ガード（重要）
+                    if (product.getCreatedAt() != null &&
+                        product.getCreatedAt()
+                            .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
+                        return false;
+                    }
+
+                    // ★② 最終入荷日チェック
+                    if (product.getLastArrivalDate() == null) {
+                        return false;
+                    }
+
+                    if (product.getLastArrivalDate()
+                            .isAfter(java.time.LocalDateTime.now().minusDays(setting.getAttentionDays()))) {
+                        return false;
+                    }
+
+                    // ===== 既存ロジック =====
 
                     int urgentCount =
                             salesService.getSalesCountLastDays(
