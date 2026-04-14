@@ -106,7 +106,7 @@ public class DisposalController {
         // ★削除されていない商品だけ取得
         ProductEntity product =
                 productService.findByIdAndDeletedFalse(disposal.getProductId());
-
+ 
         if (product == null) {
             model.addAttribute("error", "商品が存在しません");
             return "stock/DisposalInput";
@@ -164,8 +164,6 @@ public class DisposalController {
             return "redirect:/stock/DisposalRegister";
         }
 
-        session.removeAttribute("disposalConfirm");
-
         // ★削除されていない商品だけ取得
         ProductEntity product =
                 productService.findByIdAndDeletedFalse(disposal.getProductId());
@@ -182,7 +180,6 @@ public class DisposalController {
             model.addAttribute("error", "廃棄日は未来日を指定できません");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
-
             return "stock/DisposalInput";
         }
 
@@ -197,7 +194,6 @@ public class DisposalController {
             model.addAttribute("error", "廃棄数が在庫数を超えています");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
-
             return "stock/DisposalInput";
         }
 
@@ -206,12 +202,17 @@ public class DisposalController {
             model.addAttribute("error", "廃棄数は1以上で入力してください");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
-
             return "stock/DisposalInput";
         }
 
+        session.removeAttribute("disposalConfirm");
+
         // 登録処理
         disposalService.executeDisposal(disposal);
+
+        // ★ここ追加（Alertと揃える）
+        model.addAttribute("productName",
+            product != null ? product.getProductName() : "");
 
         return "stock/DisposalComplete";
     }
@@ -227,25 +228,35 @@ public class DisposalController {
         return "stock/DisposalEditSearch";
     }
 
-    // 検索実行
+    // URL直打ち対策
+    @GetMapping("/stock/DisposalEdit")
+    public String editDisposalGet() {
+        return "redirect:/stock/DisposalEditSearch";
+    }
+    
     @PostMapping("/stock/DisposalEdit")
-    public String editDisposal(@RequestParam("disposalId") Integer id, Model model) {
+    public String editDisposal(@RequestParam("disposalId") Integer id,
+                               Model model,
+                               HttpSession session) {
 
         DisposalEntity disposal = disposalService.findById(id);
 
-        if (disposal == null) {
+        // ★① 廃棄データ存在チェック＋論理削除チェック
+        if (disposal == null || disposal.isDeleted()) {
             model.addAttribute("errorMessage", "廃棄ID " + id + " は存在しません");
             return "stock/DisposalEditSearch";
         }
 
-        ProductEntity product = productService.findById(disposal.getProductId());
+        // ★② 商品も論理削除チェック込みで取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
 
         if (product == null) {
-            model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
+            model.addAttribute("errorMessage", "対象商品が存在しません");
             return "stock/DisposalEditSearch";
         }
 
-        // ★① 7日制限のみ残す
+        // ★③ 7日制限
         if (disposal.getCreatedAt() != null &&
             disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
 
@@ -253,13 +264,20 @@ public class DisposalController {
             return "stock/DisposalEditSearch";
         }
 
-        model.addAttribute("disposal", disposal);
-        model.addAttribute("product", product);
+        // ★④ ここ追加（フラグ）
+        session.setAttribute("fromDisposalEditSearch", true);
 
-        return "stock/DisposalEdit";
+        // ★⑤ redirectに変更（超重要）
+        return "redirect:/stock/DisposalEdit/" + id;
     }
     
-	 // 編集確認画面
+    // URL直打ち対策
+    @GetMapping("/stock/DisposalEditConfirm")
+    public String disposalEditConfirmGet() {
+        return "redirect:/stock/DisposalEditSearch";
+    }
+    
+    // 編集確認画面
     @PostMapping("/stock/DisposalEditConfirm")
     public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model,
     													HttpSession session) {
@@ -318,34 +336,60 @@ public class DisposalController {
         return "stock/DisposalEditConfirm";
     }
     
-    // 廃棄編集画面（入力画面に戻る）
     @GetMapping("/stock/DisposalEdit/{id}")
-    public String disposalEdit(@PathVariable Integer id, Model model) {
+    public String disposalEdit(@PathVariable Integer id,
+                               Model model,
+                               HttpSession session) {
+
+        // ★① 入口チェック（直打ち防止）
+        Boolean fromSearch = (Boolean) session.getAttribute("fromDisposalEditSearch");
+
+        if (fromSearch == null || !fromSearch) {
+            return "redirect:/stock/DisposalEditSearch";
+        }
+
+        // ★通過したらフラグ削除（使い回し防止）
+        session.removeAttribute("fromDisposalEditSearch");
+
+
+        // ★② 廃棄データ取得
         DisposalEntity disposal = disposalService.findById(id);
 
-        if (disposal == null) {
-            // 該当レコードがなければ検索画面に戻す
-            model.addAttribute("errorMessage", "廃棄ID " + id + " は存在しません");
-            return "stock/DisposalEditSearch";
+        if (disposal == null || disposal.isDeleted()) {
+            return "redirect:/stock/DisposalEditSearch";
         }
 
-        // 対応する商品情報も取得
-        ProductEntity product = productService.findById(disposal.getProductId());
+        // ★③ 7日制限
+        if (disposal.getCreatedAt() != null &&
+            disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+            return "redirect:/stock/DisposalEditSearch";
+        }
+
+        // ★④ 商品（論理削除チェック込み）
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
 
         if (product == null) {
-            // 商品情報が存在しない場合も検索画面に戻す
-            model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
-            return "stock/DisposalEditSearch";
+            return "redirect:/stock/DisposalEditSearch";
         }
 
-        // 商品リストも取得しておく（編集画面で select を生成する場合に必要）
+        // 商品リスト
         List<ProductEntity> productList = productService.findAll();
 
         model.addAttribute("disposal", disposal);
         model.addAttribute("product", product);
         model.addAttribute("productList", productList);
 
-        return "stock/DisposalEdit"; // 入力画面のHTML
+        return "stock/DisposalEdit";
+    }
+    
+    // GETで来た場合は不正なので検索画面へ
+    @GetMapping("/stock/DisposalEditSave")
+    public String disposalEditSaveGet() {
+
+        // GETで来た場合は不正なので検索画面へ
+        return "redirect:/stock/DisposalEditSearch";
     }
     
     @PostMapping("/stock/DisposalEditSave")
@@ -414,7 +458,7 @@ public class DisposalController {
             model.addAttribute("errorMessage", "廃棄数が在庫を超えています");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
-            return "stock/DisposalConfirm";
+            return "stock/DisposalEditConfirm";
         }
 
         // ⑦ 成功
@@ -427,25 +471,28 @@ public class DisposalController {
         return "stock/DisposalDeleteSearch";
     }
 
-    // 廃棄削除検索実行
     @PostMapping("/stock/DisposalDeleteConfirm")
     public String disposalDeleteConfirm(@RequestParam("disposalId") Integer id, Model model,
-    																  HttpSession session) {
+                                                                  HttpSession session) {
 
         DisposalEntity disposal = disposalService.findById(id);
-        if (disposal == null) {
+
+        // ★① 廃棄の論理削除チェック
+        if (disposal == null || disposal.isDeleted()) {
             model.addAttribute("errorMessage", "廃棄ID " + id + " は存在しません");
             return "stock/DisposalDeleteSearch";
         }
 
-        // 商品情報も取得
-        ProductEntity product = productService.findById(disposal.getProductId());
+        // ★② 商品も論理削除込みで取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
+
         if (product == null) {
-            model.addAttribute("errorMessage", "廃棄ID " + id + " の対象商品が存在しません");
+            model.addAttribute("errorMessage", "対象商品が存在しません");
             return "stock/DisposalDeleteSearch";
         }
-        
-     // ★追加：7日制限チェック
+
+        // ★③ 7日制限チェック
         if (disposal.getCreatedAt() != null &&
             disposal.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
 
@@ -453,12 +500,11 @@ public class DisposalController {
             return "stock/DisposalDeleteSearch";
         }
 
-
         model.addAttribute("disposal", disposal);
         model.addAttribute("product", product);
         session.setAttribute("disposalDeleteConfirm", true);
 
-        return "stock/DisposalDeleteConfirm"; // 確認画面に遷移
+        return "stock/DisposalDeleteConfirm";
     }
 
     // 廃棄削除実行（論理削除）
@@ -475,18 +521,20 @@ public class DisposalController {
         session.removeAttribute("disposalDeleteConfirm");
 
         DisposalEntity target = disposalService.findById(disposal.getId());
-        if (target == null) {
-            model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " が存在しません");
-            return "stock/DisposalDeleteSearch";
-        }
 
-        // ★最終防衛：7日制限チェック（必須）
-        if (target.getCreatedAt() != null &&
-            target.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+	     // ★① 存在＋論理削除チェック（必須）
+	     if (target == null || target.isDeleted()) {
+	         model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " が存在しません");
+	         return "stock/DisposalDeleteSearch";
+	     }
 
-            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
-            return "stock/DisposalDeleteSearch";
-        }
+	  // ★最終防衛②（7日制限）
+	     if (target.getCreatedAt() != null &&
+	         target.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+	         model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
+	         return "stock/DisposalDeleteSearch";
+	     }
 
         // 論理削除実行
         disposalService.executeDelete(target.getId());
@@ -494,7 +542,7 @@ public class DisposalController {
         return "stock/DisposalDeleteComplete";
     }
     
- // 廃棄一覧表示（論理削除されていないものだけ）
+    // 廃棄一覧表示（論理削除されていないものだけ）
     @GetMapping("/stock/DisposalList")
     public String showDisposalList(Model model) {
 
