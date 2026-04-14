@@ -49,4 +49,8 @@ public interface ProductRepository
 
     // JANコード + 商品名 完全一致（論理削除除外）
     List<ProductEntity> findByJanCodeAndProductNameAndDeletedFalse(String janCode, String productName);
+    
+    boolean existsByJanCodeAndDeletedFalse(String janCode);
+    
+    boolean existsByJanCodeAndDeletedFalseAndIdNot(String janCode, Integer id);
 }

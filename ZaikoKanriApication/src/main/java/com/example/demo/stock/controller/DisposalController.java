@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,18 +66,22 @@ public class DisposalController {
     // 廃棄数入力画面
     @GetMapping("/stock/DisposalInput/{id}")
     public String disposalInput(@PathVariable Integer id, Model model) {
-        ProductEntity product = productService.findById(id);
+
+        // ★削除されていない商品だけ取得
+        ProductEntity product = productService.findByIdAndDeletedFalse(id);
+
         if (product == null) {
-            // 商品が存在しない場合は一覧に戻す
+            // 存在しない or 論理削除済は弾く
             return "redirect:/stock/DisposalRegister";
         }
 
         // DisposalEntity に productId をセットしておく
         DisposalEntity disposal = new DisposalEntity();
-        disposal.setProductId(product.getId()); // ←ここがポイント
+        disposal.setProductId(product.getId());
 
         model.addAttribute("product", product);
-        model.addAttribute("disposal", disposal); // 新規廃棄データ
+        model.addAttribute("disposal", disposal);
+
         return "stock/DisposalInput";
     }
     
@@ -94,16 +100,19 @@ public class DisposalController {
     @PostMapping("/stock/DisposalConfirm")
     public String disposalConfirm(
             @ModelAttribute DisposalEntity disposal,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
-        ProductEntity product = productService.findById(disposal.getProductId());
+        // ★削除されていない商品だけ取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
 
         if (product == null) {
             model.addAttribute("error", "商品が存在しません");
             return "stock/DisposalInput";
         }
 
-        // ★在庫チェック（ここ追加）
+        // ★在庫チェック
         Integer stock = product.getStock();
         if (stock == null) stock = 0;
 
@@ -117,15 +126,15 @@ public class DisposalController {
             return "stock/DisposalInput";
         }
 
-     // ★追加：数量1チェック（ここ）
+        // ★数量1チェック
         if (qty <= 0) {
             model.addAttribute("error", "廃棄数は1以上で入力してください");
             model.addAttribute("product", product);
             model.addAttribute("disposal", disposal);
             return "stock/DisposalInput";
         }
-        
-        // 未来日チェック
+
+        // ★未来日チェック
         if (disposal.getDisposalDate() != null &&
             disposal.getDisposalDate().isAfter(LocalDate.now())) {
 
@@ -138,23 +147,35 @@ public class DisposalController {
         model.addAttribute("product", product);
         model.addAttribute("disposal", disposal);
 
+        session.setAttribute("disposalConfirm", true);
+
         return "stock/DisposalConfirm";
     }
     
 
-    // 廃棄保存処理
+ // 廃棄保存処理
     @PostMapping("/stock/DisposalSave")
-    public String disposalSave(@ModelAttribute DisposalEntity disposal, Model model) {
+    public String disposalSave(@ModelAttribute DisposalEntity disposal, Model model,
+                                                  HttpSession session) {
 
-        // 商品情報取得
-        ProductEntity product = productService.findById(disposal.getProductId());
+        Boolean flag = (Boolean) session.getAttribute("disposalConfirm");
+
+        if (flag == null || !flag) {
+            return "redirect:/stock/DisposalRegister";
+        }
+
+        session.removeAttribute("disposalConfirm");
+
+        // ★削除されていない商品だけ取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
 
         if (product == null) {
             model.addAttribute("error", "商品が存在しません");
             return "stock/DisposalInput";
         }
 
-        // ★最終防衛：未来日チェック
+        // ★未来日チェック
         if (disposal.getDisposalDate() != null &&
             disposal.getDisposalDate().isAfter(LocalDate.now())) {
 
@@ -165,7 +186,7 @@ public class DisposalController {
             return "stock/DisposalInput";
         }
 
-        // ★最終防衛：在庫チェック追加（ここ重要）
+        // ★在庫チェック
         Integer stock = product.getStock();
         if (stock == null) stock = 0;
 
@@ -179,8 +200,8 @@ public class DisposalController {
 
             return "stock/DisposalInput";
         }
-        
-     // ★追加：数量0チェック（ここ）
+
+        // ★数量チェック
         if (qty <= 0) {
             model.addAttribute("error", "廃棄数は1以上で入力してください");
             model.addAttribute("product", product);
@@ -240,9 +261,16 @@ public class DisposalController {
     
 	 // 編集確認画面
     @PostMapping("/stock/DisposalEditConfirm")
-    public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model) {
+    public String disposalEditConfirm(@ModelAttribute DisposalEntity disposal, Model model,
+    													HttpSession session) {
+    	
+	    	DisposalEntity dbData = disposalService.findById(disposal.getId());
+	
+	    	if (dbData == null || dbData.isDeleted()) {
+	    	    return "redirect:/stock/DisposalEditSearch";
+	    	}
 
-        ProductEntity product = productService.findById(disposal.getProductId());
+    		ProductEntity product = productService.findByIdAndDeletedFalse(disposal.getProductId());
 
         if (product == null) {
             model.addAttribute("errorMessage", "対象商品が存在しません");
@@ -285,6 +313,7 @@ public class DisposalController {
 
         model.addAttribute("disposal", disposal);
         model.addAttribute("product", product);
+        session.setAttribute("disposalEditConfirm", true);
 
         return "stock/DisposalEditConfirm";
     }
@@ -320,7 +349,16 @@ public class DisposalController {
     }
     
     @PostMapping("/stock/DisposalEditSave")
-    public String disposalEditSave(@ModelAttribute DisposalEntity disposal, Model model) {
+    public String disposalEditSave(@ModelAttribute DisposalEntity disposal, Model model,
+    								                  HttpSession session) {
+    	
+	    	Boolean flag = (Boolean) session.getAttribute("disposalEditConfirm");
+	
+	    	if (flag == null || !flag) {
+	    	    return "redirect:/stock/DisposalEditSearch";
+	    	}
+	
+	    	session.removeAttribute("disposalEditConfirm");
 
         // ① 編集前データ取得
         DisposalEntity oldDisposal = disposalService.findById(disposal.getId());
@@ -339,7 +377,8 @@ public class DisposalController {
         }
 
         // ③ 商品取得
-        ProductEntity product = productService.findById(disposal.getProductId());
+        ProductEntity product =
+        	    productService.findByIdAndDeletedFalse(oldDisposal.getProductId());
         if (product == null) {
             model.addAttribute("errorMessage", "対象の商品が存在しません");
             model.addAttribute("disposal", disposal);
@@ -390,7 +429,8 @@ public class DisposalController {
 
     // 廃棄削除検索実行
     @PostMapping("/stock/DisposalDeleteConfirm")
-    public String disposalDeleteConfirm(@RequestParam("disposalId") Integer id, Model model) {
+    public String disposalDeleteConfirm(@RequestParam("disposalId") Integer id, Model model,
+    																  HttpSession session) {
 
         DisposalEntity disposal = disposalService.findById(id);
         if (disposal == null) {
@@ -416,13 +456,23 @@ public class DisposalController {
 
         model.addAttribute("disposal", disposal);
         model.addAttribute("product", product);
+        session.setAttribute("disposalDeleteConfirm", true);
 
         return "stock/DisposalDeleteConfirm"; // 確認画面に遷移
     }
 
     // 廃棄削除実行（論理削除）
     @PostMapping("/stock/DisposalDeleteComplete")
-    public String disposalDeleteComplete(@ModelAttribute DisposalEntity disposal, Model model) {
+    public String disposalDeleteComplete(@ModelAttribute DisposalEntity disposal, Model model,
+    													   HttpSession session) {
+    	
+    		Boolean flag = (Boolean) session.getAttribute("disposalDeleteConfirm");
+
+        if (flag == null || !flag) {
+            return "redirect:/stock/DisposalDeleteSearch";
+        }
+
+        session.removeAttribute("disposalDeleteConfirm");
 
         DisposalEntity target = disposalService.findById(disposal.getId());
         if (target == null) {

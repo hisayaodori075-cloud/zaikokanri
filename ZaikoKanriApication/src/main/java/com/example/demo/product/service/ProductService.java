@@ -121,4 +121,20 @@ public class ProductService {
 
         return List.of();
     }
+    
+    public boolean isJanCodeDuplicate(String janCode) {
+
+        if (janCode == null || janCode.isBlank()) return false;
+
+        return productRepository.existsByJanCodeAndDeletedFalse(janCode.trim());
+    }
+
+    // 編集用（自分以外）
+    public boolean isJanCodeDuplicateForUpdate(String janCode, Integer id) {
+
+        if (janCode == null || janCode.isBlank()) return false;
+
+        return productRepository
+            .existsByJanCodeAndDeletedFalseAndIdNot(janCode.trim(), id);
+    }
 }

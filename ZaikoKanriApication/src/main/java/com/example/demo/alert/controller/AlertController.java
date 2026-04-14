@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,11 +103,11 @@ public class AlertController {
     @GetMapping("/AlertSettingRegister/{id}")
     public String alertSettingRegister(@PathVariable Integer id, Model model) {
         // 商品情報取得
-        ProductEntity product = productService.findById(id);
-        if (product == null) {
-            // 商品が存在しない場合は一覧に戻す
-            return "redirect:/alert/AlertSettingList";
-        }
+	    	ProductEntity product = productService.findByIdAndDeletedFalse(id);
+	
+	    	if (product == null) {
+	    	    return "redirect:/alert/AlertSettingList";
+	    	}
 
         // 既存のアラート設定を取得
         AlertSettingEntity alertSetting = alertService.findByProductId(product.getId());
@@ -122,8 +124,14 @@ public class AlertController {
     }
 
     @PostMapping("AlertSettingConfirm")
-    public String alertSettingConfirm(@ModelAttribute AlertSettingEntity alertSetting, Model model) {
-        ProductEntity product = productService.findById(alertSetting.getProductId());
+    public String alertSettingConfirm(@ModelAttribute AlertSettingEntity alertSetting, Model model,
+    													HttpSession session) {
+	    	ProductEntity product =
+	    	        productService.findByIdAndDeletedFalse(alertSetting.getProductId());
+	
+	    	if (product == null) {
+	    	    return "redirect:/alert/AlertSettingList";
+	    	}
         
         Integer minStock = alertSetting.getMinStock();
         if (minStock == null || minStock <= 0) {
@@ -135,6 +143,7 @@ public class AlertController {
         
         model.addAttribute("product", product);
         model.addAttribute("alertSetting", alertSetting);
+        session.setAttribute("alertConfirm", true);
         
         return "alert/AlertSettingConfirm"; // 確認画面テンプレート
     }
@@ -143,20 +152,34 @@ public class AlertController {
     @PostMapping("AlertSettingComplete")
     public String minStockComplete(
             @ModelAttribute AlertSettingEntity alertSetting,
-            Model model) {
+            Model model,
+            HttpSession session) {
+    		
+	    	Boolean flag = (Boolean) session.getAttribute("alertConfirm");
+	
+	    	if (flag == null || !flag) {
+	    	    return "redirect:/alert/AlertSettingList";
+	    	}
 
         // ★数量チェック（最終防衛）
         Integer minStock = alertSetting.getMinStock();
         if (minStock == null || minStock <= 0) {
             model.addAttribute("error", "最低在庫数は1以上で入力してください");
 
-            ProductEntity product = productService.findById(alertSetting.getProductId());
+            ProductEntity product =
+                    productService.findByIdAndDeletedFalse(alertSetting.getProductId());
+
+            if (product == null) {
+                return "redirect:/alert/AlertSettingList";
+            }
             model.addAttribute("product", product);
             model.addAttribute("alertSetting", alertSetting);
 
             return "alert/AlertSettingRegister";
         }
 
+        session.removeAttribute("alertConfirm");
+        
         // 保存
         alertService.save(alertSetting);
 
@@ -183,7 +206,8 @@ public class AlertController {
     @PostMapping("/AlertRotationSettingConfirm")
     public String rotationSettingConfirm(
             @ModelAttribute AlertRotationSettingEntity rotationSetting,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
         // ★日数チェック
         Integer urgentDays = rotationSetting.getUrgentDays();
@@ -210,6 +234,8 @@ public class AlertController {
 
             return "alert/AlertRotationSetting";
         }
+        
+        session.setAttribute("rotationConfirm", true);
 
         model.addAttribute("rotationSetting", rotationSetting);
 
@@ -219,7 +245,14 @@ public class AlertController {
     @PostMapping("/AlertRotationSettingComplete")
     public String rotationSettingComplete(
             @ModelAttribute AlertRotationSettingEntity rotationSetting,
-            Model model) {
+            Model model,
+            HttpSession session) {
+    	
+	    	Boolean flag = (Boolean) session.getAttribute("rotationConfirm");
+	
+	    	if (flag == null || !flag) {
+	    	    return "redirect:/alert/AlertRotationSetting";
+	    	}
 
         // ★日数チェック
         Integer urgentDays = rotationSetting.getUrgentDays();
@@ -260,6 +293,7 @@ public class AlertController {
         }
 
         model.addAttribute("rotationSetting", rotationSetting);
+        session.removeAttribute("rotationConfirm");
 
         return "alert/AlertRotationSettingComplete";
     }
