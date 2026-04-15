@@ -29,6 +29,11 @@ public class ProductController {
         model.addAttribute("product", new ProductEntity());
         return "product/newproduct";
     }
+    
+    @GetMapping("/confirm")
+    public String confirmGet() {
+        return "redirect:/product/newproduct";
+    }
 
     @PostMapping("/confirm")
     public String confirm(@ModelAttribute ProductEntity product, 
@@ -66,6 +71,11 @@ public class ProductController {
         return "product/confirm";
     }
 
+    @GetMapping("/save")
+    public String saveGet() {
+        return "redirect:/product/newproduct";
+    }
+    
     @PostMapping("/save")
     public String save(@ModelAttribute ProductEntity product, 
     									  Model model,
@@ -123,26 +133,31 @@ public class ProductController {
 	    }
 
     @PostMapping("/ProductEdit/{id}")
-    public String editSubmit(@ModelAttribute ProductEntity product, Model model) {
+    public String editSubmit(@ModelAttribute ProductEntity product,
+                             Model model,
+                             HttpSession session) {
 
-        // ★バリデーション追加
+        // ★バリデーション
         if (product.getPurchasePrice() != null && product.getPurchasePrice() < 0) {
             model.addAttribute("error", "仕入価格にマイナスは入力できません");
+            model.addAttribute("product", product);
             return "product/ProductEdit";
         }
 
         if (product.getPrice() != null && product.getPrice() < 0) {
             model.addAttribute("error", "売価にマイナスは入力できません");
+            model.addAttribute("product", product);
             return "product/ProductEdit";
         }
 
         if (product.getJanCode() != null &&
                 product.getJanCode().contains("-")) {
-                model.addAttribute("error", "JANコードにマイナスは使用できません");
-                model.addAttribute("product", product); // ★これ追加
-                return "product/ProductEdit";
-            }
-        
+
+            model.addAttribute("error", "JANコードにマイナスは使用できません");
+            model.addAttribute("product", product);
+            return "product/ProductEdit";
+        }
+
         // JAN重複チェック
         if (productService.isJanCodeDuplicateForUpdate(
                 product.getJanCode(), product.getId())) {
@@ -152,8 +167,16 @@ public class ProductController {
             return "product/ProductEdit";
         }
 
+        // ★ここが追加（廃棄と同じ思想）
+        session.setAttribute("productEditConfirm", true);
+
         model.addAttribute("product", product);
         return "product/ProductEditConfirm";
+    }
+    
+    @GetMapping("/ProductEditComplete")
+    public String editCompleteGet() {
+        return "redirect:/product/ProductMasterList";
     }
 
     @PostMapping("/ProductEditComplete")
@@ -218,6 +241,11 @@ public class ProductController {
         return "product/ProductDelete";
     }
 
+    @GetMapping("/ProductDeleteComplete/{id}")
+    public String deleteCompleteGet(@PathVariable Integer id) {
+        return "redirect:/product/ProductMasterList";
+    }
+    
     @PostMapping("/ProductDeleteComplete/{id}")
     public String deleteComplete(@PathVariable Integer id) {
         productService.deleteProduct(id);

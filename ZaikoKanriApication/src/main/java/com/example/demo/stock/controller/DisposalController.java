@@ -489,6 +489,11 @@ public class DisposalController {
         return "stock/DisposalDeleteSearch";
     }
 
+    @GetMapping("/stock/DisposalDeleteConfirm")
+    public String disposalDeleteConfirmGet() {
+        return "redirect:/stock/DisposalDeleteSearch";
+    }
+    
     @PostMapping("/stock/DisposalDeleteConfirm")
     public String disposalDeleteConfirm(@RequestParam("disposalId") Integer id, Model model,
                                                                   HttpSession session) {
@@ -525,6 +530,11 @@ public class DisposalController {
         return "stock/DisposalDeleteConfirm";
     }
 
+    @GetMapping("/stock/DisposalDeleteComplete")
+    public String disposalDeleteCompleteGet() {
+        return "redirect:/stock/DisposalDeleteSearch";
+    }
+    
     // 廃棄削除実行（論理削除）
     @PostMapping("/stock/DisposalDeleteComplete")
     public String disposalDeleteComplete(@ModelAttribute DisposalEntity disposal, Model model,

@@ -123,6 +123,11 @@ public class AlertController {
         return "alert/AlertSettingRegister"; // Thymeleaf フォーム名
     }
 
+    @GetMapping("/AlertSettingConfirm")
+    public String alertSettingConfirmGet() {
+        return "redirect:/alert/AlertSettingList";
+    }
+    
     @PostMapping("AlertSettingConfirm")
     public String alertSettingConfirm(@ModelAttribute AlertSettingEntity alertSetting, Model model,
     													HttpSession session) {
@@ -148,7 +153,12 @@ public class AlertController {
         return "alert/AlertSettingConfirm"; // 確認画面テンプレート
     }
 
- // 完了画面（DB保存）
+    @GetMapping("/AlertSettingComplete")
+    public String alertSettingCompleteGet() {
+        return "redirect:/alert/AlertSettingList";
+    }
+    
+    // 完了画面（DB保存）
     @PostMapping("AlertSettingComplete")
     public String minStockComplete(
             @ModelAttribute AlertSettingEntity alertSetting,
@@ -203,6 +213,11 @@ public class AlertController {
         return "alert/AlertRotationSetting";
     }
     
+    @GetMapping("/AlertRotationSettingConfirm")
+    public String rotationConfirmGet() {
+        return "redirect:/alert/AlertRotationSetting";
+    }
+    
     @PostMapping("/AlertRotationSettingConfirm")
     public String rotationSettingConfirm(
             @ModelAttribute AlertRotationSettingEntity rotationSetting,
@@ -240,6 +255,11 @@ public class AlertController {
         model.addAttribute("rotationSetting", rotationSetting);
 
         return "alert/AlertRotationSettingConfirm";
+    }
+    
+    @GetMapping("/AlertRotationSettingComplete")
+    public String rotationCompleteGet() {
+        return "redirect:/alert/AlertRotationSetting";
     }
     
     @PostMapping("/AlertRotationSettingComplete")
