@@ -87,14 +87,27 @@ public class DisposalController {
     
     // 戻る用
     @PostMapping("/stock/DisposalInput")
-    public String backToInput(@ModelAttribute DisposalEntity disposal, Model model) {
+    public String backToInput(@ModelAttribute DisposalEntity disposal,
+                              Model model) {
 
-        ProductEntity product = productService.findById(disposal.getProductId());
+        // ★① 商品取得（論理削除込み）
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
+
+        // ★② 存在チェック
+        if (product == null) {
+            return "redirect:/stock/DisposalRegister";
+        }
 
         model.addAttribute("product", product);
         model.addAttribute("disposal", disposal);
 
         return "stock/DisposalInput";
+    }
+    
+    @GetMapping("/stock/DisposalConfirm")
+    public String disposalConfirmGet() {
+        return "redirect:/stock/DisposalRegister";
     }
     
     @PostMapping("/stock/DisposalConfirm")
@@ -152,8 +165,13 @@ public class DisposalController {
         return "stock/DisposalConfirm";
     }
     
-
- // 廃棄保存処理
+    @GetMapping("/stock/DisposalComplete")
+    public String disposalCompleteGet() {
+        return "redirect:/stock/DisposalRegister";
+    }
+ 
+    
+    // 廃棄保存処理
     @PostMapping("/stock/DisposalSave")
     public String disposalSave(@ModelAttribute DisposalEntity disposal, Model model,
                                                   HttpSession session) {
@@ -460,7 +478,7 @@ public class DisposalController {
             model.addAttribute("disposal", disposal);
             return "stock/DisposalEditConfirm";
         }
-
+        
         // ⑦ 成功
         return "stock/DisposalEditComplete";
     }

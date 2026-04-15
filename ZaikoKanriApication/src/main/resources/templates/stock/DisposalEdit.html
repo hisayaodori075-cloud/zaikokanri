@@ -46,7 +46,13 @@
 				
 				<!-- 廃棄理由 -->
 				<label>廃棄理由</label>
-				<p th:text="*{reason}">廃棄理由</p>
+				<select th:field="*{reason}" required>
+					<option value="">選択してください</option>
+					<option value="賞味期限切れ">賞味期限切れ</option>
+					<option value="破損">破損</option>
+					<option value="不良品">不良品</option>
+					<option value="その他">その他</option>
+				</select>
 
             </div>
 
