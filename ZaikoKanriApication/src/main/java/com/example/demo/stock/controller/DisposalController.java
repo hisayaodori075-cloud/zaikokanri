@@ -165,7 +165,7 @@ public class DisposalController {
         return "stock/DisposalConfirm";
     }
     
-    @GetMapping("/stock/DisposalComplete")
+    @GetMapping("/stock/DisposalSave")
     public String disposalCompleteGet() {
         return "redirect:/stock/DisposalRegister";
     }
@@ -287,6 +287,34 @@ public class DisposalController {
 
         // ★⑤ redirectに変更（超重要）
         return "redirect:/stock/DisposalEdit/" + id;
+    }
+    
+    @GetMapping("/stock/DisposalEditBack/{id}")
+    public String disposalEditBack(@PathVariable Integer id, Model model) {
+
+        // 廃棄データ取得
+        DisposalEntity disposal = disposalService.findById(id);
+
+        if (disposal == null || disposal.isDeleted()) {
+            return "redirect:/stock/DisposalEditSearch";
+        }
+
+        // 商品取得（論理削除込み）
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(disposal.getProductId());
+
+        if (product == null) {
+            return "redirect:/stock/DisposalEditSearch";
+        }
+
+        // 商品一覧（select用なら）
+        List<ProductEntity> productList = productService.findAll();
+
+        model.addAttribute("disposal", disposal);
+        model.addAttribute("product", product);
+        model.addAttribute("productList", productList);
+
+        return "stock/DisposalEdit";
     }
     
     // URL直打ち対策

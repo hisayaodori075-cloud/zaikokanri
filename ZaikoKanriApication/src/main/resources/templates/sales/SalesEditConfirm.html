@@ -3,9 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>登録内容確認</title>
-
-    <!-- CSS読み込み -->
+    <title>販売数編集確認</title>
     <link rel="stylesheet" th:href="@{/sales/SalesEditConfirm.css}">
 </head>
 
@@ -13,41 +11,47 @@
 
 <div class="container">
 
-    <h2>登録内容編集確認</h2>
+    <h2>販売数編集確認</h2>
 
-    <div class="info-box">
-        商品名: <span th:text="${product.productName}"></span><br>
-        販売数: <span th:text="${sales.salesQuantity}"></span><br>
-        販売日: <span th:text="${sales.salesDate}"></span><br>
+    <!-- ★th:objectをここに置く（超重要） -->
+    <div class="form-box" th:object="${sales}">
+
+        <!-- ID -->
+        <label>ID</label>
+        <span th:text="*{id}"></span>
+        <input type="hidden" th:field="*{id}">
+
+        <!-- 商品名 -->
+        <label>商品名</label>
+        <span th:text="${product.productName}"></span>
+        <input type="hidden" th:field="*{productId}">
+
+        <!-- 販売数 -->
+        <label>販売数</label>
+        <span th:text="*{salesQuantity}"></span>
+        <input type="hidden" th:field="*{salesQuantity}">
+
+        <!-- 販売日 -->
+        <label>販売日</label>
+        <span th:text="*{salesDate}"></span>
+        <input type="hidden" th:field="*{salesDate}">
+
     </div>
 
     <div class="button-area">
 
-        <form th:action="@{/sales/SalesEditSave}"
-              th:object="${sales}"
-              method="post">
-
-            <input type="hidden" th:field="*{id}" />
-            <input type="hidden" th:field="*{productId}" />
-            <input type="hidden" th:field="*{salesQuantity}" />
-            <input type="hidden" th:field="*{salesDate}" />
-
-            <button type="submit">
-                登録する
-            </button>
-
+        <!-- 更新 -->
+        <form th:action="@{/sales/SalesEditSave}" th:object="${sales}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{productId}">
+            <input type="hidden" th:field="*{salesQuantity}">
+            <input type="hidden" th:field="*{salesDate}">
+            <button type="submit">更新</button>
         </form>
 
-        <form th:action="@{/sales/SalesEdit}" method="post">
-
-            <input type="hidden"
-                   name="id"
-                   th:value="${sales.id}">
-
-            <button type="submit">
-                戻る
-            </button>
-
+        <!-- 戻る（GETで統一） -->
+        <form th:action="@{/sales/SalesEditBack/{id}(id=${sales.id})}" method="get">
+            <button type="submit">戻る</button>
         </form>
 
     </div>

@@ -2,6 +2,7 @@ package com.example.demo.stock.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional; // ★これも忘れず追加
 
 import jakarta.transaction.Transactional;
 
@@ -32,6 +33,9 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 
     // 削除されていないものだけ取得
     List<SalesEntity> findByDeletedFalse();
+
+    // ★追加：ID検索（論理削除除外）
+    Optional<SalesEntity> findByIdAndDeletedFalse(Integer id);
 
     // -----------------------------
     // 販売履歴一覧（新しい順）
