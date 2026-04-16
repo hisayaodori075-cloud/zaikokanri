@@ -12,16 +12,16 @@
 <div class="container">
 
     <h1>返品商品検索</h1>
-	
-	<div th:if="${error}" style="color:red; margin-bottom:10px;">
-		<p th:text="${error}"></p>
-	</div>
 
     <div class="back-area">
         <a th:href="@{/stock/ReturnMenu}">
             <button type="button">戻る</button>
         </a>
     </div>
+	
+	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+			<p th:text="${errorMessage}"></p>
+	</div>
 
     <form th:action="@{/stock/ReturnRegister}" method="get" class="search-form">
 

@@ -52,6 +52,7 @@ public class StockController {
         return "stock/ArrivalControll";
     }
     
+    // ---------------- 入荷数入力 ----------------
     @GetMapping("/StockInRegister")
     public String stockInRegister(
             @RequestParam(required = false) Integer productId,

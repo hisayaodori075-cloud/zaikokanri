@@ -11,7 +11,12 @@
 
 <div class="container">
 
-    <h2>返品内容確認</h2>
+    <h2>返品削除確認</h2>
+
+    <!-- ★エラーメッセージ追加（統一） -->
+    <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
     <div class="info-box">
 
@@ -19,16 +24,20 @@
         <p>商品名: <span th:text="${product.productName}"></span></p>
         <p>返品数: <span th:text="${returnData.returnQuantity}"></span></p>
         <p>返品日: <span th:text="${returnData.returnDate}"></span></p>
-		<p>返品理由: <span th:text="${returnData.reason}"></span></p>
+        <p>返品理由: <span th:text="${returnData.reason}"></span></p>
 
     </div>
 
     <div class="button-area">
 
         <!-- 削除確定 -->
-        <form th:action="@{/stock/ReturnDeleteComplete}" th:object="${returnData}" method="post">
+        <form th:action="@{/stock/ReturnDeleteComplete}"
+              th:object="${returnData}"
+              method="post">
+
             <input type="hidden" th:field="*{id}">
             <button type="submit">削除する</button>
+
         </form>
 
         <!-- 戻る -->

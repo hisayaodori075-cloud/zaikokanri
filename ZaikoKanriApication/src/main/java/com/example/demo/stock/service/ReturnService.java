@@ -63,12 +63,18 @@ public class ReturnService {
     }
 
     // ★返品削除＋在庫戻し
-    public void executeDelete(Integer id) {
+    public boolean executeDelete(Integer id) {
 
         ReturnEntity data =
             returnRepository.findByIdAndDeletedFalse(id).orElse(null);
 
-        if (data == null) return;
+        if (data == null) return false;
+
+        // ★7日制限（ここ追加）
+        if (data.getCreatedAt() != null &&
+            data.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+            return false;
+        }
 
         data.setDeleted(true);
 
@@ -79,11 +85,12 @@ public class ReturnService {
             int stock = product.getStock() == null ? 0 : product.getStock();
             int qty = data.getReturnQuantity() == null ? 0 : data.getReturnQuantity();
 
-            // 在庫戻し
             product.setStock(stock + qty);
             productRepository.save(product);
         }
 
         returnRepository.save(data);
+
+        return true;
     }
 }

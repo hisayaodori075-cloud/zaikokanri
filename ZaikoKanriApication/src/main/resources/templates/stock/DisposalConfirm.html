@@ -12,6 +12,11 @@
     <div class="container">
 
         <h2>廃棄内容確認</h2>
+		
+		<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+			<p th:text="${errorMessage}"></p>
+		</div>
+
 
         <div class="info-box">
 

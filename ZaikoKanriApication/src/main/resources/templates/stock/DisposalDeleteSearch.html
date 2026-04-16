@@ -13,10 +13,10 @@
 
     <h1>廃棄削除検索</h1>
 
-    <p class="error-message"
-       th:if="${errorMessage}"
-       th:text="${errorMessage}">
-    </p>
+	<!-- エラーメッセージ -->
+	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+		<p th:text="${errorMessage}"></p>
+	</div>
 
     <div class="button-area">
         <a th:href="@{/stock/DisposalMenu}">

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>削除内容確認</title>
+    <title>販売削除確認</title>
     <link rel="stylesheet" th:href="@{/sales/SalesDeleteConfirm.css}">
 </head>
 
@@ -11,33 +11,39 @@
 
 <div class="container">
 
-    <h2>削除内容確認</h2>
+    <h2>販売削除確認</h2>
+    
+    <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
     <div class="info-box">
-        商品名: <span th:text="${product.productName}"></span><br>
-        販売数: <span th:text="${sales.salesQuantity}"></span><br>
-        入荷日: <span th:text="${sales.salesDate}"></span><br>
+
+        <!-- ★ID追加 -->
+        <p>販売ID: <span th:text="${sales.id}"></span></p>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>販売数: <span th:text="${sales.salesQuantity}"></span></p>
+        <p>販売日: <span th:text="${sales.salesDate}"></span></p>
+
     </div>
 
     <div class="button-area">
 
-        <form th:action="@{/sales/SalesDeleteComplete/{id}(id=${sales.id})}"
+        <!-- ★削除確定（構造統一） -->
+        <form th:action="@{/sales/SalesDeleteComplete}"
+              th:object="${sales}"
               method="post">
-            <button type="submit">
-                削除する
-            </button>
+
+            <input type="hidden" th:field="*{id}">
+            <button type="submit">削除する</button>
+
         </form>
 
-        <form th:action="@{/sales/SalesDeleteBack}"
-              method="post">
+        <!-- ★戻る（GET統一） -->
+        <form th:action="@{/sales/SalesDeleteSearch}"
+              method="get">
 
-            <input type="hidden"
-                   name="id"
-                   th:value="${sales.id}">
-
-            <button type="submit">
-                戻る
-            </button>
+            <button type="submit">戻る</button>
 
         </form>
 

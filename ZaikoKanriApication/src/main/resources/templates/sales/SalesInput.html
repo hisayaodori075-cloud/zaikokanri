@@ -12,13 +12,15 @@
 <div class="container">
 
     <h1>販売数入力</h1>
+	
+	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+			<p th:text="${errorMessage}"></p>
+	</div>
 
     <div class="product-info">
         商品名: <span th:text="${product.productName}"></span><br>
         JANコード: <span th:text="${product.janCode}"></span><br>
     </div>
-
-	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 
     <form th:action="@{/sales/SalesConfirm}"
           th:object="${sales}"

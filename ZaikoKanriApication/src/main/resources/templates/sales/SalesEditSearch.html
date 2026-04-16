@@ -15,25 +15,28 @@
 
     <h1>販売数処理修正検索</h1>
 
-    <p class="error-message"
-       th:if="${errorMessage}"
-       th:text="${errorMessage}">
-    </p>
+    <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
-    <a th:href="@{/sales/SalesManagement}">
-        <button type="button">
-            戻る
-        </button>
-    </a>
+    <!-- ★ここ統一 -->
+    <div class="button-area">
+        <a th:href="@{/sales/SalesManagement}">
+            <button type="button">
+                戻る
+            </button>
+        </a>
+    </div>
 
     <form th:action="@{/sales/SalesEdit}"
           method="post"
           class="form-box">
 
-        販売数ID
+        <!-- ★label追加 -->
+        <label>販売数ID</label>
 
         <input type="number"
-               name="id"
+               name="salesId"
                required>
 
         <div class="button-area">

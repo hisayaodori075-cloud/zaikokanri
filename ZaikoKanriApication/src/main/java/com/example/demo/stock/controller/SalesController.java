@@ -252,7 +252,7 @@ public class SalesController {
     }
 
     @PostMapping("/SalesEdit")
-    public String salesEdit(@RequestParam Integer id, Model model) {
+    public String salesEdit(@RequestParam("salesId") Integer id, Model model) {
 
         // ★① nullチェック（入荷と統一）
         if (id == null) {
@@ -521,8 +521,6 @@ public class SalesController {
         return "sales/SalesDeleteSearch";
     }
 
-    
-
     @PostMapping("/SalesDeleteBack")
     public String salesDeleteBack() {
 
@@ -535,10 +533,11 @@ public class SalesController {
     }
 
     @PostMapping("/SalesDeleteConfirm")
-    public String salesDeleteConfirm(@RequestParam Integer id,
-                                     Model model,
-                                     HttpSession session) {
-
+    public String salesDeleteConfirm(
+            @RequestParam("salesId") Integer id,
+            Model model,
+            HttpSession session) {
+    	
         // ★① 販売データ取得
         SalesEntity sales = salesService.findById(id);
 

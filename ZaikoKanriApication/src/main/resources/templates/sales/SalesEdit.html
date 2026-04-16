@@ -19,14 +19,6 @@
 	    <p th:text="${errorMessage}"></p>
 	</div>
 
-    <div class="back-area">
-        <a th:href="@{/sales/SalesEditSearch}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
-
     <form th:action="@{/sales/SalesEditConfirm}"
           th:object="${sales}"
           method="post"
@@ -59,6 +51,14 @@
         </div>
 
     </form>
+	
+	<div class="back-area">
+	    <a th:href="@{/sales/SalesEditSearch}">
+	       <button type="button">
+	          戻る
+	       </button>
+	    </a>
+	</div>
 
 </div>
 

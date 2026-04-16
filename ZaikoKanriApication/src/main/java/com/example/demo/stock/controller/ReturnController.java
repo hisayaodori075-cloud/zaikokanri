@@ -1,7 +1,10 @@
 package com.example.demo.stock.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,39 +46,47 @@ public class ReturnController {
                     .toList();
         }
 
-        // 商品名検索
+        // 商品ID検索
         if (productId != null) {
             productList = productList.stream()
                     .filter(p -> p.getId().equals(productId))
                     .toList();
         }
 
+        // ★エラーメッセージ統一
         if (productList.isEmpty()) {
-            model.addAttribute("error", "一致する商品がありません");
+            model.addAttribute("errorMessage", "一致する商品がありません");
         }
 
+        // ★ここも完全統一
         model.addAttribute("productList", productList);
         model.addAttribute("allProducts", allProducts);
 
         return "stock/ReturnRegister";
     }
 
-    // 返品数入力画面
+ // 返品数入力画面
     @GetMapping("/stock/ReturnInput/{id}")
     public String returnInput(@PathVariable Integer id, Model model) {
-        ProductEntity product = productService.findById(id);
+
+        // ★削除されていない商品だけ取得（統一）
+        ProductEntity product = productService.findByIdAndDeletedFalse(id);
+
         if (product == null) {
+            // 存在しない or 論理削除済は弾く
             return "redirect:/stock/ReturnRegister";
         }
 
+        // ★ReturnEntity に productId をセット
         ReturnEntity returnData = new ReturnEntity();
         returnData.setProductId(product.getId());
 
         model.addAttribute("product", product);
         model.addAttribute("returnData", returnData);
+
         return "stock/ReturnInput";
     }
-
+    
     @PostMapping("/stock/ReturnInput")
     public String backToInput(@ModelAttribute ReturnEntity returnData, Model model) {
         ProductEntity product = productService.findById(returnData.getProductId());
@@ -84,27 +95,36 @@ public class ReturnController {
         return "stock/ReturnInput";
     }
 
+ // ★GET直打ち対策
+    @GetMapping("/stock/ReturnConfirm")
+    public String returnConfirmGet() {
+        return "redirect:/stock/ReturnRegister";
+    }
+
     @PostMapping("/stock/ReturnConfirm")
     public String returnConfirm(
             @ModelAttribute ReturnEntity returnData,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
-        ProductEntity product = productService.findById(returnData.getProductId());
+        // ★削除されていない商品だけ取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(returnData.getProductId());
 
         if (product == null) {
-            model.addAttribute("error", "商品が存在しません");
+            model.addAttribute("errorMessage", "商品が存在しません");
             return "stock/ReturnInput";
         }
 
+        // ★在庫チェック
         Integer stock = product.getStock();
         if (stock == null) stock = 0;
 
         Integer qty = returnData.getReturnQuantity();
         if (qty == null) qty = 0;
 
-        // ★在庫チェック（追加）
         if (qty > stock) {
-            model.addAttribute("error", "返品数が在庫数を超えています");
+            model.addAttribute("errorMessage", "返品数が在庫数を超えています");
             model.addAttribute("product", product);
             model.addAttribute("returnData", returnData);
             return "stock/ReturnInput";
@@ -112,7 +132,7 @@ public class ReturnController {
 
         // ★数量チェック
         if (qty <= 0) {
-            model.addAttribute("error", "返品数は1以上で入力してください");
+            model.addAttribute("errorMessage", "返品数は1以上で入力してください");
             model.addAttribute("product", product);
             model.addAttribute("returnData", returnData);
             return "stock/ReturnInput";
@@ -122,7 +142,7 @@ public class ReturnController {
         if (returnData.getReturnDate() != null &&
             returnData.getReturnDate().isAfter(LocalDate.now())) {
 
-            model.addAttribute("error", "返品日は未来日を指定できません");
+            model.addAttribute("errorMessage", "返品日は未来日を指定できません");
             model.addAttribute("product", product);
             model.addAttribute("returnData", returnData);
             return "stock/ReturnInput";
@@ -131,21 +151,52 @@ public class ReturnController {
         model.addAttribute("product", product);
         model.addAttribute("returnData", returnData);
 
+        // ★セッション制御（統一）
+        session.setAttribute("returnConfirm", true);
+
         return "stock/ReturnConfirm";
+    }
+
+ // ★GET直打ち対策
+    @GetMapping("/stock/ReturnSave")
+    public String returnSaveGet() {
+        return "redirect:/stock/ReturnRegister";
     }
 
     // 返品保存処理
     @PostMapping("/stock/ReturnSave")
-    public String returnSave(@ModelAttribute ReturnEntity returnData, Model model) {
+    public String returnSave(
+            @ModelAttribute ReturnEntity returnData,
+            Model model,
+            HttpSession session) {
 
-        ProductEntity product = productService.findById(returnData.getProductId());
+        // ★セッションチェック（最重要）
+        Boolean flag = (Boolean) session.getAttribute("returnConfirm");
+
+        if (flag == null || !flag) {
+            return "redirect:/stock/ReturnRegister";
+        }
+
+        // ★削除されていない商品だけ取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(returnData.getProductId());
 
         if (product == null) {
-            model.addAttribute("error", "商品が存在しません");
+            model.addAttribute("errorMessage", "商品が存在しません");
             return "stock/ReturnInput";
         }
 
-        // ★最終防衛：在庫チェック
+        // ★未来日チェック
+        if (returnData.getReturnDate() != null &&
+            returnData.getReturnDate().isAfter(LocalDate.now())) {
+
+            model.addAttribute("errorMessage", "返品日は未来日を指定できません");
+            model.addAttribute("product", product);
+            model.addAttribute("returnData", returnData);
+            return "stock/ReturnInput";
+        }
+
+        // ★在庫チェック
         Integer stock = product.getStock();
         if (stock == null) stock = 0;
 
@@ -153,7 +204,7 @@ public class ReturnController {
         if (qty == null) qty = 0;
 
         if (qty > stock) {
-            model.addAttribute("error", "返品数が在庫数を超えています");
+            model.addAttribute("errorMessage", "返品数が在庫数を超えています");
             model.addAttribute("product", product);
             model.addAttribute("returnData", returnData);
             return "stock/ReturnInput";
@@ -161,29 +212,21 @@ public class ReturnController {
 
         // ★数量チェック
         if (qty <= 0) {
-            model.addAttribute("error", "返品数は1以上で入力してください");
+            model.addAttribute("errorMessage", "返品数は1以上で入力してください");
             model.addAttribute("product", product);
             model.addAttribute("returnData", returnData);
             return "stock/ReturnInput";
         }
 
-        // ★未来日チェック
-        if (returnData.getReturnDate() != null &&
-            returnData.getReturnDate().isAfter(java.time.LocalDate.now())) {
+        // ★セッション削除（再送防止）
+        session.removeAttribute("returnConfirm");
 
-            model.addAttribute("error", "返品日は未来日を指定できません");
-            model.addAttribute("product", product);
-            model.addAttribute("returnData", returnData);
-            return "stock/ReturnInput";
-        }
+        // ★登録処理
+        returnService.executeReturn(returnData);
 
-        // ★Serviceに処理を委譲
-        boolean result = returnService.executeReturn(returnData);
-
-        if (!result) {
-            model.addAttribute("error", "処理に失敗しました");
-            return "stock/ReturnInput";
-        }
+        // ★完了画面用（統一）
+        model.addAttribute("productName",
+            product != null ? product.getProductName() : "");
 
         return "stock/ReturnComplete";
     }
@@ -201,50 +244,92 @@ public class ReturnController {
         return "stock/ReturnDeleteSearch";
     }
 
+ // ★GET直打ち対策
+    @GetMapping("/stock/ReturnDeleteConfirm")
+    public String returnDeleteConfirmGet() {
+        return "redirect:/stock/ReturnDeleteSearch";
+    }
+
     @PostMapping("/stock/ReturnDeleteConfirm")
-    public String returnDeleteConfirm(@RequestParam("returnId") Integer id, Model model) {
+    public String returnDeleteConfirm(
+            @RequestParam("returnId") Integer id,
+            Model model,
+            HttpSession session) {
+
         ReturnEntity returnData = returnService.findById(id);
-        if (returnData == null) {
-            model.addAttribute("error", "返品ID " + id + " は存在しません");
+
+        // ★① 返品の論理削除チェック
+        if (returnData == null || returnData.isDeleted()) {
+            model.addAttribute("errorMessage", "返品ID " + id + " は存在しません");
             return "stock/ReturnDeleteSearch";
         }
 
-        ProductEntity product = productService.findById(returnData.getProductId());
+        // ★② 商品も論理削除込みで取得
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(returnData.getProductId());
+
         if (product == null) {
-            model.addAttribute("error", "返品ID " + id + " の対象商品が存在しません");
+            model.addAttribute("errorMessage", "対象商品が存在しません");
             return "stock/ReturnDeleteSearch";
         }
-        
-        if (returnData.getCreatedAt() != null &&
-        	    returnData.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
 
-        	    model.addAttribute("error", "登録から7日経過したため削除できません");
-        	    return "stock/ReturnDeleteSearch";
-        	}
+        // ★③ 7日制限チェック
+        if (returnData.getCreatedAt() != null &&
+            returnData.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
+
+            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
+            return "stock/ReturnDeleteSearch";
+        }
 
         model.addAttribute("returnData", returnData);
         model.addAttribute("product", product);
+
+        // ★セッション制御（統一）
+        session.setAttribute("returnDeleteConfirm", true);
+
         return "stock/ReturnDeleteConfirm";
     }
 
+ // ★GET直打ち対策
+    @GetMapping("/stock/ReturnDeleteComplete")
+    public String returnDeleteCompleteGet() {
+        return "redirect:/stock/ReturnDeleteSearch";
+    }
+
+    // 返品削除実行（論理削除）
     @PostMapping("/stock/ReturnDeleteComplete")
-    public String returnDeleteComplete(@ModelAttribute ReturnEntity returnData, Model model) {
+    public String returnDeleteComplete(
+            @ModelAttribute ReturnEntity returnData,
+            Model model,
+            HttpSession session) {
+
+        // ★セッションチェック（最重要）
+        Boolean flag = (Boolean) session.getAttribute("returnDeleteConfirm");
+
+        if (flag == null || !flag) {
+            return "redirect:/stock/ReturnDeleteSearch";
+        }
+
+        // ★セッション削除（再送防止）
+        session.removeAttribute("returnDeleteConfirm");
 
         ReturnEntity target = returnService.findById(returnData.getId());
 
-        if (target == null) {
-            model.addAttribute("error", "返品ID " + returnData.getId() + " が存在しません");
+        // ★① 存在＋論理削除チェック
+        if (target == null || target.isDeleted()) {
+            model.addAttribute("errorMessage", "返品ID " + returnData.getId() + " が存在しません");
             return "stock/ReturnDeleteSearch";
         }
-        
-     // ★7日制限チェック（ここ追加）
+
+        // ★② 最終防衛（7日制限）
         if (target.getCreatedAt() != null &&
-            target.getCreatedAt().isBefore(java.time.LocalDateTime.now().minusDays(7))) {
+            target.getCreatedAt().isBefore(LocalDateTime.now().minusDays(7))) {
 
-            model.addAttribute("error", "登録から7日経過したため削除できません");
+            model.addAttribute("errorMessage", "登録から7日経過したため削除できません");
             return "stock/ReturnDeleteSearch";
         }
 
+        // ★論理削除実行
         returnService.executeDelete(target.getId());
 
         return "stock/ReturnDeleteComplete";
