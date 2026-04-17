@@ -30,11 +30,15 @@ button {
     margin-top: 10px;
 }
 
-/* テーブル */
+/* =========================
+   テーブル（崩れ防止版）
+========================= */
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed; /* ←これ重要（崩れ防止） */
 }
 
 th,
@@ -42,6 +46,11 @@ td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: center;
+
+    /* 文字あふれ防止 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 th {

@@ -20,30 +20,42 @@ body {
     background: white;
 }
 
-/* テーブル */
+/* =========================
+   テーブル（崩れ防止対応）
+========================= */
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 30px;
+    table-layout: fixed; /* ←重要：列幅固定 */
 }
 
 th {
     background: #cfd3d6;
     padding: 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 td {
     background: #e5e8eb;
     padding: 12px;
+
+    /* 文字崩れ防止 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* 偶数行 */
 tr:nth-child(even) td {
     background: #d9dde0;
 }
 
 /* 重要度 */
-
 .attention {
     background: #ffe08a;
     padding: 4px 10px;
@@ -58,7 +70,6 @@ tr:nth-child(even) td {
 }
 
 /* 戻るボタン */
-
 .backButton {
     margin-top: 40px;
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "product")
@@ -20,9 +21,11 @@ public class ProductEntity {
     @Column(name = "jan_code")
     private String janCode;
 
+    @Size(max = 30, message = "メーカー名は30文字以内で入力してください")
     @Column(name = "maker_name")
     private String makerName;
 
+    @Size(max = 30, message = "商品名は30文字以内で入力してください")
     @Column(name = "product_name")
     private String productName;
 
@@ -47,7 +50,7 @@ public class ProductEntity {
     @Column(name = "last_arrival_date")
     private LocalDateTime lastArrivalDate;
     
- // ---------------- 論理削除用 ----------------
+    // ---------------- 論理削除用 ----------------
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
 
@@ -72,8 +75,8 @@ public class ProductEntity {
     }
     
     public Integer getPurchasePrice() {
-		return PurchasePrice;
-	}
+        return PurchasePrice;
+    }
 
     public Integer getPrice() {
         return price;
@@ -149,27 +152,27 @@ public class ProductEntity {
         this.salesStatus = salesStatus;
     }
 
-	public void setPurchasePrice(Integer purchasePrice) {
-		PurchasePrice = purchasePrice;
-	}
-	
-	public void setDeleted(boolean deleted) {
+    public void setPurchasePrice(Integer purchasePrice) {
+        PurchasePrice = purchasePrice;
+    }
+    
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-	
-	public void setDeletedAt(LocalDateTime deletedAt) {
+    
+    public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
-	
-	public void setStock(Integer stock) {
-	    this.stock = stock;
-	}
-	
-	public void setCreatedAt(LocalDateTime createdAt) {
-	    this.createdAt = createdAt;
-	}
-	
-	public void setLastArrivalDate(LocalDateTime lastArrivalDate) {
-	    this.lastArrivalDate = lastArrivalDate;
-	}
+    
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public void setLastArrivalDate(LocalDateTime lastArrivalDate) {
+        this.lastArrivalDate = lastArrivalDate;
+    }
 }

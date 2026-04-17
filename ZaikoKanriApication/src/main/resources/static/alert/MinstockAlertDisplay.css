@@ -19,12 +19,15 @@ body {
     margin-bottom: 30px;
 }
 
-/* テーブル */
+/* =========================
+   テーブル（崩れ防止）
+========================= */
 
 table {
     width: 100%;
     border-collapse: collapse;
     background: white;
+    table-layout: fixed; /* ←重要：列幅固定 */
 }
 
 th,
@@ -32,6 +35,11 @@ td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+
+    /* 文字崩れ防止 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 th {
@@ -39,7 +47,6 @@ th {
 }
 
 /* ボタン */
-
 .button-area {
     margin-top: 40px;
 }

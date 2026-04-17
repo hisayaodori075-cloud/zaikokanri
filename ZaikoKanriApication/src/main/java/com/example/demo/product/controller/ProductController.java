@@ -65,6 +65,18 @@ public class ProductController {
             return "product/newproduct";
         }
         
+        if (product.getMakerName() != null && product.getMakerName().length() > 30) {
+            model.addAttribute("error", "メーカー名は30文字以内で入力してください");
+            model.addAttribute("product", product);
+            return "product/newproduct";
+        }
+
+        if (product.getProductName() != null && product.getProductName().length() > 30) {
+            model.addAttribute("error", "商品名は30文字以内で入力してください");
+            model.addAttribute("product", product);
+            return "product/newproduct";
+        }
+        
         session.setAttribute("productConfirm", true);
 
         model.addAttribute("product", product);
@@ -108,6 +120,19 @@ public class ProductController {
         // JAN重複チェック
         if (productService.isJanCodeDuplicate(product.getJanCode())) {
             model.addAttribute("error", "このJANコードは既に登録されています");
+            model.addAttribute("product", product);
+            return "product/newproduct";
+        }
+        
+     // ★文字数チェック
+        if (product.getMakerName() != null && product.getMakerName().length() > 30) {
+            model.addAttribute("error", "メーカー名は30文字以内で入力してください");
+            model.addAttribute("product", product);
+            return "product/newproduct";
+        }
+
+        if (product.getProductName() != null && product.getProductName().length() > 30) {
+            model.addAttribute("error", "商品名は30文字以内で入力してください");
             model.addAttribute("product", product);
             return "product/newproduct";
         }
@@ -166,6 +191,19 @@ public class ProductController {
             model.addAttribute("product", product);
             return "product/ProductEdit";
         }
+        
+     // ★文字数チェック
+        if (product.getMakerName() != null && product.getMakerName().length() > 30) {
+            model.addAttribute("error", "メーカー名は30文字以内で入力してください");
+            model.addAttribute("product", product);
+            return "product/ProductEdit";
+        }
+
+        if (product.getProductName() != null && product.getProductName().length() > 30) {
+            model.addAttribute("error", "商品名は30文字以内で入力してください");
+            model.addAttribute("product", product);
+            return "product/ProductEdit";
+        }
 
         // ★ここが追加（廃棄と同じ思想）
         session.setAttribute("productEditConfirm", true);
@@ -205,6 +243,19 @@ public class ProductController {
                 product.getJanCode(), product.getId())) {
 
             model.addAttribute("error", "このJANコードは既に登録されています");
+            model.addAttribute("product", product);
+            return "product/ProductEdit";
+        }
+        
+        // ★文字数チェック
+        if (product.getMakerName() != null && product.getMakerName().length() > 30) {
+            model.addAttribute("error", "メーカー名は30文字以内で入力してください");
+            model.addAttribute("product", product);
+            return "product/ProductEdit";
+        }
+
+        if (product.getProductName() != null && product.getProductName().length() > 30) {
+            model.addAttribute("error", "商品名は30文字以内で入力してください");
             model.addAttribute("product", product);
             return "product/ProductEdit";
         }
