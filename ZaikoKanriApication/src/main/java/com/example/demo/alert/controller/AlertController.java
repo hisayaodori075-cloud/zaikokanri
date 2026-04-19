@@ -341,11 +341,20 @@ public class AlertController {
         List<ProductEntity> productList =
                 rotationAlertService.findRotationAlert();
 
+        // ★設定が未登録の場合のガード
+        Integer urgentDays = null;
+        Integer attentionDays = null;
+
+        if (setting != null) {
+            urgentDays = setting.getUrgentDays();
+            attentionDays = setting.getAttentionDays();
+        }
+
         Map<Integer, Integer> urgentSalesMap =
-                rotationAlertService.getSalesCountMap(productList, setting.getUrgentDays());
+                rotationAlertService.getSalesCountMap(productList, urgentDays);
 
         Map<Integer, Integer> attentionSalesMap =
-                rotationAlertService.getSalesCountMap(productList, setting.getAttentionDays());
+                rotationAlertService.getSalesCountMap(productList, attentionDays);
 
         Map<Integer, String> lastSalesDateMap =
                 rotationAlertService.getLastSalesDateMap(productList);

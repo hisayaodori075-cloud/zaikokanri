@@ -1,51 +1,82 @@
 @charset "UTF-8";
-body{
-    background-color:#dcdcdc;
+
+/* 全体 */
+body {
+    background-color: #dcdcdc;
     font-family: Arial, sans-serif;
 }
 
-.container{
-    width:500px;
-    margin:60px auto;
-    text-align:left;
+/* コンテナ */
+.container {
+    width: 500px;
+    margin: 60px auto;
+    text-align: left;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-h1{
-    text-align:center;
-    margin-bottom:30px;
+/* タイトル */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.back-area{
-    margin-bottom:15px;
+/* 戻るボタンエリア */
+.back-area {
+    margin-bottom: 20px;
+    text-align: left;
 }
 
-.form-box{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
+/* フォーム */
+.form-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ラベルと入力欄 */
+label {
+    font-weight: bold;
 }
 
 .form-box input,
-.form-box select{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid #888;
-    font-size:14px;
-    box-sizing:border-box;
-    background-color:#f7f7f7;
+.form-box select,
+.form-box p {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #888;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f7f7f7;
+    border-radius: 4px;
 }
 
-.button-area{
-    margin-top:15px;
+/* 非編集項目（pタグ） */
+.form-box p {
+    margin: 0;
+    background-color: #eaeaea;
 }
 
-button{
-    padding:8px 20px;
-    border:1px solid #888;
-    background-color:#e6e6e6;
-    cursor:pointer;
+/* ボタンエリア */
+.button-area {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
-button:hover{
-    background-color:#d0d0d0;
+/* ボタン */
+button {
+    padding: 10px 20px;
+    border: 1px solid #888;
+    background-color: #e6e6e6;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #d0d0d0;
 }

@@ -30,6 +30,13 @@ public class ProductController {
         return "product/newproduct";
     }
     
+    @PostMapping("/back")
+    public String back(@ModelAttribute ProductEntity product, Model model) {
+
+        model.addAttribute("product", product);
+        return "product/newproduct";
+    }
+    
     @GetMapping("/confirm")
     public String confirmGet() {
         return "redirect:/product/newproduct";

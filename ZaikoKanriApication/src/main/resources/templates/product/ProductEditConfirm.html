@@ -11,54 +11,37 @@
 
 <div class="container">
 
-    
+    <h2>商品編集確認</h2>
 
-    <!-- カード開始 -->
-    <div class="confirm-card">
-		<h1>商品編集確認</h1>
+    <!-- 確認表示 -->
+    <div class="info-box">
 
-        <!-- テーブル -->
-        <table class="confirm-table">
+        <p>JANコード: <span th:text="${product.janCode}"></span></p>
+        <p>メーカー名: <span th:text="${product.makerName}"></span></p>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>仕入価格: <span th:text="${product.purchasePrice}"></span></p>
+        <p>売価: <span th:text="${product.price}"></span></p>
+        <p>販売状況: <span th:text="${product.salesStatus}"></span></p>
 
-            <tr>
-                <th>JANコード</th>
-                <td th:text="${product.janCode}"></td>
-            </tr>
+    </div>
 
-            <tr>
-                <th>メーカー名</th>
-                <td th:text="${product.makerName}"></td>
-            </tr>
+    <div class="button-area">
 
-            <tr>
-                <th>商品名</th>
-                <td th:text="${product.productName}"></td>
-            </tr>
+        <!-- 戻る -->
+        <form th:action="@{/product/ProductEdit/{id}(id=${product.id})}"
+              method="get">
 
-            <tr>
-                <th>仕入価格</th>
-                <td th:text="${product.purchasePrice}"></td>
-            </tr>
+            <button type="submit" class="btn-back">
+                編集画面に戻る
+            </button>
 
-            <tr>
-                <th>売価</th>
-                <td th:text="${product.price}"></td>
-            </tr>
+        </form>
 
-            <tr>
-                <th>販売状況</th>
-                <td th:text="${product.salesStatus}"></td>
-            </tr>
-
-        </table>
-
-        <!-- フォーム -->
+        <!-- 保存 -->
         <form th:action="@{/product/ProductEditComplete}"
               method="post"
-              th:object="${product}"
-              class="form-box">
+              th:object="${product}">
 
-            <!-- hidden -->
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{janCode}">
             <input type="hidden" th:field="*{makerName}">
@@ -67,23 +50,9 @@
             <input type="hidden" th:field="*{price}">
             <input type="hidden" th:field="*{salesStatus}">
 
-            <!-- ボタン -->
-			<div class="confirm-actions">
-
-			    <a th:href="@{/product/ProductEdit/{id}(id=${product.id})}"
-			       class="btn-link">
-
-			        <button type="button" class="btn-back">
-			            編集画面に戻る
-			        </button>
-
-			    </a>
-
-			    <button type="submit" class="btn-confirm">
-			        登録する
-			    </button>
-
-			</div>
+            <button type="submit" class="btn-confirm">
+                登録する
+            </button>
 
         </form>
 

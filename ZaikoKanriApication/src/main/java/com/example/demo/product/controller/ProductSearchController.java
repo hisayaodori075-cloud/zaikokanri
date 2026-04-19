@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.product.entity.ProductEntity;
 import com.example.demo.product.form.ProductSearchForm;
@@ -18,41 +19,55 @@ public class ProductSearchController {
     @Autowired
     private ProductService productService;
 
+    // 検索画面初期表示
     @GetMapping("/product/ProductSearch")
     public String showSearchForm(Model model) {
         model.addAttribute("productSearchForm", new ProductSearchForm());
         return "product/ProductSearch";
     }
 
+    // 検索実行
     @GetMapping("/product/ProductSearchConfirm")
-    public String search(
-            @ModelAttribute ProductSearchForm form,
-            Model model) {
+    public String search(@ModelAttribute ProductSearchForm form,
+                         Model model) {
 
-        // 検索条件がすべて空かチェック
-        if ((form.getJanCode() == null || form.getJanCode().isEmpty()) &&
-            (form.getMakerName() == null || form.getMakerName().isEmpty()) &&
-            (form.getProductName() == null || form.getProductName().isEmpty()) &&
-            form.getPurchasePrice() == null &&
-            form.getPrice() == null &&
-            (form.getSalesStatus() == null || form.getSalesStatus().isEmpty())) {
+        boolean isEmpty =
+                (form.getJanCode() == null || form.getJanCode().isEmpty()) &&
+                (form.getMakerName() == null || form.getMakerName().isEmpty()) &&
+                (form.getProductName() == null || form.getProductName().isEmpty()) &&
+                form.getPurchasePrice() == null &&
+                form.getPrice() == null &&
+                (form.getSalesStatus() == null || form.getSalesStatus().isEmpty());
 
+        if (isEmpty) {
             model.addAttribute("errorMessage", "検索条件を1つ以上入力してください");
-            model.addAttribute("productSearchForm", form); // ★これあると親切
+            model.addAttribute("productSearchForm", form);
             return "product/ProductSearch";
         }
 
         List<ProductEntity> result = productService.search(form);
 
-        // ★ここ追加（今回の本題）
         if (result.isEmpty()) {
             model.addAttribute("errorMessage", "該当する商品は存在しません");
-            model.addAttribute("productSearchForm", form); // ★入力保持
+            model.addAttribute("productSearchForm", form);
             return "product/ProductSearch";
         }
 
         model.addAttribute("productList", result);
 
+        // ★検索条件を結果画面へ渡す（戻る用）
+        model.addAttribute("productSearchForm", form);
+
         return "product/ProductSearchConfirm";
+    }
+
+    // 戻る（これが重要）
+    @PostMapping("/product/ProductSearchBack")
+    public String productSearchBack(@ModelAttribute ProductSearchForm form,
+                                    Model model) {
+
+        model.addAttribute("productSearchForm", form);
+
+        return "product/ProductSearch";
     }
 }

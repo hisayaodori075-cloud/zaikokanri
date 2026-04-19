@@ -9,70 +9,64 @@
 
 <body>
 
-<div class="confirm-card">
+<div class="container">
+
+    <h2>登録内容確認</h2>
 	
-	<h2>登録内容確認</h2>
+	<div th:if="${error}" style="color:red; margin-bottom:10px;">
+		<p th:text="${error}"></p>
+	</div>
 
-    <table class="confirm-table">
-        <tr>
-            <th>JANコード</th>
-            <td th:text="${product.janCode}"></td>
-        </tr>
+    <div class="info-box">
 
-        <tr>
-            <th>メーカー名</th>
-            <td th:text="${product.makerName}"></td>
-        </tr>
+        <p>JANコード: <span th:text="${product.janCode}"></span></p>
+        <p>メーカー名: <span th:text="${product.makerName}"></span></p>
+        <p>商品名: <span th:text="${product.productName}"></span></p>
+        <p>仕入価格: <span th:text="${product.purchasePrice}"></span></p>
+        <p>売価: <span th:text="${product.price}"></span></p>
+        <p>販売状況: <span th:text="${product.salesStatus}"></span></p>
 
-        <tr>
-            <th>商品名</th>
-            <td th:text="${product.productName}"></td>
-        </tr>
+    </div>
 
-        <tr>
-            <th>仕入価格</th>
-            <td th:text="${product.PurchasePrice}"></td>
-        </tr>
+    <div class="button-area">
 
-        <tr>
-            <th>売価</th>
-            <td th:text="${product.price}"></td>
-        </tr>
+        <!-- 戻る -->
+        <form th:action="@{/product/back}"
+              th:object="${product}"
+              method="post">
 
-        <tr>
-            <th>販売状況</th>
-            <td th:text="${product.salesStatus}"></td>
-        </tr>
-    </table>
+            <input type="hidden" th:field="*{janCode}" />
+            <input type="hidden" th:field="*{makerName}" />
+            <input type="hidden" th:field="*{productName}" />
+            <input type="hidden" th:field="*{purchasePrice}" />
+            <input type="hidden" th:field="*{price}" />
+            <input type="hidden" th:field="*{salesStatus}" />
 
-    <!-- 保存フォーム -->
-    <form th:action="@{/product/save}"
-          th:object="${product}"
-          method="post">
-
-        <input type="hidden" th:field="*{janCode}" />
-        <input type="hidden" th:field="*{makerName}" />
-        <input type="hidden" th:field="*{productName}" />
-        <input type="hidden" th:field="*{PurchasePrice}" />
-        <input type="hidden" th:field="*{price}" />
-        <input type="hidden" th:field="*{salesStatus}" />
-
-        <div class="confirm-actions">
-
-            <button type="button"
-                    class="btn-back"
-                    onclick="location.href='/product/newproduct'">
+            <button type="submit" class="btn-back">
                 戻る
             </button>
 
-            <button type="submit"
-                    class="btn-confirm">
+        </form>
+
+        <!-- 登録 -->
+        <form th:action="@{/product/save}"
+              th:object="${product}"
+              method="post">
+
+            <input type="hidden" th:field="*{janCode}" />
+            <input type="hidden" th:field="*{makerName}" />
+            <input type="hidden" th:field="*{productName}" />
+            <input type="hidden" th:field="*{purchasePrice}" />
+            <input type="hidden" th:field="*{price}" />
+            <input type="hidden" th:field="*{salesStatus}" />
+
+            <button type="submit" class="btn-confirm">
                 登録する
             </button>
 
-        </div>
+        </form>
 
-    </form>
+    </div>
 
 </div>
 

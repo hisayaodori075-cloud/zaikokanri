@@ -35,6 +35,10 @@ public class RotationAlertDisplayService {
 
         AlertRotationSettingEntity setting =
                 rotationSettingService.getSetting();
+        
+        if (setting == null) {
+            return List.of(); // 設定なしならアラート出さない
+        }
 
         int attentionDays = setting.getAttentionDays();
         int urgentDays = setting.getUrgentDays();
@@ -139,6 +143,10 @@ public class RotationAlertDisplayService {
     public long countUrgentAlert() {
 
         AlertRotationSettingEntity setting = rotationSettingService.getSetting();
+        
+        if (setting == null) {
+            return 0L;
+        }
 
         List<ProductEntity> productList = productService.findAll();
 
