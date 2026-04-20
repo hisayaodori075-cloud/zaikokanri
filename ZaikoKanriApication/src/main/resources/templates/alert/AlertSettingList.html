@@ -9,12 +9,26 @@
 
 <body>
 
-    <h2>発注最低数アラート設定</h2>
+<div class="container">
 
-    <!-- 検索フォーム -->
-    <form th:action="@{/alert/AlertSettingList}" method="get">
+    <h1>発注最低数アラート設定</h1>
 
-        商品名：
+    <!-- 戻る（入荷と統一） -->
+    <div class="back-area">
+        <a th:href="@{/alert/AlertSetting}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
+
+    <!-- エラーメッセージ -->
+    <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- 検索フォーム（入荷と同形式） -->
+    <form th:action="@{/alert/AlertSettingList}" method="get" class="search-form">
+
+        <label>商品名</label>
         <select name="productName">
             <option value="">商品名を選択してください</option>
 
@@ -24,27 +38,22 @@
             </option>
         </select>
 
-        JANコード：
+        <label>JANコード</label>
         <input type="text" name="janCode">
 
-        <button type="submit">
-            検索
-        </button>
+        <div class="button-area">
+            <button type="submit">検索</button>
 
-        <button type="button"
-                onclick="location.href='/alert/AlertSettingList'">
-            一覧
-        </button>
+            <button type="button"
+                    onclick="location.href='/alert/AlertSettingList'">
+                一覧
+            </button>
+        </div>
 
     </form>
 
-    <!-- エラーメッセージ -->
-    <div th:if="${errorMessage}" class="error-message">
-        <p th:text="${errorMessage}"></p>
-    </div>
-
-    <!-- 商品一覧 -->
-    <table>
+    <!-- 商品一覧（入荷と同じテーブル構造） -->
+    <table class="product-table">
 
         <thead>
             <tr>
@@ -92,13 +101,7 @@
 
     </table>
 
-    <br>
-
-    <a th:href="@{/alert/AlertSetting}">
-        <button type="button">
-            戻る
-        </button>
-    </a>
+</div>
 
 </body>
 </html>

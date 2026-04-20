@@ -17,6 +17,9 @@ public interface ProductRepository
     // JANコード完全一致（論理削除除外）
     ProductEntity findByJanCodeAndDeletedFalse(String janCode);
 
+    // ★追加（これが赤線解消）
+    ProductEntity findByProductNameAndDeletedFalse(String productName);
+
     @Query("""
             SELECT p FROM ProductEntity p
             WHERE p.deleted = false
@@ -41,16 +44,13 @@ public interface ProductRepository
     @Query("UPDATE ProductEntity p SET p.deleted = true, p.deletedAt = CURRENT_TIMESTAMP WHERE p.id = :id")
     void logicallyDeleteById(Integer id);
 
-    // 削除されていない商品一覧
     List<ProductEntity> findByDeletedFalse();
 
-    // 商品名部分一致（論理削除除外）
     List<ProductEntity> findByProductNameContainingAndDeletedFalse(String productName);
 
-    // JANコード + 商品名 完全一致（論理削除除外）
     List<ProductEntity> findByJanCodeAndProductNameAndDeletedFalse(String janCode, String productName);
-    
+
     boolean existsByJanCodeAndDeletedFalse(String janCode);
-    
+
     boolean existsByJanCodeAndDeletedFalseAndIdNot(String janCode, Integer id);
 }

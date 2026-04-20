@@ -107,9 +107,12 @@ public class ProductService {
             return (product == null) ? List.of() : List.of(product);
         }
 
-        // 商品名のみ
+        // 商品名のみ（★完全一致に変更）
         if (janEmpty && !nameEmpty) {
-            return findByProductNameContaining(productName);
+            ProductEntity product =
+                    productRepository.findByProductNameAndDeletedFalse(productName);
+
+            return (product == null) ? List.of() : List.of(product);
         }
 
         // JAN + 商品名

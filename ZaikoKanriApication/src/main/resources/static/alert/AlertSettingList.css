@@ -1,58 +1,75 @@
 @charset "UTF-8";
-
-body {
+body{
+    background-color:#f3f3f3;
     font-family: Arial, sans-serif;
 }
 
-h2 {
-    margin-bottom: 20px;
+.container{
+    width:900px;
+    margin:50px auto;
 }
 
-/* 検索フォーム */
-form {
-    margin-bottom: 10px;
+h1{
+    text-align:center;
+    margin-bottom:30px;
 }
 
-select,
-input {
-    padding: 5px;
+.back-area{
+    margin-bottom:20px;
 }
 
-button {
-    margin-top: 10px;
-    padding: 6px 14px;
-    cursor: pointer;
+.search-form{
+    background:white;
+    border:1px solid #999;
+    padding:20px;
+    margin-bottom:30px;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
-/* エラーメッセージ */
-.error-message {
-    color: red;
-    margin-top: 10px;
+.search-form select,
+.search-form input{
+    padding:10px;
+    border:1px solid #999;
+    border-radius:4px;
 }
 
-/* =========================
-   テーブル（崩れ防止版）
-========================= */
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    table-layout: fixed; /* ←これ重要（崩れ防止） */
+.button-area{
+    margin-top:10px;
 }
 
-th,
-td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-
-    /* 文字あふれ防止 */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+button{
+    padding:8px 20px;
+    border:1px solid #999;
+    background:#e6e6e6;
+    cursor:pointer;
 }
 
-th {
-    background-color: #f0f0f0;
+button:hover{
+    background:#dcdcdc;
+}
+
+/* テーブル */
+
+.product-table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+.product-table th,
+.product-table td{
+    border:1px solid #999;
+    padding:8px;
+    text-align:center;
+}
+
+.product-table th{
+    background:#e6e6e6;
+}
+
+.product-table tr:nth-child(even){
+    background:#f9f9f9;
 }
