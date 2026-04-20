@@ -27,23 +27,27 @@
                 <label>対象期間（日）</label><br>
                 注意：直近
                 <input type="number" th:field="*{attentionDays}" min="1" required>
-                日
+                日間
                 <br>
                 緊急：直近
                 <input type="number" th:field="*{urgentDays}" min="1" required>
-                日
+                日間
+                <br>
+                <small>※指定した期間内の販売状況をもとに判定します</small>
             </div>
 
             <!-- 販売数基準 -->
             <div>
-                <label>販売数基準（<=）</label><br>
-                注意：販売数が
+                <label>販売数基準</label><br>
+                注意：上記期間内の販売数が
                 <input type="number" th:field="*{attentionSales}" min="1" required>
                 以下
                 <br>
-                緊急：販売数が
+                緊急：上記期間内の販売数が
                 <input type="number" th:field="*{urgentSales}" min="1" required>
                 以下
+                <br>
+                <small>※日数と販売数から1日あたりの平均販売数を計算して判定します</small>
             </div>
 
             <!-- 対象商品 -->

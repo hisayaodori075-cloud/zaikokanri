@@ -42,20 +42,19 @@
 					
 					<td th:text="${urgentSalesMap[product.id]}"></td>
 
-                    <td>
+					<td>
 
-                        <span th:if="${urgentSalesMap[product.id]} < ${setting.urgentSales}"
-                              class="urgent">
-                            緊急
-                        </span>
+					    <span th:if="${alertLevelMap[product.id]} == 'URGENT'"
+					          class="urgent">
+					        緊急
+					    </span>
 
-                        <span th:if="${urgentSalesMap[product.id]} >= ${setting.urgentSales} 
-                                     and ${attentionSalesMap[product.id]} < ${setting.attentionSales}"
-                              class="attention">
-                            注意
-                        </span>
+					    <span th:if="${alertLevelMap[product.id]} == 'ATTENTION'"
+					          class="attention">
+					        注意
+					    </span>
 
-                    </td>
+					</td>
 
                 </tr>
 

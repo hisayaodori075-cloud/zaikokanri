@@ -237,7 +237,7 @@ public class AlertController {
             return "alert/AlertRotationSetting";
         }
 
-        // ★数量チェック（追加）
+        // ★数量チェック
         Integer urgentQty = rotationSetting.getUrgentSales();
         Integer attentionQty = rotationSetting.getAttentionSales();
 
@@ -249,7 +249,17 @@ public class AlertController {
 
             return "alert/AlertRotationSetting";
         }
-        
+
+        // ★★★ ここ追加（最重要）★★★
+        double urgentRate = (double) urgentQty / urgentDays;
+        double attentionRate = (double) attentionQty / attentionDays;
+
+        if (urgentRate >= attentionRate) {
+            model.addAttribute("error", "警告は注意より厳しい条件にしてください");
+            model.addAttribute("rotationSetting", rotationSetting);
+            return "alert/AlertRotationSetting";
+        }
+
         session.setAttribute("rotationConfirm", true);
 
         model.addAttribute("rotationSetting", rotationSetting);
@@ -359,10 +369,18 @@ public class AlertController {
         Map<Integer, String> lastSalesDateMap =
                 rotationAlertService.getLastSalesDateMap(productList);
 
+        // ★★★ ここ追加 ★★★
+        Map<Integer, String> alertLevelMap = productList.stream()
+                .collect(Collectors.toMap(
+                        ProductEntity::getId,
+                        product -> rotationAlertService.getAlertLevel(product, setting)
+                ));
+
         model.addAttribute("rotationAlertList", productList);
         model.addAttribute("urgentSalesMap", urgentSalesMap);
         model.addAttribute("attentionSalesMap", attentionSalesMap);
         model.addAttribute("lastSalesDateMap", lastSalesDateMap);
+        model.addAttribute("alertLevelMap", alertLevelMap); // ★追加
         model.addAttribute("setting", setting);
 
         return "alert/RotationAlertDisplay";

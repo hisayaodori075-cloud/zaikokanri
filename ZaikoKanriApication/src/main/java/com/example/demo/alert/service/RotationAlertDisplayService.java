@@ -29,6 +29,41 @@ public class RotationAlertDisplayService {
     @Autowired
     private SalesRepository salesRepository;
 
+    public String getAlertLevel(ProductEntity product, AlertRotationSettingEntity setting) {
+
+        int urgentDays = setting.getUrgentDays();
+        int attentionDays = setting.getAttentionDays();
+
+        int urgentSales = setting.getUrgentSales();
+        int attentionSales = setting.getAttentionSales();
+
+        double urgentRate = (double) urgentSales / urgentDays;
+        double attentionRate = (double) attentionSales / attentionDays;
+
+        int urgentCount =
+                salesService.getSalesCountLastDays(product.getId(), urgentDays);
+
+        double urgentActualRate =
+                (double) urgentCount / urgentDays;
+
+        // ★警告優先
+        if (urgentActualRate < urgentRate) {
+            return "URGENT";
+        }
+
+        int attentionCount =
+                salesService.getSalesCountLastDays(product.getId(), attentionDays);
+
+        double attentionActualRate =
+                (double) attentionCount / attentionDays;
+
+        if (attentionActualRate < attentionRate) {
+            return "ATTENTION";
+        }
+
+        return null;
+    }
+    
     public List<ProductEntity> findRotationAlert() {
 
         List<ProductEntity> productList = productService.findAll();
@@ -37,79 +72,63 @@ public class RotationAlertDisplayService {
                 rotationSettingService.getSetting();
         
         if (setting == null) {
-            return List.of(); // 設定なしならアラート出さない
+            return List.of();
         }
 
         int attentionDays = setting.getAttentionDays();
-        int urgentDays = setting.getUrgentDays();
-
-        int attentionSales = setting.getAttentionSales();
-        int urgentSales = setting.getUrgentSales();
-
-        double attentionRate = (double) attentionSales / attentionDays;
-        double urgentRate = (double) urgentSales / urgentDays;
 
         return productList.stream()
-        		.filter(product -> {
+            .filter(product -> {
 
-        		    // ★販売中チェック
-        		    if (!"販売中".equals(product.getSalesStatus())) {
-        		        return false;
-        		    }
+                // ★販売中チェック
+                if (!"販売中".equals(product.getSalesStatus())) {
+                    return false;
+                }
 
-        		    // ★削除除外
-        		    if (product.isDeleted()) {
-        		        return false;
-        		    }
+                // ★削除除外
+                if (product.isDeleted()) {
+                    return false;
+                }
 
-        		    // ★① 新規登録ガード（超重要）
-        		    if (product.getCreatedAt() != null &&
-        		        product.getCreatedAt()
-        		            .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
-        		        return false;
-        		    }
+                // ★新規登録ガード
+                if (product.getCreatedAt() != null &&
+                    product.getCreatedAt()
+                        .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
+                    return false;
+                }
 
-        		    // ★② 最終入荷日ガード
-        		    if (product.getLastArrivalDate() == null) {
-        		        return false;
-        		    }
+                // ★最終入荷日ガード
+                if (product.getLastArrivalDate() == null) {
+                    return false;
+                }
 
-        		    if (product.getLastArrivalDate()
-        		            .isAfter(java.time.LocalDateTime.now().minusDays(attentionDays))) {
-        		        return false;
-        		    }
+                if (product.getLastArrivalDate()
+                        .isAfter(java.time.LocalDateTime.now().minusDays(attentionDays))) {
+                    return false;
+                }
 
-        		    // ===== ここから既存ロジック =====
+                // ★ここを共通ロジックに置き換え
+                return getAlertLevel(product, setting) != null;
 
-        		    int urgentCount =
-        		        salesService.getSalesCountLastDays(product.getId(), urgentDays);
-
-        		    int attentionCount =
-        		        salesService.getSalesCountLastDays(product.getId(), attentionDays);
-
-        		    double urgentActualRate =
-        		        urgentDays == 0 ? 0 : (double) urgentCount / urgentDays;
-
-        		    double attentionActualRate =
-        		        attentionDays == 0 ? 0 : (double) attentionCount / attentionDays;
-
-        		    return urgentActualRate < urgentRate
-        		            || attentionActualRate < attentionRate;
-
-        		})
-                .toList();
+            })
+            .toList();
     }
     
-    public Map<Integer, Integer> getSalesCountMap(List<ProductEntity> productList, int days) {
+    public Map<Integer, Integer> getSalesCountMap(List<ProductEntity> productList, Integer days) {
 
         Map<Integer, Integer> salesCountMap = new HashMap<>();
+
+        // ★ガード（超重要）
+        if (days == null || days <= 0) {
+            return salesCountMap; // 空で返す
+        }
 
         LocalDate startDate = LocalDate.now().minusDays(days);
 
         for (ProductEntity product : productList) {
 
             Integer salesCount =
-            		salesRepository.getSalesCountSince(product.getId(), startDate);
+                    salesRepository.getSalesCountSince(product.getId(), startDate);
 
             if (salesCount == null) {
                 salesCount = 0;
@@ -150,45 +169,34 @@ public class RotationAlertDisplayService {
 
         List<ProductEntity> productList = productService.findAll();
 
+        int attentionDays = setting.getAttentionDays();
+
         return productList.stream()
                 .filter(product -> {
 
                     // ★販売中チェック
-                    if (!"販売中".equals(product.getSalesStatus())) {
-                        return false;
-                    }
+                    if (!"販売中".equals(product.getSalesStatus())) return false;
 
                     // ★削除除外
-                    if (product.isDeleted()) {
-                        return false;
-                    }
+                    if (product.isDeleted()) return false;
 
-                    // ★① 新規登録ガード（重要）
+                    // ★新規登録ガード
                     if (product.getCreatedAt() != null &&
                         product.getCreatedAt()
                             .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
                         return false;
                     }
 
-                    // ★② 最終入荷日チェック
-                    if (product.getLastArrivalDate() == null) {
-                        return false;
-                    }
+                    // ★最終入荷日チェック
+                    if (product.getLastArrivalDate() == null) return false;
 
                     if (product.getLastArrivalDate()
-                            .isAfter(java.time.LocalDateTime.now().minusDays(setting.getAttentionDays()))) {
+                            .isAfter(java.time.LocalDateTime.now().minusDays(attentionDays))) {
                         return false;
                     }
 
-                    // ===== 既存ロジック =====
-
-                    int urgentCount =
-                            salesService.getSalesCountLastDays(
-                                    product.getId(),
-                                    setting.getUrgentDays()
-                            );
-
-                    return urgentCount < setting.getUrgentSales();
+                    // ★ここを統一（最重要）
+                    return "URGENT".equals(getAlertLevel(product, setting));
 
                 })
                 .count();
