@@ -1,41 +1,76 @@
 @charset "UTF-8";
 
-body {
-    background-color: #dcdcdc;
+/* 背景 */
+body{
+    background-color: #FFD1DC;
     font-family: Arial, sans-serif;
 }
 
-.container {
+/* カード */
+.container{
     width: 500px;
-    margin: 60px auto;
-    text-align: left;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-h1 {
+/* タイトル */
+h1{
     text-align: center;
+    margin-bottom: 25px;
+}
+
+/* 商品情報 */
+.product-info{
     margin-bottom: 30px;
-}
-
-.back-area {
-    margin-bottom: 15px;
-}
-
-.product-info {
-    margin-bottom: 20px;
     line-height: 1.8;
 }
 
-.button-area {
-    margin-top: 15px;
+.product-info span{
+    font-weight: bold;
 }
 
-button {
-    padding: 8px 20px;
-    border: 1px solid #888;
-    background-color: #e6e6e6;
+/* 削除ボタン（中央） */
+.button-area{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* 戻るボタン（中央） */
+.back-area{
+    display: flex;
+    justify-content: center;
+}
+
+/* ボタン共通 */
+button{
+    width: 180px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-button:hover {
-    background-color: #d0d0d0;
+/* 削除ボタン */
+.button-area button{
+    background-color: #dc3545;
+    color: white;
+}
+
+.button-area button:hover{
+    background-color: #b52a37;
+}
+
+/* 戻るボタン */
+.back-area button{
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.back-area button:hover{
+    background-color: #cfcfcf;
 }

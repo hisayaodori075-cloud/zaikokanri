@@ -18,20 +18,13 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <!-- 戻る -->
-    <div class="button-area">
-        <a th:href="@{/stock/ReturnMenu}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
+    
 
-    <form th:action="@{/stock/ReturnDeleteConfirm}" method="post">
+    <form th:action="@{/stock/ReturnDeleteConfirm}" method="post" class="form-box">
 
         <div class="form-box">
 
-            <label>返品ID</label>
+            <label>返品IDを入力してください</label>
             <input type="number" name="returnId" required>
 
         </div>
@@ -41,6 +34,15 @@
                 検索
             </button>
         </div>
+		
+		<!-- 戻る -->
+		<div class="back-area">
+		   <a th:href="@{/stock/ReturnMenu}">
+		      <button type="button">
+		         戻る
+		      </button>
+		   </a>
+		</div>
 
     </form>
 

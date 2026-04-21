@@ -20,23 +20,17 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
-    <!-- ★戻るボタン統一 -->
-    <div class="button-area">
-        <a th:href="@{/sales/SalesManagement}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
+    
 
     <!-- ★form構造統一 -->
     <form th:action="@{/sales/SalesDeleteConfirm}"
-          method="post">
+          method="post"
+		  class="form-box">
 
         <div class="form-box">
 
             <!-- ★label追加 & 文言修正 -->
-            <label>販売数ID</label>
+            <label>販売数IDを入力してください</label>
             <input type="number"
                    name="salesId"
                    required>
@@ -48,6 +42,15 @@
                 検索
             </button>
         </div>
+		
+		<!-- ★戻るボタン統一 -->
+		<div class="back-area">
+		   <a th:href="@{/sales/SalesManagement}">
+		      <button type="button">
+		         戻る
+		      </button>
+		   </a>
+		</div>
 
     </form>
 

@@ -13,12 +13,6 @@
 
         <h1>在庫最低数登録</h1>
 
-        <div class="back-area">
-            <button type="button" onclick="history.back()">
-                入力画面に戻る
-            </button>
-        </div>
-
         <!-- 商品情報表示 -->
         メーカー名:
         <span th:text="${product.makerName}"></span>
@@ -50,6 +44,12 @@
                     登録する
                 </button>
             </div>
+			
+			<div class="back-area">
+			    <button type="button" onclick="history.back()">
+			        入力画面に戻る
+			    </button>
+			</div>
 
         </form>
 

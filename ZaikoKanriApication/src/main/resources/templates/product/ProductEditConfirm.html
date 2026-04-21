@@ -27,16 +27,7 @@
 
     <div class="button-area">
 
-        <!-- 戻る -->
-        <form th:action="@{/product/ProductEdit/{id}(id=${product.id})}"
-              method="get">
-
-            <button type="submit" class="btn-back">
-                編集画面に戻る
-            </button>
-
-        </form>
-
+        
         <!-- 保存 -->
         <form th:action="@{/product/ProductEditComplete}"
               method="post"
@@ -55,6 +46,17 @@
             </button>
 
         </form>
+		
+		<!-- 戻る -->
+		 <form th:action="@{/product/ProductEdit/{id}(id=${product.id})}"
+		       method="get">
+
+		    <button type="submit" class="btn-back">
+		       編集画面に戻る
+		    </button>
+
+		 </form>
+
 
     </div>
 

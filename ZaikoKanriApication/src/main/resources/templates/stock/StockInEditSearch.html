@@ -18,17 +18,11 @@
 	    <p th:text="${errorMessage}"></p>
 	</div>
 
-    <div class="button-area">
-        <a th:href="@{/stock/ArrivalControll}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
+    
 
     <form th:action="@{/stock/StockInEdit}" method="post" class="form-box">
 
-        <label>入荷ID</label>
+        <label>入荷IDを入力してください</label>
         <input type="number" name="id" required>
 
         <div class="button-area">
@@ -36,6 +30,14 @@
                 検索
             </button>
         </div>
+		
+		<div class="back-area">
+		    <a th:href="@{/stock/ArrivalControll}">
+		       <button type="button">
+		          戻る
+		       </button>
+		   </a>
+		</div>
 
     </form>
 

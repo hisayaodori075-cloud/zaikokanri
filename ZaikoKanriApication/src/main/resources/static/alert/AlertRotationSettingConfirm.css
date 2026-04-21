@@ -1,1 +1,76 @@
 @charset "UTF-8";
+
+/* 背景 */
+body{
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+}
+
+/* カード */
+.container{
+    width: 500px;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* タイトル */
+h1{
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* 設定情報 */
+.setting-info{
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+.setting-info span{
+    font-weight: bold;
+}
+
+/* 登録ボタン（中央） */
+form{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* 戻るボタン（中央＆下） */
+body > .container > button{
+    display: block;
+    margin: 10px auto 0;
+}
+
+/* ボタン共通 */
+button{
+    width: 180px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 登録ボタン */
+form button{
+    background-color: #1e73d8;
+    color: white;
+}
+
+form button:hover{
+    background-color: #155ab6;
+}
+
+/* 戻るボタン */
+.container > button{
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.container > button:hover{
+    background-color: #cfcfcf;
+}

@@ -1,56 +1,81 @@
 @charset "UTF-8";
+
+/* 背景 */
 body{
-    background-color:#dcdcdc;
+    background-color: #FFD1DC;
     font-family: Arial, sans-serif;
 }
 
+/* カード */
 .container{
-    width:500px;
-    margin:60px auto;
-    text-align:left;
+    width: 500px;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-h1{
-    text-align:center;
-    margin-bottom:30px;
+/* タイトル */
+h2{
+    text-align: center;
+    margin-bottom: 25px;
 }
 
-.back-area{
-    margin-bottom:15px;
-}
-
-.form-box{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
-
-.form-box input,
-.form-box select{
-    width:100%;
-    padding:10px 12px;
-    border:1px solid #888;
-    font-size:14px;
-    box-sizing:border-box;
-    background-color:#f7f7f7;
-}
-
+/* 情報表示 */
 .info-box{
-    margin-bottom:20px;
-    line-height:1.8;
+    margin-bottom: 30px;
 }
 
+.info-box p{
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* ボタンエリア（上下中央） */
 .button-area{
-    margin-top:15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
+/* form余白リセット */
+.button-area form{
+    margin: 0;
+}
+
+/* ボタン共通 */
 button{
-    padding:8px 20px;
-    border:1px solid #888;
-    background-color:#e6e6e6;
-    cursor:pointer;
+    width: 180px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
-button:hover{
-    background-color:#d0d0d0;
+/* 削除ボタン（赤） */
+.button-area form:first-child button{
+    background-color: #dc3545;
+    color: white;
+}
+
+.button-area form:first-child button:hover{
+    background-color: #b52a37;
+}
+
+/* 戻るボタン */
+.button-area form:last-child button{
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.button-area form:last-child button:hover{
+    background-color: #cfcfcf;
+}
+
+/* エラーメッセージ */
+p{
+    margin: 0;
 }

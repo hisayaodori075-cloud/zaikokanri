@@ -1,52 +1,78 @@
 @charset "UTF-8";
 
-body {
-    background-color: #dcdcdc;
+/* 背景 */
+body{
+    background-color: #f2f2f2;
     font-family: Arial, sans-serif;
 }
 
-.container {
+/* カード */
+.container{
     width: 500px;
-    margin: 60px auto;
-    text-align: left;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-h1 {
+/* タイトル */
+h1{
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-.back-area {
-    margin-bottom: 15px;
+/* 情報表示 */
+.container span{
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
-.form-box {
+.container br{
+    margin-bottom: 5px;
+}
+
+/* ボタンエリア（登録ボタン） */
+.button-area{
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
 }
 
-.form-box input,
-.form-box select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #888;
-    font-size: 14px;
-    box-sizing: border-box;
-    background-color: #f7f7f7;
+/* 戻るボタンエリア */
+.back-area{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-.button-area {
-    margin-top: 15px;
-}
-
-button {
-    padding: 8px 20px;
-    border: 1px solid #888;
-    background-color: #e6e6e6;
+/* ボタン共通 */
+button{
+    width: 180px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-button:hover {
-    background-color: #d0d0d0;
+/* 登録ボタン */
+.button-area button{
+    background-color: #1e73d8;
+    color: white;
+}
+
+.button-area button:hover{
+    background-color: #155ab6;
+}
+
+/* 戻るボタン */
+.back-area button{
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.back-area button:hover{
+    background-color: #cfcfcf;
 }

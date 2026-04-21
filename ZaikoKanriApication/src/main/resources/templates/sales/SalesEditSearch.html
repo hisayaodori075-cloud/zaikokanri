@@ -20,20 +20,13 @@
     </div>
 
     <!-- ★ここ統一 -->
-    <div class="button-area">
-        <a th:href="@{/sales/SalesManagement}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
 
     <form th:action="@{/sales/SalesEdit}"
           method="post"
           class="form-box">
 
         <!-- ★label追加 -->
-        <label>販売数ID</label>
+        <label>販売数IDを入力してください</label>
 
         <input type="number"
                name="salesId"
@@ -44,6 +37,14 @@
                 検索
             </button>
         </div>
+		
+		<div class="back-area">
+		   <a th:href="@{/sales/SalesManagement}">
+		      <button type="button">
+		         戻る
+		      </button>
+		  </a>
+		</div>
 
     </form>
 

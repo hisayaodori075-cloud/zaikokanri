@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <h2>登録内容確認</h2>
+    <h1>登録内容確認</h1>
 	
 	<div th:if="${error}" style="color:red; margin-bottom:10px;">
 		<p th:text="${error}"></p>
@@ -30,23 +30,7 @@
 
     <div class="button-area">
 
-        <!-- 戻る -->
-        <form th:action="@{/product/back}"
-              th:object="${product}"
-              method="post">
-
-            <input type="hidden" th:field="*{janCode}" />
-            <input type="hidden" th:field="*{makerName}" />
-            <input type="hidden" th:field="*{productName}" />
-            <input type="hidden" th:field="*{purchasePrice}" />
-            <input type="hidden" th:field="*{price}" />
-            <input type="hidden" th:field="*{salesStatus}" />
-
-            <button type="submit" class="btn-back">
-                戻る
-            </button>
-
-        </form>
+        
 
         <!-- 登録 -->
         <form th:action="@{/product/save}"
@@ -65,6 +49,24 @@
             </button>
 
         </form>
+		
+		<!-- 戻る -->
+		<form th:action="@{/product/back}"
+		      th:object="${product}"
+		      method="post">
+
+		    <input type="hidden" th:field="*{janCode}" />
+		    <input type="hidden" th:field="*{makerName}" />
+		    <input type="hidden" th:field="*{productName}" />
+		    <input type="hidden" th:field="*{purchasePrice}" />
+		    <input type="hidden" th:field="*{price}" />
+		    <input type="hidden" th:field="*{salesStatus}" />
+
+		    <button type="submit" class="btn-back">
+		        戻る
+		    </button>
+
+		</form>
 
     </div>
 
