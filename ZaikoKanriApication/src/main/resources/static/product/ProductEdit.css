@@ -2,7 +2,7 @@
 
 /* 背景（緑系） */
 body {
-    background: #e8f5e9;
+    background: #CCFFCC;
     font-family: Arial, sans-serif;
     margin: 0;
     padding-top: 40px;
@@ -13,7 +13,6 @@ body {
 h1 {
     margin-bottom: 20px;
     font-size: 26px;
-    color: #2e7d32;
 }
 
 /* カード */
@@ -91,10 +90,10 @@ input:focus, select:focus {
 
 /* 確認ボタン */
 .btn-confirm {
-    background: #4caf50;
+	background:#007bff;
     color: white;
 }
 
 .btn-confirm:hover {
-    background: #388e3c;
+	background:#0069d9;
 }

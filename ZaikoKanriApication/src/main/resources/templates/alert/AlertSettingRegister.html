@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <h2>在庫最低数登録</h2>
+    <h1>在庫最低数登録</h1>
 	
 	<div th:if="${error}" style="color:red; margin-bottom:10px;">
 		<p th:text="${error}"></p>
@@ -35,10 +35,9 @@
 
         <input type="hidden" th:field="*{productId}" />
 
-        <label>
-            在庫最低数：
-            <input type="number" th:field="*{minStock}" min="1" required />
-        </label>
+        <label>在庫最低数</label>           
+        <input type="number" th:field="*{minStock}" min="1" required />
+        
 
         <div class="button-area">
             <button type="submit">
@@ -48,7 +47,7 @@
 
     </form>
 
-    <div class="button-area">
+    <div class="back-area">
         <button type="button"
                 onclick="location.href='/alert/AlertSettingList'">
             一覧に戻る

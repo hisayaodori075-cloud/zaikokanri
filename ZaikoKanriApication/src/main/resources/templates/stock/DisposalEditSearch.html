@@ -17,17 +17,11 @@
 		<p th:text="${errorMessage}"></p>
 	</div>
 
-    <div class="button-area">
-        <a th:href="@{/stock/DisposalMenu}">
-            <button type="button">
-                戻る
-            </button>
-        </a>
-    </div>
+    
 
     <form th:action="@{/stock/DisposalEdit}" method="post" class="form-box">
 
-        <label>廃棄ID</label>
+        <label>廃棄IDを入力してください</label>
         <input type="number" name="disposalId" required>
 
         <div class="button-area">
@@ -35,6 +29,14 @@
                 検索
             </button>
         </div>
+		
+		<div class="back-area">
+		    <a th:href="@{/stock/DisposalMenu}">
+		    		<button type="button">
+		           戻る
+		         </button>
+		    </a>
+		</div>
 
     </form>
 

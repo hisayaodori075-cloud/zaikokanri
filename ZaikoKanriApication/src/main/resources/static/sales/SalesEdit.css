@@ -2,7 +2,7 @@
 
 /* 全体 */
 body {
-    background-color: #dcdcdc;
+    background-color: #CCFFCC;
     font-family: Arial, sans-serif;
 }
 
@@ -18,7 +18,7 @@ body {
 }
 
 /* タイトル */
-h2 {
+h1{
     text-align: center;
     margin-bottom: 30px;
 }
@@ -59,24 +59,42 @@ label {
     background-color: #eaeaea;
 }
 
-/* ボタンエリア */
-.button-area {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
+/* ★ボタン共通（ここが一番重要） */
+button{
+    padding:10px 20px;
+    min-width:160px;   /* ←統一 */
+    border-radius:4px;
+    border:none;
+    cursor:pointer;
 }
 
-/* ボタン */
-button {
-    padding: 10px 20px;
-    border: 1px solid #888;
-    background-color: #e6e6e6;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: bold;
+/* メイン（確認へ） */
+.button-area{
+    margin-top:20px;
+    text-align:center;
 }
 
-button:hover {
-    background-color: #d0d0d0;
+.button-area button{
+    min-width:180px;   /* ←統一 */
+    background:#007bff;
+    color:white;
+}
+
+.button-area button:hover{
+    background:#0069d9;
+}
+
+/* 戻る */
+.back-area{
+    margin-top:10px;
+    text-align:center;
+}
+
+.back-area button{
+    min-width:180px;   /* ←統一（ここ重要） */
+    background:#e0e0e0;
+}
+
+.back-area button:hover{
+    background:#cfcfcf;
 }
