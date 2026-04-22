@@ -9,29 +9,25 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h2>販売登録完了</h2>
+        <h1>販売登録が完了しました。</h1>
+		
+		<form th:action="@{/sales/SalesRegister}" method="get">
+		    <button type="submit">
+		       販売登録を続ける
+		    </button>
+		</form>
 
-    <p>販売登録が完了しました。</p>
-
-    <div class="button-area">
-
-        <a th:href="@{/sales/SalesRegister}">
-            <button type="button">
-                販売登録へ戻る
+        <form th:action="@{/sales/SalesManagement}" method="get">
+            <button type="submit">
+                販売管理へ戻る
             </button>
-        </a>
+        </form>
 
-        <a th:href="@{/sales/SalesManagement}">
-            <button type="button">
-                販売管理へ
-            </button>
-        </a>
+        
 
     </div>
-
-</div>
 
 </body>
 </html>

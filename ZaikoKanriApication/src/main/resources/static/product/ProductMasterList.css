@@ -10,7 +10,7 @@ body {
 }
 
 /* タイトル */
-h2 {
+h1 {
     margin-bottom: 30px;
     font-size: 26px;
     color: #333;
@@ -69,6 +69,41 @@ form:last-of-type button:hover {
     box-shadow: 0 2px 12px rgba(0,0,0,0.1);
     border-radius: 10px;
     overflow: hidden;
+}
+
+.product-table th:nth-child(2),
+.product-table td:nth-child(2) {
+    width: 100px;
+}
+
+.product-table th:nth-child(3),
+.product-table td:nth-child(3) {
+    width: 250px;
+}
+
+.product-table th:nth-child(4),
+.product-table td:nth-child(4) {
+    width: 250px;
+}
+
+.product-table th:nth-child(5),
+.product-table td:nth-child(5) {
+    width: 70px;
+}
+
+.product-table th:nth-child(6),
+.product-table td:nth-child(6) {
+    width: 70px;
+}
+
+.product-table th:nth-child(7),
+.product-table td:nth-child(7) {
+    width: 100px;
+}
+
+.product-table th:nth-child(8),
+.product-table td:nth-child(8) {
+    width: 80px;
 }
 
 /* ヘッダー */

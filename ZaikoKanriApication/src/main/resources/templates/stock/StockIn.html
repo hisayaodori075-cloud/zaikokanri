@@ -20,8 +20,10 @@
 
         <!-- 商品情報表示 -->
         <div class="product-info">
-            <p>商品名: <span th:text="${product.productName}"></span></p>
-            <p>JANコード: <span th:text="${product.janCode}"></span></p>
+            <p>商品名</p>
+			<span th:text="${product.productName}"></span>
+            <p>JANコード</p>
+			<span th:text="${product.janCode}"></span>
         </div>
 
         <form th:action="@{/stock/StockInConfirm}"

@@ -41,9 +41,9 @@
                     <!-- 不足数 -->
                     <td th:text="${alertMap[product.id].minStock - (product.stock != null ? product.stock : 0)}"></td>
 
-                    <td>
-                        緊急
-                    </td>
+					<td>
+					  <span class="urgent">緊急</span>
+					</td>
 
                 </tr>
 

@@ -6,7 +6,7 @@ body{
 }
 
 .container{
-    width:500px;
+    width:520px;
     margin:80px auto;
 }
 
@@ -20,6 +20,10 @@ h1{
     border:1px solid #999;
     padding:15px;
     margin-bottom:20px;
+}
+
+.product-info p{
+    color:red;
 }
 
 .form-box{
