@@ -8,7 +8,7 @@ body{
 
 /* カード */
 .container{
-    width: 500px;
+    width: 520px;
     margin: 80px auto;
     background: #ffffff;
     padding: 30px;
@@ -22,31 +22,24 @@ h1{
     margin-bottom: 25px;
 }
 
-/* 情報表示（グリッドで揃える） */
+/* 情報表示 */
 .form-box{
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    row-gap: 12px;
-    column-gap: 10px;
     margin-bottom: 30px;
 }
 
-/* ラベル */
-.form-box label{
-    font-weight: bold;
+.form-box p{
+    margin: 10px 0;
+    font-size: 16px;
+	color:red;
 }
 
-/* 値 */
-.form-box span{
-    align-self: center;
-}
-
-/* ボタンエリア（上下中央） */
+/* ボタンエリア（縦並び中央） */
 .button-area{
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column;   /* ← 上下配置 */
+    align-items: center;      /* ← 中央寄せ */
     gap: 12px;
+    margin-top: 20px;
 }
 
 /* form余白リセット */
@@ -56,7 +49,7 @@ h1{
 
 /* ボタン共通 */
 button{
-    width: 180px;
+    width: 180px;             /* ← 幅揃え（重要） */
     padding: 10px;
     border: none;
     border-radius: 6px;
@@ -64,7 +57,7 @@ button{
     font-size: 14px;
 }
 
-/* 保存ボタン */
+/* 登録ボタン */
 .button-area form:first-child button{
     background-color: #1e73d8;
     color: white;
@@ -82,4 +75,9 @@ button{
 
 .button-area form:last-child button:hover{
     background-color: #cfcfcf;
+}
+
+/* エラーメッセージ */
+p{
+    margin: 0;
 }

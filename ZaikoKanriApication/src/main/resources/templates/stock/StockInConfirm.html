@@ -21,12 +21,18 @@
         <div class="info-box">
 
             <!-- 商品情報 -->
-            <p>商品名: <span th:text="${product.productName}"></span></p>
-            <p>JANコード: <span th:text="${product.janCode}"></span></p>
+            <p>商品名</p>
+			<span th:text="${product.productName}"></span>
+			
+            <p>JANコード</p>
+			<span th:text="${product.janCode}"></span>
 
             <!-- 入荷情報 -->
-            <p>入荷数: <span th:text="${stock.quantity}"></span></p>
-            <p>入荷日: <span th:text="${stock.arrivalDate}"></span></p>
+            <p>入荷数</p>
+			<span th:text="${stock.quantity}"></span>
+			
+            <p>入荷日</p>
+			<span th:text="${stock.arrivalDate}"></span>
 
         </div>
 

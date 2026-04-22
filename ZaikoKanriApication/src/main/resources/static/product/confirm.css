@@ -8,7 +8,7 @@ body{
 
 /* カード */
 .container{
-    width: 500px;
+    width: 520px;
     margin: 80px auto;
     background: #ffffff;
     padding: 30px;
@@ -30,6 +30,7 @@ h1{
 .info-box p{
     margin: 10px 0;
     font-size: 16px;
+	color:red;
 }
 
 /* ボタンエリア（上下中央） */

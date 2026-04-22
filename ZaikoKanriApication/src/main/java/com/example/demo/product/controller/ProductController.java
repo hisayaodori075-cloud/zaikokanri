@@ -278,6 +278,7 @@ public class ProductController {
         // 必要な項目だけ上書き
         dbProduct.setJanCode(product.getJanCode());
         dbProduct.setMakerName(product.getMakerName());
+        dbProduct.setProductName(product.getProductName());
         dbProduct.setPurchasePrice(product.getPurchasePrice());
         dbProduct.setPrice(product.getPrice());
         dbProduct.setSalesStatus(product.getSalesStatus());

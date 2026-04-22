@@ -14,21 +14,17 @@
         <h1>在庫最低数登録</h1>
 
         <!-- 商品情報表示 -->
-        メーカー名:
+        <p>メーカー名</p>
         <span th:text="${product.makerName}"></span>
-        <br>
 
-        商品名:
+        <p>商品名</p>
         <span th:text="${product.productName}"></span>
-        <br>
 
-        JANコード:
+        <p>JANコード</p>
         <span th:text="${product.janCode}"></span>
-        <br>
-		
-		在庫最低数:
+        
+		<p>在庫最低数</p>
 		<span th:text="${alertSetting.minStock}"></span>
-		<br>
 
         <form th:action="@{/alert/AlertSettingComplete}"
               method="post"

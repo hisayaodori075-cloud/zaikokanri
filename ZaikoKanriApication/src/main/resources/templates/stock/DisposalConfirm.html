@@ -21,13 +21,18 @@
         <div class="info-box">
 
             <!-- 商品情報 -->
-            <p>商品名: <span th:text="${product.productName}"></span></p>
-            <p>JANコード: <span th:text="${product.janCode}"></span></p>
+            <p>商品名</p>
+			<span th:text="${product.productName}"></span>
+            <p>JANコード</p>
+			<span th:text="${product.janCode}"></span>
 
             <!-- 廃棄情報 -->
-            <p>廃棄数: <span th:text="${disposal.quantity}"></span></p>
-            <p>廃棄日: <span th:text="${disposal.disposalDate}"></span></p>
-		    <p>廃棄理由: <span th:text="${disposal.reason}"></span></p>
+            <p>廃棄数</p>
+			<span th:text="${disposal.quantity}"></span>
+            <p>廃棄日</p>
+			<span th:text="${disposal.disposalDate}"></span>
+		    <p>廃棄理由</p>
+			<span th:text="${disposal.reason}"></span>
 
         </div>
 

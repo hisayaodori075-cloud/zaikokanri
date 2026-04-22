@@ -19,12 +19,18 @@
 
     <div class="info-box">
 
-        <p>JANコード: <span th:text="${product.janCode}"></span></p>
-        <p>メーカー名: <span th:text="${product.makerName}"></span></p>
-        <p>商品名: <span th:text="${product.productName}"></span></p>
-        <p>仕入価格: <span th:text="${product.purchasePrice}"></span></p>
-        <p>売価: <span th:text="${product.price}"></span></p>
-        <p>販売状況: <span th:text="${product.salesStatus}"></span></p>
+        <p>JANコード</p>
+		<span th:text="${product.janCode}"></span>
+        <p>メーカー名</p>
+		<span th:text="${product.makerName}"></span>
+        <p>商品名</p>
+		<span th:text="${product.productName}"></span>
+        <p>仕入価格</p>
+		<span th:text="${product.purchasePrice}"></span>
+        <p>売価</p>
+		<span th:text="${product.price}"></span>
+        <p>販売状況</p>
+		<span th:text="${product.salesStatus}"></span>
 
     </div>
 

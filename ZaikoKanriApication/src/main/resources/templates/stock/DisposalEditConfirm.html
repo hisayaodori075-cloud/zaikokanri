@@ -17,27 +17,27 @@
     <div class="form-box" th:object="${disposal}">
 
         <!-- 廃棄ID -->
-        <label>廃棄ID</label>
+        <p>廃棄ID</p>
         <span th:text="*{id}"></span>
         <input type="hidden" th:field="*{id}">
 
         <!-- 商品名 -->
-        <label>商品名</label>
+        <p>商品名</p>
         <span th:text="${product.productName}"></span>
         <input type="hidden" th:field="*{productId}">
 
         <!-- 廃棄数 -->
-        <label>廃棄数</label>
+        <p>廃棄数</p>
         <span th:text="*{quantity}"></span>
         <input type="hidden" th:field="*{quantity}">
 
         <!-- 廃棄日 -->
-        <label>廃棄日</label>
+        <p>廃棄日</p>
         <span th:text="*{disposalDate}"></span>
         <input type="hidden" th:field="*{disposalDate}">
 		
 		<!-- 廃棄理由 -->
-		<label>廃棄理由</label>
+		<p>廃棄理由</p>
 		<span th:text="*{reason}"></span>
 		<input type="hidden" th:field="*{reason}">
 

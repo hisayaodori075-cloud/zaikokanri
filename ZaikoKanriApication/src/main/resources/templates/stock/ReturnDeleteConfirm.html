@@ -20,11 +20,16 @@
 
     <div class="info-box">
 
-        <p>返品ID: <span th:text="${returnData.id}"></span></p>
-        <p>商品名: <span th:text="${product.productName}"></span></p>
-        <p>返品数: <span th:text="${returnData.returnQuantity}"></span></p>
-        <p>返品日: <span th:text="${returnData.returnDate}"></span></p>
-        <p>返品理由: <span th:text="${returnData.reason}"></span></p>
+        <p>返品ID</p>
+		<span th:text="${returnData.id}"></span>
+        <p>商品名</p>
+		<span th:text="${product.productName}"></span>
+        <p>返品数</p>
+		<span th:text="${returnData.returnQuantity}"></span>
+        <p>返品日</p>
+		<span th:text="${returnData.returnDate}"></span>
+        <p>返品理由</p>
+		<span th:text="${returnData.reason}"></span>
 
     </div>
 

@@ -8,7 +8,7 @@ body{
 
 /* カード */
 .container{
-    width: 500px;
+    width: 520px;
     margin: 80px auto;
     background: #ffffff;
     padding: 30px;
@@ -28,8 +28,8 @@ h1{
     line-height: 1.8;
 }
 
-.product-info span{
-    font-weight: bold;
+.product-info p{
+    color: red;
 }
 
 /* 削除ボタン（中央） */

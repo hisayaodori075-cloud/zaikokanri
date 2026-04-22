@@ -17,22 +17,22 @@
     <div class="form-box" th:object="${sales}">
 
         <!-- ID -->
-        <label>ID</label>
+        <p>販売数ID</p>
         <span th:text="*{id}"></span>
         <input type="hidden" th:field="*{id}">
 
         <!-- 商品名 -->
-        <label>商品名</label>
+        <p>商品名</p>
         <span th:text="${product.productName}"></span>
         <input type="hidden" th:field="*{productId}">
 
         <!-- 販売数 -->
-        <label>販売数</label>
+        <p>販売数</p>
         <span th:text="*{salesQuantity}"></span>
         <input type="hidden" th:field="*{salesQuantity}">
 
         <!-- 販売日 -->
-        <label>販売日</label>
+        <p>販売日</p>
         <span th:text="*{salesDate}"></span>
         <input type="hidden" th:field="*{salesDate}">
 

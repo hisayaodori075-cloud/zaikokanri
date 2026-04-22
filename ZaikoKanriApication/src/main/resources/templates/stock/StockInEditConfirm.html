@@ -17,22 +17,22 @@
     <div class="form-box" th:object="${stock}">
 
         <!-- 入荷ID -->
-        <label>入荷ID</label>
+        <p>入荷ID</p>
         <span th:text="*{id}"></span>
         <input type="hidden" th:field="*{id}">
 
         <!-- 商品名 -->
-        <label>商品名</label>
+        <p>商品名</p>
         <span th:text="${product.productName}"></span>
         <input type="hidden" th:field="*{productId}">
 
         <!-- 入荷数 -->
-        <label>入荷数</label>
-        <span th:text="*{quantity}"></span>
+        <p>入荷数</p>
+        <span th:text="*{quantity}"></span><br>
         <input type="hidden" th:field="*{quantity}">
 
         <!-- 入荷日 -->
-        <label>入荷日</label>
+        <p>入荷日</p>
         <span th:text="*{arrivalDate}"></span>
         <input type="hidden" th:field="*{arrivalDate}">
 
