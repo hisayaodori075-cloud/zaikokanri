@@ -34,13 +34,45 @@ h1 {
     margin-left: 10px;
 }
 
-.button-area {
+.button-area{
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
-button {
-    padding: 8px 20px;
+/* form余白リセット */
+.button-area form{
+    margin: 0;
+}
+
+/* ボタン共通 */
+button{
+    width: 180px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
+	
+}
+
+/* 戻るボタン */
+.btn-back{
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-back:hover{
+    background-color: #cfcfcf;
+}
+
+/* 登録ボタン */
+.btn-confirm{
+    background-color: #1e73d8;
+    color: white;
+}
+
+.btn-confirm:hover{
+    background-color: #155ab6;
 }

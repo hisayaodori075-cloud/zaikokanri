@@ -9,25 +9,25 @@
 
 <body>
 
-    <h1>ログイン</h1>
+	<form th:action="@{/auth/login}" method="post">
 
-    <form th:action="@{/auth/login}" method="post">
+	    <h1 class="form-title">ログイン</h1>
 
-        <div>
-            ユーザー名：
-            <input type="text" name="username">
-        </div>
+	    <div>
+	        ユーザー名
+	        <input type="text" name="username">
+	    </div>
 
-        <div>
-            パスワード：
-            <input type="password" name="password">
-        </div>
+	    <div>
+	        パスワード
+	        <input type="password" name="password">
+	    </div>
 
-        <button type="submit">
-            ログイン
-        </button>
+	    <button type="submit">
+	        ログイン
+	    </button>
 
-    </form>
+	</form>
 
 </body>
 </html>

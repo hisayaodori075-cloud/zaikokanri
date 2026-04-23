@@ -30,12 +30,11 @@ h1{
 .info-box p{
     margin: 10px 0;
     font-size: 16px;
-	font-weight:bold;
 	color:red;
 }
 
 .info-box span{
-    font-size: 20px;
+    font-size: 16px;
 }
 
 /* ボタンエリア（上下中央） */

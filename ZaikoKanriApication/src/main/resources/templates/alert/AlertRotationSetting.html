@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>発注回転数アラート設定</title>
+    <title>回転数アラート設定</title>
 	<link rel="stylesheet" th:href="@{/alert/AlertRotationSetting.css}">
 </head>
 
@@ -11,7 +11,7 @@
 
     <div class="container">
 
-        <h1>発注回転数アラート設定</h1>
+        <h1>回転数アラート設定</h1>
 		
 		<div th:if="${error}" style="color:red; margin-bottom:10px;">
 			<p th:text="${error}"></p>
@@ -55,16 +55,22 @@
                 <label>対象商品</label><br>
                 通常販売中の商品を対象とします（販売停止・販売終了は除外）
             </div>
+			
+			<div class="button-area">
+			
+				<button type="submit" class="btn-confirm">
+				   確認画面へ
+				</button>
+	
+	            <button type="button" 
+				onclick="location.href='/alert/AlertSetting'"
+				class="btn-back">
+	               設定画面に戻る
+	            </button>
+			</div>
 
-            <div class="button-area">
-                <button type="button" onclick="location.href='/alert/AlertSetting'">
-                    設定画面に戻る
-                </button>
-
-                <button type="submit">
-                    確認画面へ
-                </button>
-            </div>
+            
+            
 
         </form>
 

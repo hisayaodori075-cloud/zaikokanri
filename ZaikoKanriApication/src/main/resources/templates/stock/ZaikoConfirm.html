@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>在庫確認</title>
+    <title>在庫調整管理</title>
     <link rel="stylesheet" th:href="@{/stock/ZaikoConfirm.css}">
 </head>
 
@@ -11,28 +11,28 @@
 
 <div class="container">
 
-    <h1>在庫確認</h1>
+    <h1>在庫調整管理</h1>
 
     <div class="button-area">
 
         <!-- 廃棄 -->
         <form th:action="@{/stock/DisposalMenu}" method="get">
             <button type="submit">
-                廃棄管理へ
+                廃棄管理
             </button>
         </form>
 
         <!-- 返品 -->
         <form th:action="@{/stock/ReturnMenu}" method="get">
             <button type="submit">
-                返品管理へ
+                返品管理
             </button>
         </form>
 
         <!-- 棚卸差異 -->
         <form th:action="@{/stock/StockTakeMenu}" method="get">
             <button type="submit">
-                棚卸管理へ
+                棚卸管理
             </button>
         </form>
 

@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>アラート表示画面</title>
+    <title>アラート表示メニュー</title>
     <link rel="stylesheet" th:href="@{/alert/AlertScreen.css}">
 </head>
 
 <body>
 
-    <h1>アラート表示画面</h1>
+    <h1>アラート表示メニュー</h1>
 
     <!-- 発注最低数アラート -->
     <div class="menuButton">
@@ -20,7 +20,7 @@
 					th:style="${minStockAlertCount > 0} ?
 			        'background-color:#ff6b6b;color:white;border:2px solid #c0392b;' : ''">
 
-                発注最低数アラート
+                在庫最低数アラート
 
                 <span class="alertCount"
                       th:text="${minStockAlertCount} + '件'">

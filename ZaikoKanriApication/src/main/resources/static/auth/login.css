@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    height: 100vh;
+    height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,6 +12,7 @@ body {
 form {
     background: white;
     padding: 40px 50px;
+	padding-left:30px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     text-align: center;
@@ -19,11 +20,12 @@ form {
 }
 
 /* タイトル */
-h1 {
-    position: absolute;
-    top: 60px;
-    font-size: 28px;
+/* タイトル（カード内） */
+.form-title {
+    font-size: 24px;
     color: #2b5aa6;
+    margin-bottom: 25px;
+	padding-left:10px;
 }
 
 /* 入力ブロック */
@@ -59,6 +61,8 @@ input:focus {
 button {
     width: 100%;
     padding: 10px;
+	margin-left:10px;
+	margin-top:20px;
     background: #4a90e2;
     border: none;
     color: white;

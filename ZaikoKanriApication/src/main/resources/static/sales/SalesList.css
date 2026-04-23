@@ -52,3 +52,8 @@ th{
 tr:nth-child(even){
     background:#f9f9f9;
 }
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 250px;
+}
