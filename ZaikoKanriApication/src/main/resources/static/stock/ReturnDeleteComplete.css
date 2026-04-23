@@ -42,12 +42,12 @@ button {
 
 /* 続けて登録（メイン操作） */
 form:nth-of-type(1) button {
-    background: #4a90e2;
+    background: #dc3545;
     color: white;
 }
 
 form:nth-of-type(1) button:hover {
-    background: #357bd8;
+    background: #b52a37;
 }
 
 /* 一覧へ戻る（サブ操作） */

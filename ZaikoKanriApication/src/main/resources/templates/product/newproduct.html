@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>商品マスタ新規登録</title>
+    <title>商品マスタ登録</title>
     <link rel="stylesheet" th:href="@{/product/newproduct.css}">
 </head>
 
@@ -15,7 +15,7 @@
           th:object="${product}"
           method="post">
 
-        <h1>商品マスタ新規登録</h1>
+        <h1>商品マスタ登録</h1>
 		
 		<!-- エラーメッセージ -->
 		<div th:if="${error}" style="color:red; margin-bottom:10px;">
