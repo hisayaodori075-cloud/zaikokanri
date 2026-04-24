@@ -16,28 +16,6 @@ h1 {
     color: #333;
 }
 
-/* 上部戻るボタン（単独用） */
-form:first-of-type {
-    margin-bottom: 10px;
-}
-
-form:first-of-type button {
-    width: 420px;
-    height: 45px;
-
-    background: #ffffff;
-    color: #333;
-
-    border: 1px solid #ccc;
-    border-radius: 6px;
-
-    cursor: pointer;
-}
-
-form:first-of-type button:hover {
-    background: #f5f5f5;
-}
-
 /* カード */
 .form-card {
     width: 420px;
@@ -102,26 +80,28 @@ input:focus, select:focus {
 
     border: none;
     border-radius: 8px;
-
-    color: white;
-}
-
-/* 戻る */
-.btn-back {
-    background: #ffffff;
-    color: #333;
-    border: 1px solid #ccc;
-}
-
-.btn-back:hover {
-    background: #f5f5f5;
 }
 
 /* 確認 */
 .btn-confirm {
-    background: #4a90e2;
+	background:#007bff;
+	color: white;
 }
 
 .btn-confirm:hover {
-    background: #357abd;
+	background:#0069d9;
 }
+
+/* 戻る */
+.btn-back {
+    background: #e0e0e0;
+    color: #333;
+    border: 1px solid #bdbdbd;
+}
+
+.btn-back:hover {
+    background: #d5d5d5;
+}
+
+
+
