@@ -265,7 +265,7 @@ public class SalesController {
         SalesEntity sales = salesService.findById(id);
 
         if (sales == null) {
-            model.addAttribute("errorMessage", "そのIDの販売データは存在しません");
+        	model.addAttribute("errorMessage", "販売ID " + id + " は存在しません");
             model.addAttribute("sales", new SalesEntity());
             return "sales/SalesEditSearch";
         }

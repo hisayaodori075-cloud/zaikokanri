@@ -317,7 +317,7 @@ public class ReturnController {
 
         // ★① 存在＋論理削除チェック
         if (target == null || target.isDeleted()) {
-            model.addAttribute("errorMessage", "返品ID " + returnData.getId() + " が存在しません");
+            model.addAttribute("errorMessage", "返品ID " + returnData.getId() + " は存在しません");
             return "stock/ReturnDeleteSearch";
         }
 

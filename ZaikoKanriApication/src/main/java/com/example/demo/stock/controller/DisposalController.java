@@ -453,7 +453,7 @@ public class DisposalController {
         // ① 編集前データ取得
         DisposalEntity oldDisposal = disposalService.findById(disposal.getId());
         if (oldDisposal == null) {
-            model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " が存在しません");
+            model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " は存在しません");
             return "stock/DisposalEditConfirm";
         }
 
@@ -580,7 +580,7 @@ public class DisposalController {
 
 	     // ★① 存在＋論理削除チェック（必須）
 	     if (target == null || target.isDeleted()) {
-	         model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " が存在しません");
+	         model.addAttribute("errorMessage", "廃棄ID " + disposal.getId() + " は存在しません");
 	         return "stock/DisposalDeleteSearch";
 	     }
 

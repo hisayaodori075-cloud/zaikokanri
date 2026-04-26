@@ -1,29 +1,37 @@
 @charset "UTF-8";
 
-body {
-    background-color: #f3f3f3;
+/* 背景 */
+body{
+    background-color: #f2f2f2; /* ←統一 */
     font-family: Arial, sans-serif;
 }
 
-.container {
-    width: 500px;
+/* カード化（←ここが一番重要） */
+.container{
+    width: 520px;
     margin: 80px auto;
-    text-align: center;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-h1 {
+/* タイトル */
+h1{
+    text-align: center;
     margin-bottom: 25px;
 }
 
-/* フォーム全体 */
-.form-box {
+/* フォーム */
+.form-box{
     display: flex;
     flex-direction: column;
-    gap: 6px; /* 少し詰める */
+    gap: 6px;
+    margin-bottom: 30px; /* ←追加（ボタンとの間） */
 }
 
-/* ラベル追加 */
-label {
+/* ラベル */
+label{
     text-align: left;
     font-size: 13px;
     color: #555;
@@ -32,36 +40,66 @@ label {
 
 /* 入力 */
 .form-box select,
-.form-box input {
+.form-box input{
     width: 100%;
-    padding: 8px 10px;   /* 少しコンパクト */
+    padding: 8px 10px;
     border: 1px solid #999;
     border-radius: 4px;
     font-size: 14px;
     box-sizing: border-box;
 }
 
-/* フォーカス強調 */
+/* フォーカス */
 .form-box input:focus,
-.form-box select:focus {
+.form-box select:focus{
     border-color: #4a90e2;
     outline: none;
 }
 
-/* ボタンエリア */
-.button-area {
-    margin-top: 20px;
+/* ★ボタンエリア（完全統一） */
+.button-area{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
-/* ボタン */
-button {
-    padding: 8px 20px;
-    border: 1px solid #999;
-    background-color: #e6e6e6;
+/* form余白リセット */
+.button-area form{
+    margin: 0;
+}
+
+/* ボタン共通（統一） */
+button{
+    width: 180px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 4px;
+    font-size: 14px;
 }
 
-button:hover {
-    background-color: #dcdcdc;
+/* 戻る */
+.btn-back{
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-back:hover{
+    background-color: #cfcfcf;
+}
+
+/* 検索（＝confirmと同じ色） */
+.btn-confirm{
+    background-color: #1e73d8;
+    color: white;
+}
+
+.btn-confirm:hover{
+    background-color: #155ab6;
+}
+
+/* エラー */
+p{
+    margin: 0;
 }

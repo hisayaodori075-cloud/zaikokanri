@@ -12,6 +12,28 @@
 <div class="result-container">
 
     <h1>商品検索結果</h1>
+	
+	<div class="button-area">
+
+	  <!-- 戻る（検索条件完全保持） -->
+	    <form th:action="@{/product/ProductSearchBack}"
+	              th:object="${productSearchForm}"
+	              method="post">
+
+	            <input type="hidden" th:field="*{janCode}">
+	            <input type="hidden" th:field="*{makerName}">
+	            <input type="hidden" th:field="*{productName}">
+	            <input type="hidden" th:field="*{purchasePrice}">
+	            <input type="hidden" th:field="*{price}">
+	            <input type="hidden" th:field="*{salesStatus}">
+
+	            <button type="submit">
+	                検索画面に戻る
+	            </button>
+
+	    </form>
+
+	</div>
 
     <table class="product-table">
 
@@ -49,27 +71,7 @@
 
     </table>
 
-    <div class="button-area">
-
-        <!-- 戻る（検索条件完全保持） -->
-        <form th:action="@{/product/ProductSearchBack}"
-              th:object="${productSearchForm}"
-              method="post">
-
-            <input type="hidden" th:field="*{janCode}">
-            <input type="hidden" th:field="*{makerName}">
-            <input type="hidden" th:field="*{productName}">
-            <input type="hidden" th:field="*{purchasePrice}">
-            <input type="hidden" th:field="*{price}">
-            <input type="hidden" th:field="*{salesStatus}">
-
-            <button type="submit">
-                検索画面に戻る
-            </button>
-
-        </form>
-
-    </div>
+    
 
 </div>
 

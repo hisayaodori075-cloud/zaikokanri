@@ -22,8 +22,8 @@
                     <th>JANコード</th>
                     <th>商品名</th>
                     <th>最終販売日</th>
-                    <th th:text="${setting.attentionDays} + '日販売数'"></th>
-					<th th:text="${setting.urgentDays} + '日販売数'"></th>
+					<th th:text="${setting?.attentionDays != null} ? ${setting.attentionDays} + '日販売数' : '-'"></th>
+					<th th:text="${setting?.urgentDays != null} ? ${setting.urgentDays} + '日販売数' : '-'"></th>
                     <th>重要度</th>
                 </tr>
             </thead>

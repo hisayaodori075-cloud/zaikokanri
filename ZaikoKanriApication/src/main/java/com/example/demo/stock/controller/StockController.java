@@ -252,7 +252,7 @@ public class StockController {
         StockInEntity stock = stockInService.findById(id);
 
         if (stock == null) {
-            model.addAttribute("errorMessage", "そのIDの入荷データは存在しません");
+        	model.addAttribute("errorMessage", "入荷ID " + id + " は存在しません");
             model.addAttribute("stock", new StockInEntity());
             return "stock/StockInEditSearch";
         }

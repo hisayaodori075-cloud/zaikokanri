@@ -103,7 +103,7 @@ form:last-of-type button:hover {
 
 .product-table th:nth-child(8),
 .product-table td:nth-child(8) {
-    width: 80px;
+    width: 100px;
 }
 
 /* ヘッダー */

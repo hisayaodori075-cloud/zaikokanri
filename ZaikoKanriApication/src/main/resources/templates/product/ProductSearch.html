@@ -13,13 +13,9 @@
 
     <h1>商品検索</h1>
 
-	<div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
-		<p th:text="${errorMessage}"></p>
-	</div>
-
-    <a th:href="@{/product/ProductMasterList}">
-        <button type="button">戻る</button>
-    </a>
+    <div th:if="${errorMessage}" style="color:red; margin-bottom:10px;">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
     <form th:action="@{/product/ProductSearchConfirm}"
           th:object="${productSearchForm}"
@@ -52,13 +48,24 @@
 
         </div>
 
+        <!-- ★ボタンエリアを統一 -->
         <div class="button-area">
 
-            <button type="submit">検索</button>
-
-        </div>
+            <!-- 検索 -->
+            <button type="submit" class="btn-confirm">
+                検索
+            </button>
 
     </form>
+
+            <!-- 戻る（外に出すのがポイント） -->
+            <form th:action="@{/product/ProductMasterList}" method="get">
+                <button type="submit" class="btn-back">
+                    戻る
+                </button>
+            </form>
+
+        </div>
 
 </div>
 
