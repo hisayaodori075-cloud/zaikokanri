@@ -58,12 +58,13 @@ public class ProductController {
             return "product/newproduct";
         }
 
-        if (product.getJanCode() != null &&
-                product.getJanCode().contains("-")) {
-                model.addAttribute("error", "JANコードにマイナスは使用できません");
-                model.addAttribute("product", product); // ★これ追加
-                return "product/newproduct";
-            }
+        if (product.getJanCode() == null || 
+        	    !product.getJanCode().matches("\\d{8}|\\d{13}")) {
+
+        	    model.addAttribute("error", "JANコードは8桁または13桁の数字で入力してください");
+        	    model.addAttribute("product", product);
+        	    return "product/newproduct";
+        	}
         
         // JAN重複チェック
         if (productService.isJanCodeDuplicate(product.getJanCode())) {
@@ -117,12 +118,13 @@ public class ProductController {
             return "product/newproduct";
         }
 
-        if (product.getJanCode() != null &&
-                product.getJanCode().contains("-")) {
-                model.addAttribute("error", "JANコードにマイナスは使用できません");
-                model.addAttribute("product", product); // ★これ追加
-                return "product/newproduct";
-            }
+        if (product.getJanCode() == null || 
+        	    !product.getJanCode().matches("\\d{8}|\\d{13}")) {
+
+        	    model.addAttribute("error", "JANコードは8桁または13桁の数字で入力してください");
+        	    model.addAttribute("product", product);
+        	    return "product/newproduct";
+        	}
         
         // JAN重複チェック
         if (productService.isJanCodeDuplicate(product.getJanCode())) {
@@ -182,13 +184,13 @@ public class ProductController {
             return "product/ProductEdit";
         }
 
-        if (product.getJanCode() != null &&
-                product.getJanCode().contains("-")) {
+        if (product.getJanCode() == null || 
+        	    !product.getJanCode().matches("\\d{8}|\\d{13}")) {
 
-            model.addAttribute("error", "JANコードにマイナスは使用できません");
-            model.addAttribute("product", product);
-            return "product/ProductEdit";
-        }
+        	    model.addAttribute("error", "JANコードは8桁または13桁の数字で入力してください");
+        	    model.addAttribute("product", product);
+        	    return "product/newproduct";
+        	}
 
         // JAN重複チェック
         if (productService.isJanCodeDuplicateForUpdate(
@@ -238,12 +240,13 @@ public class ProductController {
             return "product/ProductEdit";
         }
 
-        if (product.getJanCode() != null &&
-                product.getJanCode().contains("-")) {
-                model.addAttribute("error", "JANコードにマイナスは使用できません");
-                model.addAttribute("product", product); // ★これ追加
-                return "product/ProductEdit";
-            }
+        if (product.getJanCode() == null || 
+        	    !product.getJanCode().matches("\\d{8}|\\d{13}")) {
+
+        	    model.addAttribute("error", "JANコードは8桁または13桁の数字で入力してください");
+        	    model.addAttribute("product", product);
+        	    return "product/newproduct";
+        	}
         
         // JAN重複チェック
         if (productService.isJanCodeDuplicateForUpdate(

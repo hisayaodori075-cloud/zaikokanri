@@ -27,9 +27,12 @@
         <input type="hidden" th:field="*{id}">
 
         <label>JANコード</label>
-        <input type="number"
-               th:field="*{janCode}"
-               required>
+		<input type="text"
+				       th:field="*{janCode}"
+				       pattern="\d{8}|\d{13}"
+				       maxlength="13"
+				       required
+				       title="JANコードは8桁または13桁の数字で入力してください">
 
         <label>メーカー名</label>
         <input type="text" th:field="*{makerName}" required>
