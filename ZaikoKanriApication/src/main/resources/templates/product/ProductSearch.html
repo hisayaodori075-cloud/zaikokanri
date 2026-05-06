@@ -32,11 +32,19 @@
             <label>商品名</label>
             <input type="text" th:field="*{productName}" >
 
-            <label>仕入価格</label>
-            <input type="number" th:field="*{PurchasePrice}" >
+			<label>仕入価格</label>
+			<div class="range-input">
+			    <input type="number" th:field="*{purchasePriceMin}"　min="0">
+			    <span>～</span>
+			    <input type="number" th:field="*{purchasePriceMax}"　min="0">
+			</div>
 
-            <label>売価</label>
-            <input type="number" th:field="*{price}" >
+			<label>売価</label>
+			<div class="range-input">
+			    <input type="number" th:field="*{priceMin}"　min="0">
+			    <span>～</span>
+			    <input type="number" th:field="*{priceMax}"　min="0">
+			</div>
 
             <label>ステータス</label>
             <select th:field="*{salesStatus}">

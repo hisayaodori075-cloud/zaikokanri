@@ -200,6 +200,28 @@ public class StockInService {
     // 一覧表示
     // ===============================
     public List<StockInEntity> getStockInList() {
+        return stockInRepository.findByDeletedFalseOrderByIdDesc();
+    }
+    
+ // ===============================
+ // ★並び替え用（追加）
+ // ===============================
+
+    // ID順
+    public List<StockInEntity> findByIdAsc() {
+        return stockInRepository.findByDeletedFalseOrderByIdAsc();
+    }
+
+    public List<StockInEntity> findByIdDesc() {
+        return stockInRepository.findByDeletedFalseOrderByIdDesc();
+    }
+	
+	 // 入荷日順
+    public List<StockInEntity> findByDateAsc() {
+        return stockInRepository.findByDeletedFalseOrderByArrivalDateAsc();
+    }
+
+    public List<StockInEntity> findByDateDesc() {
         return stockInRepository.findByDeletedFalseOrderByArrivalDateDesc();
     }
 }

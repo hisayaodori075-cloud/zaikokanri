@@ -659,13 +659,37 @@ public class StockController {
     
  // ---------------- 入荷履歴一覧 ----------------
     @GetMapping("/StockInList")
-    public String stockInList(Model model) {
+    public String stockInList(@RequestParam(required = false) String sort,
+                             @RequestParam(required = false) String order,
+                             Model model) {
 
-        List<StockInEntity> stockInList = stockInService.getStockInList();
-        List<ProductEntity> productList = productService.findAll();
+        List<StockInEntity> stockInList;
+
+        // デフォルト
+        if (sort == null) sort = "id";
+        if (order == null) order = "desc";
+
+        if ("date".equals(sort)) {
+
+            if ("desc".equals(order)) {
+                stockInList = stockInService.findByDateDesc();
+            } else {
+                stockInList = stockInService.findByDateAsc();
+            }
+
+        } else {
+
+            if ("desc".equals(order)) {
+                stockInList = stockInService.findByIdDesc();
+            } else {
+                stockInList = stockInService.findByIdAsc();
+            }
+        }
 
         model.addAttribute("stockInList", stockInList);
-        model.addAttribute("productList", productList);
+        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
 
         return "stock/StockInList";
     }

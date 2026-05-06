@@ -31,6 +31,44 @@ button:hover{
     background:#dcdcdc;
 }
 
+/* 戻る */
+.back-area{
+    margin-bottom:20px;
+}
+
+/* ★これが画像の箱 */
+.search-form{
+    background:#fff;
+    border:1px solid #999;
+    padding:20px;
+    margin-bottom:30px;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+/* セレクト */
+.search-form select{
+    padding:8px;
+    border:1px solid #999;
+    border-radius:4px;
+	width:100%;
+}
+
+/* ボタン位置 */
+.form-button{
+    margin-top:10px;
+}
+
+
+
+/* ラベル調整 */
+.search-form label{
+    font-size:13px;
+    color:#555;
+}
+
 /* --- テーブル用追加 --- */
 
 table{

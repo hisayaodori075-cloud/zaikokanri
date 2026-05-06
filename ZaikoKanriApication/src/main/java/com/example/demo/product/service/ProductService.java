@@ -15,21 +15,27 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    // ---------------- 通常検索 ----------------
+ // ---------------- 通常検索 ----------------
     public List<ProductEntity> search(ProductSearchForm form) {
         String janCode = emptyToNull(form.getJanCode());
         String makerName = emptyToNull(form.getMakerName());
         String productName = emptyToNull(form.getProductName());
-        Integer purchasePrice = form.getPurchasePrice();
-        Integer price = form.getPrice();        
+
+        Integer purchasePriceMin = form.getPurchasePriceMin();
+        Integer purchasePriceMax = form.getPurchasePriceMax();
+        Integer priceMin = form.getPriceMin();
+        Integer priceMax = form.getPriceMax();
+
         String salesStatus = emptyToNull(form.getSalesStatus());
 
         return productRepository.search(
                 janCode,
                 makerName,
                 productName,
-                purchasePrice,
-                price,
+                purchasePriceMin,
+                purchasePriceMax,
+                priceMin,
+                priceMax,
                 salesStatus
         );
     }

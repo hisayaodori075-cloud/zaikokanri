@@ -38,6 +38,22 @@ label{
     margin-top: 10px;
 }
 
+.range-input{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.range-input input{
+    width: 100%;
+}
+
+/* ～の見た目 */
+.range-input span{
+    white-space: nowrap;
+    font-size: 14px;
+}
+
 /* 入力 */
 .form-box select,
 .form-box input{

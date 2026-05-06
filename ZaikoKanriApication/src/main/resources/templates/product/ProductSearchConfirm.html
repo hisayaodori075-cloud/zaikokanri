@@ -20,12 +20,17 @@
 	              th:object="${productSearchForm}"
 	              method="post">
 
-	            <input type="hidden" th:field="*{janCode}">
-	            <input type="hidden" th:field="*{makerName}">
-	            <input type="hidden" th:field="*{productName}">
-	            <input type="hidden" th:field="*{purchasePrice}">
-	            <input type="hidden" th:field="*{price}">
-	            <input type="hidden" th:field="*{salesStatus}">
+				  <input type="hidden" th:field="*{janCode}">
+				  <input type="hidden" th:field="*{makerName}">
+				  <input type="hidden" th:field="*{productName}">
+
+				  <input type="hidden" th:field="*{purchasePriceMin}">
+				  <input type="hidden" th:field="*{purchasePriceMax}">
+
+				  <input type="hidden" th:field="*{priceMin}">
+				  <input type="hidden" th:field="*{priceMax}">
+
+				  <input type="hidden" th:field="*{salesStatus}">
 
 	            <button type="submit">
 	                検索画面に戻る

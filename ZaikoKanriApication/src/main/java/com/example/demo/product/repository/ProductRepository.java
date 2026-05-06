@@ -26,16 +26,26 @@ public interface ProductRepository
             AND (:janCode IS NULL OR p.janCode = :janCode)
             AND (:makerName IS NULL OR p.makerName LIKE CONCAT(:makerName, '%'))
             AND (:productName IS NULL OR p.productName LIKE CONCAT(:productName, '%'))
-            AND (:purchasePrice IS NULL OR p.PurchasePrice = :purchasePrice)
-            AND (:price IS NULL OR p.price = :price)
+
+            AND (:purchasePriceMin IS NULL OR p.PurchasePrice >= :purchasePriceMin)
+            AND (:purchasePriceMax IS NULL OR p.PurchasePrice <= :purchasePriceMax)
+
+            AND (:priceMin IS NULL OR p.price >= :priceMin)
+            AND (:priceMax IS NULL OR p.price <= :priceMax)
+
             AND (:salesStatus IS NULL OR p.salesStatus = :salesStatus)
             """)
     List<ProductEntity> search(
         @Param("janCode") String janCode,
         @Param("makerName") String makerName,
         @Param("productName") String productName,
-        @Param("purchasePrice") Integer purchasePrice,
-        @Param("price") Integer price,
+
+        @Param("purchasePriceMin") Integer purchasePriceMin,
+        @Param("purchasePriceMax") Integer purchasePriceMax,
+
+        @Param("priceMin") Integer priceMin,
+        @Param("priceMax") Integer priceMax,
+
         @Param("salesStatus") String salesStatus
     );
 

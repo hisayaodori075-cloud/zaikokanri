@@ -28,6 +28,15 @@ public interface StockInRepository extends JpaRepository<StockInEntity, Integer>
     List<StockInEntity> findByDeletedFalse();
 
     List<StockInEntity> findByDeletedFalseOrderByArrivalDateDesc();
+    
+	 // ===============================
+	 // ★並び替え用（追加）
+	 // ===============================
+	
+    List<StockInEntity> findByDeletedFalseOrderByIdAsc();
+    List<StockInEntity> findByDeletedFalseOrderByIdDesc();
+
+    List<StockInEntity> findByDeletedFalseOrderByArrivalDateAsc();
 
     // ===============================
     // ★追加（廃棄と統一）

@@ -35,12 +35,41 @@ public class ProductSearchController {
                 (form.getJanCode() == null || form.getJanCode().isEmpty()) &&
                 (form.getMakerName() == null || form.getMakerName().isEmpty()) &&
                 (form.getProductName() == null || form.getProductName().isEmpty()) &&
-                form.getPurchasePrice() == null &&
-                form.getPrice() == null &&
+                (form.getPurchasePriceMin() == null &&
+                 form.getPurchasePriceMax() == null) &&
+                (form.getPriceMin() == null &&
+                 form.getPriceMax() == null) &&
                 (form.getSalesStatus() == null || form.getSalesStatus().isEmpty());
 
         if (isEmpty) {
             model.addAttribute("errorMessage", "検索条件を1つ以上入力してください");
+            model.addAttribute("productSearchForm", form);
+            return "product/ProductSearch";
+        }
+
+        // ★追加：0円未満チェック
+        boolean invalidPrice =
+                (form.getPurchasePriceMin() != null && form.getPurchasePriceMin() < 0) ||
+                (form.getPurchasePriceMax() != null && form.getPurchasePriceMax() < 0) ||
+                (form.getPriceMin() != null && form.getPriceMin() < 0) ||
+                (form.getPriceMax() != null && form.getPriceMax() < 0);
+
+        if (invalidPrice) {
+            model.addAttribute("errorMessage", "価格は0円以上で入力してください");
+            model.addAttribute("productSearchForm", form);
+            return "product/ProductSearch";
+        }
+
+        // ★追加：範囲不正チェック
+        boolean invalidRange =
+                (form.getPurchasePriceMin() != null && form.getPurchasePriceMax() != null &&
+                 form.getPurchasePriceMin() > form.getPurchasePriceMax()) ||
+
+                (form.getPriceMin() != null && form.getPriceMax() != null &&
+                 form.getPriceMin() > form.getPriceMax());
+
+        if (invalidRange) {
+            model.addAttribute("errorMessage", "最小値は最大値以下で入力してください");
             model.addAttribute("productSearchForm", form);
             return "product/ProductSearch";
         }
