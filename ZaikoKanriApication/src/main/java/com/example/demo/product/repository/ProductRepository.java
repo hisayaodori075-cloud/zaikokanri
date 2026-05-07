@@ -63,4 +63,24 @@ public interface ProductRepository
     boolean existsByJanCodeAndDeletedFalse(String janCode);
 
     boolean existsByJanCodeAndDeletedFalseAndIdNot(String janCode, Integer id);
+    
+    // ===============================
+    // ★並び替え用
+    // ===============================
+
+    // ID
+    List<ProductEntity> findByDeletedFalseOrderByIdAsc();
+    List<ProductEntity> findByDeletedFalseOrderByIdDesc();
+
+    // メーカー名
+    List<ProductEntity> findByDeletedFalseOrderByMakerNameAsc();
+    List<ProductEntity> findByDeletedFalseOrderByMakerNameDesc();
+
+    // 商品名
+    List<ProductEntity> findByDeletedFalseOrderByProductNameAsc();
+    List<ProductEntity> findByDeletedFalseOrderByProductNameDesc();
+
+    // 売価
+    List<ProductEntity> findByDeletedFalseOrderByPriceAsc();
+    List<ProductEntity> findByDeletedFalseOrderByPriceDesc();
 }

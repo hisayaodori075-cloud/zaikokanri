@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.product.entity.ProductEntity;
 import com.example.demo.product.service.ProductService;
@@ -316,9 +317,53 @@ public class ProductController {
 
     // ---------------- 一覧 ----------------
     @GetMapping("/ProductMasterList")
-    public String productMasterList(Model model) {
-        List<ProductEntity> productList = productService.findAll();
+    public String productMasterList(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String order,
+            Model model) {
+
+        List<ProductEntity> productList;
+
+        // デフォルト設定
+        if (sort == null) sort = "id";
+        if (order == null) order = "desc";
+
+        if ("maker".equals(sort)) {
+
+            if ("asc".equals(order)) {
+                productList = productService.findByMakerAsc();
+            } else {
+                productList = productService.findByMakerDesc();
+            }
+
+        } else if ("name".equals(sort)) {
+
+            if ("asc".equals(order)) {
+                productList = productService.findByNameAsc();
+            } else {
+                productList = productService.findByNameDesc();
+            }
+
+        } else if ("price".equals(sort)) {
+
+            if ("asc".equals(order)) {
+                productList = productService.findByPriceAsc();
+            } else {
+                productList = productService.findByPriceDesc();
+            }
+
+        } else { // id
+
+            if ("asc".equals(order)) {
+                productList = productService.findByIdAsc();
+            } else {
+                productList = productService.findByIdDesc();
+            }
+        }
+
         model.addAttribute("productList", productList);
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
+
         return "product/ProductMasterList";
-    }
-}
+    }}

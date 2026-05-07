@@ -21,6 +21,27 @@
             </a>
         </div>
 
+        <!-- ★並び替えフォーム（入荷・販売と統一） -->
+        <form th:action="@{/stock/DisposalList}" method="get" class="search-form">
+
+            <label>並び替え</label>
+            <select name="sort">
+                <option value="id" th:selected="${sort == 'id'}">ID</option>
+                <option value="date" th:selected="${sort == 'date'}">廃棄日</option>
+            </select>
+
+            <label>順序</label>
+            <select name="order">
+                <option value="asc" th:selected="${order == 'asc'}">昇順</option>
+                <option value="desc" th:selected="${order == 'desc'}">降順</option>
+            </select>
+
+            <div class="form-button">
+                <button type="submit">適用</button>
+            </div>
+
+        </form>
+
         <table>
 
             <thead>
@@ -29,7 +50,7 @@
                     <th>商品名</th>
                     <th>廃棄数</th>
                     <th>廃棄日</th>
-				    <th>廃棄理由</th>
+                    <th>廃棄理由</th>
                 </tr>
             </thead>
 
@@ -47,7 +68,7 @@
 
                     <td th:text="${disposal.quantity}"></td>
                     <td th:text="${disposal.disposalDate}"></td>
-					<td th:text="${disposal.reason}"></td>
+                    <td th:text="${disposal.reason}"></td>
                 </tr>
 
             </tbody>

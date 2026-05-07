@@ -26,6 +26,28 @@ public class ReturnService {
     public List<ReturnEntity> findAllNotDeleted() {
         return returnRepository.findByDeletedFalse();
     }
+    
+ // ===============================
+    // ★並び替え用（追加）
+    // ===============================
+
+    // ID順
+    public List<ReturnEntity> findByIdAsc() {
+        return returnRepository.findByDeletedFalseOrderByIdAsc();
+    }
+
+    public List<ReturnEntity> findByIdDesc() {
+        return returnRepository.findByDeletedFalseOrderByIdDesc();
+    }
+
+    // 返品日順
+    public List<ReturnEntity> findByDateAsc() {
+        return returnRepository.findByDeletedFalseOrderByReturnDateAsc();
+    }
+
+    public List<ReturnEntity> findByDateDesc() {
+        return returnRepository.findByDeletedFalseOrderByReturnDateDesc();
+    }
 
     // ★返品登録＋在庫更新
     public boolean executeReturn(ReturnEntity returnData) {

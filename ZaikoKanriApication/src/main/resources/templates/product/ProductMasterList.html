@@ -13,25 +13,44 @@
 
     <h1>商品マスタ一覧</h1>
 
-    <!-- 新規商品登録 -->
-    <form th:action="@{/product/newproduct}" method="get">
-        <button type="submit">
-            新規商品登録
-        </button>
-    </form>
+    <!-- ボタンエリア -->
+    <div class="button-area">
 
-    <!-- 商品検索 -->
-    <form th:action="@{/product/ProductSearch}" method="get">
-        <button type="submit">
-            商品検索
-        </button>
-    </form>
+        <form th:action="@{/product/newproduct}" method="get">
+            <button type="submit">新規商品登録</button>
+        </form>
 
-    <!-- マスタ管理へ戻る -->
-    <form th:action="@{/menu/ProductMasterKanri}" method="get">
-        <button type="submit">
-            マスタ管理へ戻る
-        </button>
+        <form th:action="@{/product/ProductSearch}" method="get">
+            <button type="submit">商品検索</button>
+        </form>
+
+        <form th:action="@{/menu/ProductMasterKanri}" method="get">
+            <button type="submit">マスタ管理へ戻る</button>
+        </form>
+
+    </div>
+
+    <!-- 並び替え -->
+    <form th:action="@{/product/ProductMasterList}" method="get" class="search-form">
+
+        <label>並び替え</label>
+        <select name="sort">
+            <option value="id" th:selected="${sort == 'id'}">ID</option>
+            <option value="maker" th:selected="${sort == 'maker'}">メーカー名</option>
+            <option value="name" th:selected="${sort == 'name'}">商品名</option>
+            <option value="price" th:selected="${sort == 'price'}">売価</option>
+        </select>
+
+        <label>順序</label>
+        <select name="order">
+            <option value="asc" th:selected="${order == 'asc'}">昇順</option>
+            <option value="desc" th:selected="${order == 'desc'}">降順</option>
+        </select>
+
+        <div class="form-button">
+            <button type="submit">適用</button>
+        </div>
+
     </form>
 
     <table class="product-table">

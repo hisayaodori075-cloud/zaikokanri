@@ -15,6 +15,7 @@ h1{
     margin-bottom:30px;
 }
 
+/* 戻るボタンエリア */
 .button-area{
     margin-bottom:20px;
     text-align:left;
@@ -31,8 +32,39 @@ button:hover{
     background:#dcdcdc;
 }
 
-/* --- テーブル用追加 --- */
+/* =========================
+   検索フォーム（入荷と統一）
+========================= */
+.search-form{
+    background:#fff;
+    border:1px solid #999;
+    padding:20px;
+    margin-bottom:30px;
 
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.search-form label{
+    font-size:13px;
+    color:#555;
+}
+
+.search-form select{
+    padding:8px;
+    border:1px solid #999;
+    border-radius:4px;
+    width:100%;
+}
+
+.form-button{
+    margin-top:10px;
+}
+
+/* =========================
+   テーブル
+========================= */
 table{
     width:100%;
     border-collapse:collapse;
@@ -53,7 +85,8 @@ tr:nth-child(even){
     background:#f9f9f9;
 }
 
+/* 商品名列の幅調整（入荷と統一） */
 th:nth-child(2),
-td:nth-child(2) {
-    width: 250px;
+td:nth-child(2){
+    width:250px;
 }

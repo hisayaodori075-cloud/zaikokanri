@@ -209,10 +209,32 @@ public class SalesService {
         return result != null ? result : 0;
     }
 
-    // -----------------------------
-    // 販売履歴一覧（新しい順）
-    // -----------------------------
-    public List<SalesEntity> getSalesList() {
-        return salesRepository.findByDeletedFalseOrderBySalesDateDesc();
-    }
+ // -----------------------------
+ // 販売履歴一覧
+ // -----------------------------
+ public List<SalesEntity> getSalesList() {
+     return salesRepository.findByDeletedFalseOrderByIdDesc();
+ }
+
+ // ===============================
+ // ★並び替え用（追加）
+ // ===============================
+
+ // ID順
+ public List<SalesEntity> findByIdAsc() {
+     return salesRepository.findByDeletedFalseOrderByIdAsc();
+ }
+
+ public List<SalesEntity> findByIdDesc() {
+     return salesRepository.findByDeletedFalseOrderByIdDesc();
+ }
+
+ // 販売日順
+ public List<SalesEntity> findByDateAsc() {
+     return salesRepository.findByDeletedFalseOrderBySalesDateAsc();
+ }
+
+ public List<SalesEntity> findByDateDesc() {
+     return salesRepository.findByDeletedFalseOrderBySalesDateDesc();
+ }
 }

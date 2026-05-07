@@ -146,4 +146,44 @@ public class ProductService {
         return productRepository
             .existsByJanCodeAndDeletedFalseAndIdNot(janCode.trim(), id);
     }
+    
+ // ===============================
+ // ★商品一覧（並び替え用）
+ // ===============================
+
+	 // ID
+	 public List<ProductEntity> findByIdAsc() {
+	     return productRepository.findByDeletedFalseOrderByIdAsc();
+	 }
+	
+	 public List<ProductEntity> findByIdDesc() {
+	     return productRepository.findByDeletedFalseOrderByIdDesc();
+	 }
+	
+	 // メーカー名
+	 public List<ProductEntity> findByMakerAsc() {
+	     return productRepository.findByDeletedFalseOrderByMakerNameAsc();
+	 }
+	
+	 public List<ProductEntity> findByMakerDesc() {
+	     return productRepository.findByDeletedFalseOrderByMakerNameDesc();
+	 }
+	
+	 // 商品名
+	 public List<ProductEntity> findByNameAsc() {
+	     return productRepository.findByDeletedFalseOrderByProductNameAsc();
+	 }
+	
+	 public List<ProductEntity> findByNameDesc() {
+	     return productRepository.findByDeletedFalseOrderByProductNameDesc();
+	 }
+	
+	 // 売価
+	 public List<ProductEntity> findByPriceAsc() {
+	     return productRepository.findByDeletedFalseOrderByPriceAsc();
+	 }
+	
+	 public List<ProductEntity> findByPriceDesc() {
+	     return productRepository.findByDeletedFalseOrderByPriceDesc();
+	 }
 }

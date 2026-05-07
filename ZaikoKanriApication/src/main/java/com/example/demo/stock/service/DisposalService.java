@@ -174,7 +174,23 @@ public class DisposalService {
         return disposalRepository.findByIdInAndDeletedFalse(ids);
     }
     
-    public List<DisposalEntity> findAllNotDeleted() {
-        return disposalRepository.findByDeletedFalse();
+    public List<DisposalEntity> getDisposalList() {
+        return disposalRepository.findByDeletedFalseOrderByIdDesc();
+    }
+    
+    public List<DisposalEntity> findByIdAsc() {
+        return disposalRepository.findByDeletedFalseOrderByIdAsc();
+    }
+
+    public List<DisposalEntity> findByIdDesc() {
+        return disposalRepository.findByDeletedFalseOrderByIdDesc();
+    }
+    
+    public List<DisposalEntity> findByDateAsc() {
+        return disposalRepository.findByDeletedFalseOrderByDisposalDateAsc();
+    }
+
+    public List<DisposalEntity> findByDateDesc() {
+        return disposalRepository.findByDeletedFalseOrderByDisposalDateDesc();
     }
 }

@@ -28,6 +28,36 @@ form {
     margin: 5px;
 }
 
+.search-form{
+    background:#fff;
+    border:1px solid #999;
+    padding:20px;
+    margin-bottom:30px;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+/* セレクト */
+.search-form select{
+    padding:8px;
+    border:1px solid #999;
+    border-radius:4px;
+	width:100%;
+}
+
+/* ラベル調整 */
+.search-form label{
+    font-size:13px;
+    color:#555;
+	text-align:left;
+}
+
+.form-button{
+	padding-top:20px;	
+}
+
 /* 共通ボタン */
 button {
     width: 180px;
@@ -44,17 +74,21 @@ button {
     transition: 0.2s;
 }
 
+.button-area{
+	margin-bottom:30px;
+}
+
 /* ホバー */
 button:hover {
     background-color: #357abd;
 }
 
 /* 戻るボタン（最後のform想定） */
-form:last-of-type button {
+form:nth-of-type(3) button {
     background-color: #888;
 }
 
-form:last-of-type button:hover {
+form:nth-of-type(3) button:hover {
     background-color: #666;
 }
 

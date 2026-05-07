@@ -2,7 +2,7 @@ package com.example.demo.stock.repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional; // ★これも忘れず追加
+import java.util.Optional;
 
 import jakarta.transaction.Transactional;
 
@@ -20,7 +20,9 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
     // 商品IDで販売履歴を検索（論理削除を除く）
     List<SalesEntity> findByProductIdAndDeletedFalse(Integer productId);
 
+    // ===============================
     // 論理削除
+    // ===============================
     @Modifying
     @Transactional
     @Query("""
@@ -31,16 +33,31 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
            """)
     void logicallyDeleteById(@Param("id") Integer id);
 
-    // 削除されていないものだけ取得
+    // ===============================
+    // 論理削除されていないもの取得
+    // ===============================
     List<SalesEntity> findByDeletedFalse();
 
-    // ★追加：ID検索（論理削除除外）
-    Optional<SalesEntity> findByIdAndDeletedFalse(Integer id);
+    // ===============================
+    // ★並び替え用（追加）
+    // ===============================
 
-    // -----------------------------
-    // 販売履歴一覧（新しい順）
-    // -----------------------------
+    // ID順
+    List<SalesEntity> findByDeletedFalseOrderByIdAsc();
+
+    List<SalesEntity> findByDeletedFalseOrderByIdDesc();
+
+    // 販売日順
+    List<SalesEntity> findByDeletedFalseOrderBySalesDateAsc();
+
     List<SalesEntity> findByDeletedFalseOrderBySalesDateDesc();
+
+    // ===============================
+    // ★取得系（統一）
+    // ===============================
+
+    // ID検索（論理削除除外）
+    Optional<SalesEntity> findByIdAndDeletedFalse(Integer id);
 
     // 指定日以降の販売数合計
     @Query("""

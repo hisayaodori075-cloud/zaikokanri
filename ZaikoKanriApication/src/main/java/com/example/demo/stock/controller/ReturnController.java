@@ -336,12 +336,38 @@ public class ReturnController {
     }
 
     @GetMapping("/stock/ReturnList")
-    public String showReturnList(Model model) {
-        List<ReturnEntity> returnList = returnService.findAllNotDeleted();
-        List<ProductEntity> productList = productService.findAll();
+    public String showReturnList(@RequestParam(required = false) String sort,
+                                 @RequestParam(required = false) String order,
+                                 Model model) {
+
+        List<ReturnEntity> returnList;
+
+        // デフォルト
+        if (sort == null) sort = "id";
+        if (order == null) order = "desc";
+
+        // 返品日は存在前提（StockInのarrivalDateと同じ扱い）
+        if ("date".equals(sort)) {
+
+            if ("desc".equals(order)) {
+                returnList = returnService.findByDateDesc();
+            } else {
+                returnList = returnService.findByDateAsc();
+            }
+
+        } else {
+
+            if ("desc".equals(order)) {
+                returnList = returnService.findByIdDesc();
+            } else {
+                returnList = returnService.findByIdAsc();
+            }
+        }
 
         model.addAttribute("returnList", returnList);
-        model.addAttribute("productList", productList);
+        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
 
         return "stock/ReturnList";
     }

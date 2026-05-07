@@ -14,6 +14,7 @@
     <div class="container">
 
         <h1>販売履歴一覧</h1>
+
 		<div class="button-area">
 
 			<a th:href="@{/sales/SalesManagement}">
@@ -24,6 +25,25 @@
 
 		</div>
 
+		<form th:action="@{/sales/SalesList}" method="get" class="search-form">
+
+		    <label>並び替え</label>
+			<select name="sort">
+			    <option value="id" th:selected="${sort == 'id'}">ID</option>
+			    <option value="date" th:selected="${sort == 'date'}">販売日</option>
+			</select>
+
+		    <label>順序</label>
+			<select name="order">
+			    <option value="asc" th:selected="${order == 'asc'}">昇順</option>
+			    <option value="desc" th:selected="${order == 'desc'}">降順</option>
+			</select>
+
+		    <div class="form-button">
+		        <button type="submit">適用</button>
+		    </div>
+
+		</form>
 
         <table>
 

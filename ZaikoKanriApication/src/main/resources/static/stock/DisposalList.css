@@ -6,7 +6,7 @@ body{
 }
 
 .container{
-    width:750px;
+    width:700px;
     margin:80px auto;
 }
 
@@ -15,7 +15,6 @@ h1{
     margin-bottom:30px;
 }
 
-/* ボタンエリア */
 .button-area{
     margin-bottom:20px;
     text-align:left;
@@ -32,44 +31,68 @@ button:hover{
     background:#dcdcdc;
 }
 
-/* --- テーブル --- */
+/* 戻る */
+.back-area{
+    margin-bottom:20px;
+}
+
+/* ★これが画像の箱 */
+.search-form{
+    background:#fff;
+    border:1px solid #999;
+    padding:20px;
+    margin-bottom:30px;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+/* セレクト */
+.search-form select{
+    padding:8px;
+    border:1px solid #999;
+    border-radius:4px;
+	width:100%;
+}
+
+/* ボタン位置 */
+.form-button{
+    margin-top:10px;
+}
+
+
+
+/* ラベル調整 */
+.search-form label{
+    font-size:13px;
+    color:#555;
+}
+
+/* --- テーブル用追加 --- */
 
 table{
     width:100%;
     border-collapse:collapse;
     background:#fff;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1); /* 少しだけ見やすく */
 }
 
 th, td{
     border:1px solid #999;
-    padding:12px;
+    padding:10px;
     text-align:center;
 }
 
-/* ヘッダー */
 th{
     background:#e6e6e6;
-    font-weight:bold;
 }
 
-/* 偶数行 */
 tr:nth-child(even){
     background:#f9f9f9;
-}
-
-/* ホバーで見やすく */
-tr:hover{
-    background:#eef3ff;
-}
-
-/* 廃棄数を少し目立たせる */
-td:nth-child(3){
-    font-weight:bold;
-    color:#444;
 }
 
 th:nth-child(2),
 td:nth-child(2) {
     width: 250px;
 }
+

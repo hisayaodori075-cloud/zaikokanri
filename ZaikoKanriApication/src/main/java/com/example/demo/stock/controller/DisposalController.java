@@ -600,17 +600,40 @@ public class DisposalController {
     
     // 廃棄一覧表示（論理削除されていないものだけ）
     @GetMapping("/stock/DisposalList")
-    public String showDisposalList(Model model) {
+    public String disposalList(@RequestParam(required = false) String sort,
+                               @RequestParam(required = false) String order,
+                               Model model) {
 
-        // 論理削除されていない廃棄データのみ取得
-        List<DisposalEntity> disposalList = disposalService.findAllNotDeleted();
+        List<DisposalEntity> disposalList;
 
-        // 全商品リストも取得して商品名表示用に渡す
-        List<ProductEntity> productList = productService.findAll();
+        // デフォルト（入荷と統一）
+        if (sort == null) sort = "id";
+        if (order == null) order = "desc";
+
+        // 日付ソート
+        if ("date".equals(sort)) {
+
+            if ("desc".equals(order)) {
+                disposalList = disposalService.findByDateDesc();
+            } else {
+                disposalList = disposalService.findByDateAsc();
+            }
+
+        } else {
+
+            // IDソート
+            if ("desc".equals(order)) {
+                disposalList = disposalService.findByIdDesc();
+            } else {
+                disposalList = disposalService.findByIdAsc();
+            }
+        }
 
         model.addAttribute("disposalList", disposalList);
-        model.addAttribute("productList", productList);
+        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
 
-        return "stock/DisposalList"; // 先ほど作った廃棄一覧HTML
+        return "stock/DisposalList";
     }
 }

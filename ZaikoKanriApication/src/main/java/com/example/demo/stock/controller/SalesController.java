@@ -647,14 +647,41 @@ public class SalesController {
     
     
  // ---------------- 販売履歴一覧 ----------------
+ // ---------------- 販売履歴一覧 ----------------
     @GetMapping("/SalesList")
-    public String salesList(Model model) {
+    public String salesList(@RequestParam(required = false) String sort,
+                            @RequestParam(required = false) String order,
+                            Model model) {
 
-        List<SalesEntity> salesList = salesService.getSalesList();
-        List<ProductEntity> productList = productService.findAll();
+        List<SalesEntity> salesList;
+
+        // デフォルト
+        if (sort == null) sort = "id";
+        if (order == null) order = "desc";
+
+        // 販売日順
+        if ("date".equals(sort)) {
+
+            if ("desc".equals(order)) {
+                salesList = salesService.findByDateDesc();
+            } else {
+                salesList = salesService.findByDateAsc();
+            }
+
+        } else {
+
+            // ID順
+            if ("desc".equals(order)) {
+                salesList = salesService.findByIdDesc();
+            } else {
+                salesList = salesService.findByIdAsc();
+            }
+        }
 
         model.addAttribute("salesList", salesList);
-        model.addAttribute("productList", productList);
+        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("sort", sort);
+        model.addAttribute("order", order);
 
         return "sales/SalesList";
     }

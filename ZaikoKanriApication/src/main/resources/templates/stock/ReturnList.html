@@ -4,57 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <title>返品履歴一覧</title>
+
     <link rel="stylesheet" th:href="@{/stock/ReturnList.css}">
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>返品履歴一覧</h1>
+    <h1>返品履歴一覧</h1>
 
-        <!-- 戻るボタン -->
-        <div class="button-area">
-            <a th:href="@{/stock/ReturnMenu}">
-                <button type="button">戻る</button>
-            </a>
+    <!-- 戻る -->
+    <div class="back-area">
+        <a th:href="@{/stock/ReturnMenu}">
+            <button type="button">戻る</button>
+        </a>
+    </div>
+
+    <!-- 並び替えフォーム（StockInと完全統一） -->
+    <form th:action="@{/stock/ReturnList}" method="get" class="search-form">
+
+        <label>並び替え</label>
+        <select name="sort">
+            <option value="id" th:selected="${sort == 'id'}">ID</option>
+            <option value="date" th:selected="${sort == 'date'}">返品日</option>
+        </select>
+
+        <label>順序</label>
+        <select name="order">
+            <option value="asc" th:selected="${order == 'asc'}">昇順</option>
+            <option value="desc" th:selected="${order == 'desc'}">降順</option>
+        </select>
+
+        <div class="form-button">
+            <button type="submit">適用</button>
         </div>
 
-        <!-- 返品テーブル -->
-        <table>
+    </form>
 
-            <thead>
-                <tr>
-                    <th>返品ID</th>
-                    <th>商品名</th>
-                    <th>返品数</th>
-                    <th>返品日</th>
-					<th>返品理由</th>
-                </tr>
-            </thead>
+    <table>
 
-            <tbody>
+        <thead>
+            <tr>
+                <th>返品ID</th>
+                <th>商品名</th>
+                <th>返品数</th>
+                <th>返品日</th>
+                <th>返品理由</th>
+            </tr>
+        </thead>
 
-                <tr th:each="returnData : ${returnList}">
-                    <td th:text="${returnData.id}"></td>
+        <tbody>
 
-                    <td>
-                        <span th:each="product : ${productList}"
-                              th:if="${product.id == returnData.productId}"
-                              th:text="${product.productName}">
-                        </span>
-                    </td>
+            <tr th:each="returnData : ${returnList}">
 
-                    <td th:text="${returnData.returnQuantity}"></td>
-                    <td th:text="${returnData.returnDate}"></td>
-					<td th:text="${returnData.reason}"></td>
-                </tr>
+                <td th:text="${returnData.id}"></td>
 
-            </tbody>
+                <td>
+                    <span th:each="product : ${productList}"
+                          th:if="${product.id == returnData.productId}"
+                          th:text="${product.productName}">
+                    </span>
+                </td>
 
-        </table>
+                <td th:text="${returnData.returnQuantity}"></td>
+                <td th:text="${returnData.returnDate}"></td>
+                <td th:text="${returnData.reason}"></td>
 
-    </div>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
 
 </body>
 
