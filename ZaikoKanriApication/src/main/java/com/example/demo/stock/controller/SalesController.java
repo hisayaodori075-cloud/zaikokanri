@@ -647,11 +647,12 @@ public class SalesController {
     
     
  // ---------------- 販売履歴一覧 ----------------
- // ---------------- 販売履歴一覧 ----------------
     @GetMapping("/SalesList")
-    public String salesList(@RequestParam(required = false) String sort,
-                            @RequestParam(required = false) String order,
-                            Model model) {
+    public String salesList(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String order,
+            @RequestParam(required = false) Boolean showDeleted,
+            Model model) {
 
         List<SalesEntity> salesList;
 
@@ -678,10 +679,29 @@ public class SalesController {
             }
         }
 
+        // ★通常表示時は削除済み商品の履歴を除外
+        if (!Boolean.TRUE.equals(showDeleted)) {
+
+            salesList = salesList.stream()
+                .filter(sales ->
+                    productService.findByIdAndDeletedFalse(
+                        sales.getProductId()) != null)
+                .toList();
+        }
+
+        List<ProductEntity> productList;
+
+        if (Boolean.TRUE.equals(showDeleted)) {
+            productList = productService.findAllIncludingDeleted();
+        } else {
+            productList = productService.findAll();
+        }
+
         model.addAttribute("salesList", salesList);
-        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("productList", productList);
         model.addAttribute("sort", sort);
         model.addAttribute("order", order);
+        model.addAttribute("showDeleted", showDeleted);
 
         return "sales/SalesList";
     }

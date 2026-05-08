@@ -64,6 +64,10 @@ public class ProductService {
     public List<ProductEntity> findAll() {
         return productRepository.findByDeletedFalse();
     }
+    
+    public List<ProductEntity> findAllIncludingDeleted() {
+        return productRepository.findAll();
+    }
 
     public void save(ProductEntity product) {
 

@@ -659,9 +659,11 @@ public class StockController {
     
  // ---------------- 入荷履歴一覧 ----------------
     @GetMapping("/StockInList")
-    public String stockInList(@RequestParam(required = false) String sort,
-                             @RequestParam(required = false) String order,
-                             Model model) {
+    public String stockInList(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String order,
+            @RequestParam(required = false) Boolean showDeleted,
+            Model model) {
 
         List<StockInEntity> stockInList;
 
@@ -686,10 +688,29 @@ public class StockController {
             }
         }
 
+        // ★通常表示時は削除済み商品の履歴を除外
+        if (!Boolean.TRUE.equals(showDeleted)) {
+
+            stockInList = stockInList.stream()
+                .filter(stockIn ->
+                    productService.findByIdAndDeletedFalse(
+                        stockIn.getProductId()) != null)
+                .toList();
+        }
+
+        List<ProductEntity> productList;
+
+        if (Boolean.TRUE.equals(showDeleted)) {
+            productList = productService.findAllIncludingDeleted();
+        } else {
+            productList = productService.findAll();
+        }
+
         model.addAttribute("stockInList", stockInList);
-        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("productList", productList);
         model.addAttribute("sort", sort);
         model.addAttribute("order", order);
+        model.addAttribute("showDeleted", showDeleted);
 
         return "stock/StockInList";
     }

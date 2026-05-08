@@ -336,9 +336,11 @@ public class ReturnController {
     }
 
     @GetMapping("/stock/ReturnList")
-    public String showReturnList(@RequestParam(required = false) String sort,
-                                 @RequestParam(required = false) String order,
-                                 Model model) {
+    public String showReturnList(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String order,
+            @RequestParam(required = false) Boolean showDeleted,
+            Model model) {
 
         List<ReturnEntity> returnList;
 
@@ -346,7 +348,7 @@ public class ReturnController {
         if (sort == null) sort = "id";
         if (order == null) order = "desc";
 
-        // 返品日は存在前提（StockInのarrivalDateと同じ扱い）
+        // 返品日順
         if ("date".equals(sort)) {
 
             if ("desc".equals(order)) {
@@ -357,6 +359,7 @@ public class ReturnController {
 
         } else {
 
+            // ID順
             if ("desc".equals(order)) {
                 returnList = returnService.findByIdDesc();
             } else {
@@ -364,10 +367,29 @@ public class ReturnController {
             }
         }
 
+        // ★通常表示時は削除済み商品の履歴を除外
+        if (!Boolean.TRUE.equals(showDeleted)) {
+
+            returnList = returnList.stream()
+                .filter(returnData ->
+                    productService.findByIdAndDeletedFalse(
+                        returnData.getProductId()) != null)
+                .toList();
+        }
+
+        List<ProductEntity> productList;
+
+        if (Boolean.TRUE.equals(showDeleted)) {
+            productList = productService.findAllIncludingDeleted();
+        } else {
+            productList = productService.findAll();
+        }
+
         model.addAttribute("returnList", returnList);
-        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("productList", productList);
         model.addAttribute("sort", sort);
         model.addAttribute("order", order);
+        model.addAttribute("showDeleted", showDeleted);
 
         return "stock/ReturnList";
     }

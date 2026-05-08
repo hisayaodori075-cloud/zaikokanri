@@ -83,6 +83,11 @@ th, td{
     text-align:center;
 }
 
+.deleted-text{
+    color: red;
+    font-weight: bold;
+}
+
 th{
     background:#e6e6e6;
 }
@@ -94,5 +99,21 @@ tr:nth-child(even){
 th:nth-child(2),
 td:nth-child(2) {
     width: 250px;
+}
+
+.display-switch{
+    margin: 20px auto;
+    width: 100%;
+    text-align: left;
+}
+
+.display-switch a{
+    display: block;
+    margin-bottom: 8px;
+}
+
+.display-switch button{
+    width: 180px;
+    padding: 8px;
 }
 

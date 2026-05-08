@@ -21,7 +21,7 @@
             </a>
         </div>
 
-        <!-- ★並び替えフォーム（入荷・販売と統一） -->
+        <!-- ★並び替えフォーム -->
         <form th:action="@{/stock/DisposalList}" method="get" class="search-form">
 
             <label>並び替え</label>
@@ -42,6 +42,21 @@
 
         </form>
 
+		<div class="display-switch">
+
+		    <a th:href="@{/stock/DisposalList(sort=${sort}, order=${order})}">
+		        <button type="button">登録中商品のみ</button>
+		    </a>
+
+		    <a th:href="@{/stock/DisposalList(
+		            sort=${sort},
+		            order=${order},
+		            showDeleted=true)}">
+		        <button type="button">削除済み商品も表示</button>
+		    </a>
+
+		</div>
+
         <table>
 
             <thead>
@@ -59,12 +74,19 @@
                 <tr th:each="disposal : ${disposalList}">
                     <td th:text="${disposal.id}"></td>
 
-                    <td>
-                        <span th:each="product : ${productList}"
-                              th:if="${product.id == disposal.productId}"
-                              th:text="${product.productName}">
-                        </span>
-                    </td>
+					<td>
+					    <span th:each="product : ${productList}"
+					          th:if="${product.id == disposal.productId}">
+
+					        <span th:if="${product.deleted}"
+					              class="deleted-text">
+					            【削除済み】
+					        </span>
+
+					        <span th:text="${product.productName}"></span>
+
+					    </span>
+					</td>
 
                     <td th:text="${disposal.quantity}"></td>
                     <td th:text="${disposal.disposalDate}"></td>

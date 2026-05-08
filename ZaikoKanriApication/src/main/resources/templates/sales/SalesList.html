@@ -45,6 +45,21 @@
 
 		</form>
 
+		<div class="display-switch">
+
+		    <a th:href="@{/sales/SalesList(sort=${sort}, order=${order})}">
+		        <button type="button">登録中商品のみ</button>
+		    </a>
+
+		    <a th:href="@{/sales/SalesList(
+		            sort=${sort},
+		            order=${order},
+		            showDeleted=true)}">
+		        <button type="button">削除済み商品も表示</button>
+		    </a>
+
+		</div>
+
         <table>
 
             <thead>
@@ -61,12 +76,19 @@
 				<tr th:each="sales : ${salesList}">
 				    <td th:text="${sales.id}"></td>
 
-				    <td>
-				        <span th:each="product : ${productList}"
-				              th:if="${product.id == sales.productId}"
-				              th:text="${product.productName}">
-				        </span>
-				    </td>
+					<td>
+					    <span th:each="product : ${productList}"
+					          th:if="${product.id == sales.productId}">
+
+					        <span th:if="${product.deleted}"
+					              class="deleted-text">
+					            【削除済み】
+					        </span>
+
+					        <span th:text="${product.productName}"></span>
+
+					    </span>
+					</td>
 
 				    <td th:text="${sales.salesQuantity}"></td>
 				    <td th:text="${sales.salesDate}"></td>

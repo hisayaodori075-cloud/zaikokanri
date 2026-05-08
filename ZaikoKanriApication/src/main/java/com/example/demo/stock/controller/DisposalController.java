@@ -600,13 +600,15 @@ public class DisposalController {
     
     // 廃棄一覧表示（論理削除されていないものだけ）
     @GetMapping("/stock/DisposalList")
-    public String disposalList(@RequestParam(required = false) String sort,
-                               @RequestParam(required = false) String order,
-                               Model model) {
+    public String disposalList(
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String order,
+            @RequestParam(required = false) Boolean showDeleted,
+            Model model) {
 
         List<DisposalEntity> disposalList;
 
-        // デフォルト（入荷と統一）
+        // デフォルト
         if (sort == null) sort = "id";
         if (order == null) order = "desc";
 
@@ -629,10 +631,29 @@ public class DisposalController {
             }
         }
 
+        // ★通常表示時は削除済み商品の履歴を除外
+        if (!Boolean.TRUE.equals(showDeleted)) {
+
+            disposalList = disposalList.stream()
+                .filter(disposal ->
+                    productService.findByIdAndDeletedFalse(
+                        disposal.getProductId()) != null)
+                .toList();
+        }
+
+        List<ProductEntity> productList;
+
+        if (Boolean.TRUE.equals(showDeleted)) {
+            productList = productService.findAllIncludingDeleted();
+        } else {
+            productList = productService.findAll();
+        }
+
         model.addAttribute("disposalList", disposalList);
-        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("productList", productList);
         model.addAttribute("sort", sort);
         model.addAttribute("order", order);
+        model.addAttribute("showDeleted", showDeleted);
 
         return "stock/DisposalList";
     }
