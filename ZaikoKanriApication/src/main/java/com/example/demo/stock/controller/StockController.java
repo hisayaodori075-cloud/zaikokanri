@@ -604,6 +604,7 @@ public class StockController {
             @RequestParam(required = false) Integer productId,
             @RequestParam(required = false) String janCode,
             @RequestParam(required = false) String productName,
+            @RequestParam(required = false) Boolean showDeleted,
             Model model) {
 
         List<ProductEntity> productList;
@@ -614,7 +615,13 @@ public class StockController {
         // JAN + 商品名（プルダウン）チェック
         if (hasJan && hasProduct) {
 
-            ProductEntity product = productService.findById(productId);
+            ProductEntity product;
+
+            if (Boolean.TRUE.equals(showDeleted)) {
+                product = productService.findById(productId);
+            } else {
+                product = productService.findByIdAndDeletedFalse(productId);
+            }
 
             if (product != null && product.getJanCode().equals(janCode)) {
                 productList = List.of(product);
@@ -627,7 +634,14 @@ public class StockController {
         // JANのみ
         else if (hasJan) {
 
-            ProductEntity product = productService.findByJanCode(janCode);
+            ProductEntity product;
+
+            if (Boolean.TRUE.equals(showDeleted)) {
+                product = productService.findById(
+                        productService.findByJanCode(janCode).getId());
+            } else {
+                product = productService.findByJanCode(janCode);
+            }
 
             if (product == null) {
                 productList = List.of();
@@ -640,23 +654,43 @@ public class StockController {
         // 商品名のみ（プルダウン）
         else if (hasProduct) {
 
-            ProductEntity product = productService.findById(productId);
+            ProductEntity product;
+
+            if (Boolean.TRUE.equals(showDeleted)) {
+                product = productService.findById(productId);
+            } else {
+                product = productService.findByIdAndDeletedFalse(productId);
+            }
+
             productList = (product == null) ? List.of() : List.of(product);
 
         }
         // 未入力
         else {
 
-            productList = productService.findAll();
+            if (Boolean.TRUE.equals(showDeleted)) {
+                productList = productService.findAllIncludingDeleted();
+            } else {
+                productList = productService.findAll();
+            }
 
         }
 
         model.addAttribute("productList", productList);
-        model.addAttribute("allProducts", productService.findAll());
+
+        // ★プルダウンも切替
+        if (Boolean.TRUE.equals(showDeleted)) {
+            model.addAttribute("allProducts",
+                    productService.findAllIncludingDeleted());
+        } else {
+            model.addAttribute("allProducts",
+                    productService.findAll());
+        }
+
+        model.addAttribute("showDeleted", showDeleted);
 
         return "stock/StockList";
-    }
-    
+    }    
  // ---------------- 入荷履歴一覧 ----------------
     @GetMapping("/StockInList")
     public String stockInList(

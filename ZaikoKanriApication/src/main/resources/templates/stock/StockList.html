@@ -53,6 +53,18 @@
 
     </form>
 
+	<div class="display-switch">
+
+	    <a th:href="@{/stock/StockList}">
+	        <button type="button">登録中商品のみ</button>
+	    </a>
+
+	    <a th:href="@{/stock/StockList(showDeleted=true)}">
+	        <button type="button">削除済み商品も表示</button>
+	    </a>
+
+	</div>
+
     <!-- 在庫一覧表（クラス名統一） -->
     <table class="product-table">
 
@@ -71,7 +83,16 @@
 
             <tr th:each="product : ${productList}">
                 <td th:text="${product.id}"></td>
-                <td th:text="${product.productName}"></td>
+
+				<td>
+				    <span th:if="${product.deleted}"
+				          class="deleted-text">
+				        【削除済み】
+				    </span>
+
+				    <span th:text="${product.productName}"></span>
+				</td>
+
                 <td th:text="${product.janCode}"></td>
                 <td th:text="${product.stock}"></td>
 
