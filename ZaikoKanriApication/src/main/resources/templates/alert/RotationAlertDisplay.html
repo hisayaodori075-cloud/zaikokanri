@@ -25,6 +25,7 @@
 					<th th:text="${setting?.attentionDays != null} ? ${setting.attentionDays} + '日販売数' : '-'"></th>
 					<th th:text="${setting?.urgentDays != null} ? ${setting.urgentDays} + '日販売数' : '-'"></th>
                     <th>重要度</th>
+					<th>操作</th>
                 </tr>
             </thead>
 
@@ -54,6 +55,17 @@
 					        注意
 					    </span>
 
+					</td>
+					
+					<td>
+					    <form th:action="@{/alert/RotationAlertHide/{id}(id=${product.id})}"
+					          method="post">
+
+							<button type="submit" class="confirm-button">
+					            確認済<br>（3日後に再表示）
+					        </button>
+
+					    </form>
 					</td>
 
                 </tr>

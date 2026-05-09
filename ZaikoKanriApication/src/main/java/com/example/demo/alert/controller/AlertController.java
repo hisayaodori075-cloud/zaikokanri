@@ -385,4 +385,22 @@ public class AlertController {
 
         return "alert/RotationAlertDisplay";
     }
+    
+    @PostMapping("/RotationAlertHide/{id}")
+    public String rotationAlertHide(@PathVariable Integer id) {
+
+        ProductEntity product = productService.findByIdAndDeletedFalse(id);
+
+        if (product == null) {
+            return "redirect:/alert/RotationAlertDisplay";
+        }
+
+        // 3日間非表示
+        product.setRotationAlertHiddenUntil(
+                java.time.LocalDateTime.now().plusDays(3));
+
+        productService.save(product);
+
+        return "redirect:/alert/RotationAlertDisplay";
+    }
 }

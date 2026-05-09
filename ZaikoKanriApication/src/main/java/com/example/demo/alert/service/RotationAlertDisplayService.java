@@ -84,6 +84,17 @@ public class RotationAlertDisplayService {
                 if (!"販売中".equals(product.getSalesStatus())) {
                     return false;
                 }
+                
+                // ★在庫0除外
+                if (product.getStock() == null || product.getStock() <= 0) {
+                    return false;
+                }
+                
+             // ★確認済みで非表示中
+                if (product.getRotationAlertHiddenUntil() != null &&
+                    product.getRotationAlertHiddenUntil().isAfter(java.time.LocalDateTime.now())) {
+                    return false;
+                }
 
                 // ★削除除外
                 if (product.isDeleted()) {
@@ -176,6 +187,17 @@ public class RotationAlertDisplayService {
 
                     // ★販売中チェック
                     if (!"販売中".equals(product.getSalesStatus())) return false;
+                    
+                    // ★在庫0除外
+                    if (product.getStock() == null || product.getStock() <= 0) {
+                        return false;
+                    }
+                    
+                    // ★確認済みで非表示中
+                    if (product.getRotationAlertHiddenUntil() != null &&
+                        product.getRotationAlertHiddenUntil().isAfter(java.time.LocalDateTime.now())) {
+                        return false;
+                    }
 
                     // ★削除除外
                     if (product.isDeleted()) return false;

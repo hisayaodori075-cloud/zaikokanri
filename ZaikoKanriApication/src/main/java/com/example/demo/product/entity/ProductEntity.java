@@ -50,6 +50,9 @@ public class ProductEntity {
     @Column(name = "last_arrival_date")
     private LocalDateTime lastArrivalDate;
     
+    @Column(name = "rotation_alert_hidden_until")
+    private LocalDateTime rotationAlertHiddenUntil;
+    
     // ---------------- 論理削除用 ----------------
     @Column(name = "deleted", nullable = false)
     private boolean deleted = false;
@@ -122,6 +125,10 @@ public class ProductEntity {
     public LocalDateTime getLastArrivalDate() {
         return lastArrivalDate;
     }
+    
+    public LocalDateTime getRotationAlertHiddenUntil() {
+        return rotationAlertHiddenUntil;
+    }
 
     // ===== setter =====
     public void setId(Integer id) {
@@ -174,5 +181,9 @@ public class ProductEntity {
     
     public void setLastArrivalDate(LocalDateTime lastArrivalDate) {
         this.lastArrivalDate = lastArrivalDate;
+    }
+    
+    public void setRotationAlertHiddenUntil(LocalDateTime rotationAlertHiddenUntil) {
+        this.rotationAlertHiddenUntil = rotationAlertHiddenUntil;
     }
 }
