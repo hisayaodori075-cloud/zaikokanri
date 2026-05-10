@@ -328,6 +328,25 @@ public class AlertController {
         return "alert/AlertRotationSettingComplete";
     }
     
+    @GetMapping("/AlertRotationDeleteConfirm")
+    public String rotationDeleteConfirm() {
+
+        return "alert/AlertRotationDeleteConfirm";
+    }
+    
+    @PostMapping("/AlertRotationDeleteComplete")
+    public String rotationDeleteComplete() {
+
+        AlertRotationSettingEntity setting =
+                rotationService.getSetting();
+
+        if (setting != null) {
+            rotationService.delete(setting);
+        }
+
+        return "alert/AlertRotationDeleteComplete";
+    }
+    
     @GetMapping("/MinstockAlertDisplay")
     public String minstockAlertDisplay(Model model) {
 

@@ -33,28 +33,27 @@ public class AlertDisplayService {
         return productList.stream()
                 .filter(product -> {
 
-                    AlertSettingEntity setting = alertMap.get(product.getId());           
+                	AlertSettingEntity setting = alertMap.get(product.getId());
 
-                    if (setting == null) {
-                        return false;
-                    }
-                    
-                    // ★ここ追加（超重要）
-                    if (product.getCreatedAt() != null &&
-                        product.getCreatedAt()
-                            .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
-                        return false;
-                    }
+                	// ★ここ追加（超重要）
+                	if (product.getCreatedAt() != null &&
+                	    product.getCreatedAt()
+                	        .isAfter(java.time.LocalDateTime.now().minusDays(30))) {
+                	    return false;
+                	}
 
-                    int stock = product.getStock() != null ? product.getStock() : 0;
+                	int stock = product.getStock() != null ? product.getStock() : 0;
 
-                    Integer minStock = setting.getMinStock();
-                    if (minStock == null) {
-                        return false;
-                    }
+                	// ★デフォルト値
+                	int minStock = 10;
 
-                    return stock < minStock
-                            && "販売中".equals(product.getSalesStatus());
+                	// ★個別設定がある場合は優先
+                	if (setting != null && setting.getMinStock() != null) {
+                	    minStock = setting.getMinStock();
+                	}
+
+                	return stock < minStock
+                	        && "販売中".equals(product.getSalesStatus());    
 
                 })
                 .toList();

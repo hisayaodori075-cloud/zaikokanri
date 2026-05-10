@@ -78,7 +78,11 @@
 
                 <td th:text="${product.stock}"></td>
 
-                <td th:text="${alertMap[product.id]?.minStock ?: '未設定'}"></td>
+				<td th:text="${alertMap[product.id] != null 
+				    && alertMap[product.id].minStock != null
+				    ? alertMap[product.id].minStock
+				    : '10（初期設定)'}">
+				</td>
 
                 <td>
 
@@ -86,8 +90,8 @@
 
                         <button type="button">
 
-                            <span th:text="${alertMap[product.id] != null ? '最低数更新' : '最低数登録'}">
-                            </span>
+							<span th:text="${alertMap[product.id] != null ? '最低数更新' : '個別設定'}">
+							</span>
 
                         </button>
 

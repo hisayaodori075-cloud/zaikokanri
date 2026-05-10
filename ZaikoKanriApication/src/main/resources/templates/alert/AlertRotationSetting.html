@@ -61,6 +61,7 @@
 				<button type="submit" class="btn-confirm">
 				   確認画面へ
 				</button>
+				
 	
 	            <button type="button" 
 				onclick="location.href='/alert/AlertSetting'"
@@ -69,10 +70,17 @@
 	            </button>
 			</div>
 
-            
-            
-
         </form>
+		
+		<form th:action="@{/alert/AlertRotationDeleteConfirm}" 
+		      method="get"
+			  class="button-area">
+			<button type="submit"class="btn-delete">
+				設定クリア
+			</button>
+		</form>
+		
+		
 
     </div>
 

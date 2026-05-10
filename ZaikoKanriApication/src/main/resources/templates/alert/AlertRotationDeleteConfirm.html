@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>回転数アラート設定削除確認</title>
+    <link rel="stylesheet" th:href="@{/alert/AlertRotationDeleteConfirm.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>回転数アラート設定削除確認</h1>
+
+    <div class="setting-info">
+
+        回転数アラート設定を削除します。<br>
+        削除後は回転数アラートは停止します。<br><br>
+
+        よろしいですか？
+
+    </div>
+
+    <form th:action="@{/alert/AlertRotationDeleteComplete}"
+          method="post">
+
+        <button type="submit">
+            削除する
+        </button>
+
+    </form>
+
+    <br>
+
+    <button type="button" onclick="history.back()">
+        戻る
+    </button>
+
+</div>
+
+</body>
+</html>

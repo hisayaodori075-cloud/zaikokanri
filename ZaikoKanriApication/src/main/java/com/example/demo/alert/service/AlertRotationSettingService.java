@@ -26,5 +26,10 @@ public class AlertRotationSettingService {
 
         repository.save(setting);
     }
+    
+    public void delete(AlertRotationSettingEntity setting) {
+
+        repository.delete(setting);
+    }
 
 }

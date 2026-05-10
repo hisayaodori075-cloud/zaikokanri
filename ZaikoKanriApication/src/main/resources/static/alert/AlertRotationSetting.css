@@ -46,6 +46,17 @@ h1 {
     margin: 0;
 }
 
+.btn-delete {
+    background-color: #d9534f;
+    color: white;
+    margin-top: 12px;
+	
+}
+
+.btn-delete:hover {
+    background-color: #c9302c;
+}
+
 /* ボタン共通 */
 button{
     width: 180px;
