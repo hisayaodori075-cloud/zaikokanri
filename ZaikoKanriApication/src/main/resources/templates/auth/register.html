@@ -9,29 +9,44 @@
 
 <body>
 
-<form th:action="@{/auth/register}" method="post">
+<form th:action="@{/auth/register}"
+      th:object="${user}"
+      method="post">
 
-    <h1 class="form-title">アカウント新規登録</h1>
+    <h1 class="form-title">
+        アカウント新規登録
+    </h1>
+	
+	<div th:if="${errorMessage}" class="error-message">
+	    <p th:text="${errorMessage}"></p>
+	</div>
 
     <div>
         ユーザー名
-        <input type="text" name="username">
+
+		<input type="text"
+		       th:field="*{username}"
+		       required>
     </div>
 
     <div>
         パスワード
-        <input type="password" name="password">
+
+		<input type="password"
+		       th:field="*{password}"
+		       required>
     </div>
 
     <button type="submit">
         登録確認へ
     </button>
 
-    <!-- 戻るリンク（ログインと統一） -->
     <div class="register-link">
+
         <a th:href="@{/auth/login}">
             ログイン画面に戻る
         </a>
+
     </div>
 
 </form>

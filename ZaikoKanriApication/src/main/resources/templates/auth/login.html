@@ -13,15 +13,24 @@
 
 	    <h1 class="form-title">ログイン</h1>
 
-	    <div>
-	        ユーザー名
-	        <input type="text" name="username">
-	    </div>
+		<!-- エラーメッセージ -->
+		<div th:if="${param.error}" class="error-message">
+		    ユーザー名またはパスワードが違います
+		</div>
+		
+		<div>
+		    ユーザー名
+		    <input type="text"
+		           name="username"
+		           required>
+		</div>
 
-	    <div>
-	        パスワード
-	        <input type="password" name="password">
-	    </div>
+		<div>
+		    パスワード
+		    <input type="password"
+		           name="password"
+		           required>
+		</div>
 
 	    <button type="submit">
 	        ログイン

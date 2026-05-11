@@ -13,13 +13,21 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // ユーザー登録
     public void register(String username, String password) {
 
         UserEntity user = new UserEntity();
+
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setEnabled(true);
 
         userRepository.save(user);
+    }
+
+    // ユーザー名重複チェック
+    public boolean existsByUsername(String username) {
+
+        return userRepository.existsByUsername(username);
     }
 }

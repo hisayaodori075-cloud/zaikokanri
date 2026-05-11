@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>アカウント登録確認</title>
+    <link rel="stylesheet" th:href="@{/auth/confirm.css}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1 class="form-title">
+            アカウント登録確認
+        </h1>
+
+        <!-- エラーメッセージ -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <div class="info-box">
+
+            <!-- ユーザー名 -->
+            <p>ユーザー名</p>
+            <span th:text="${user.username}"></span>
+
+            <!-- パスワード -->
+            <p>パスワード</p>
+            <span th:text="${user.password}"></span>
+
+        </div>
+
+        <div class="button-area">
+
+            <!-- 登録する -->
+            <form th:action="@{/auth/complete}"
+                  th:object="${user}"
+                  method="post">
+
+                <input type="hidden" th:field="*{username}">
+                <input type="hidden" th:field="*{password}">
+
+                <button type="submit">
+                    登録する
+                </button>
+
+            </form>
+
+            <!-- 戻る -->
+            <form th:action="@{/auth/registerBack}"
+                  th:object="${user}"
+                  method="post">
+
+                <input type="hidden" th:field="*{username}">
+                <input type="hidden" th:field="*{password}">
+
+                <button type="submit">
+                    戻る
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

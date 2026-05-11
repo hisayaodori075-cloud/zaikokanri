@@ -14,16 +14,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/auth/login",
-                    "/auth/register",
-                    "/css/**",
-                    "/js/**",
-                    "/images/**"
-                ).permitAll()
+            		.requestMatchers(
+            			    "/auth/login",
+            			    "/auth/register",
+            			    "/auth/confirm",
+            			    "/auth/complete",
+            			    "/auth/registerBack",
+            			    "/css/**",
+            			    "/js/**",
+            			    "/images/**"
+            			).permitAll()
                 
                 .requestMatchers("/auth/login.css").permitAll()
                 .requestMatchers("/auth/register.css").permitAll()
+                .requestMatchers("/auth/confirm.css").permitAll()
+                .requestMatchers("/auth/complete.css").permitAll()
                 
                 .anyRequest().authenticated()
             )
