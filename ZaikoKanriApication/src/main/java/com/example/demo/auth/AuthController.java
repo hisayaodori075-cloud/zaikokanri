@@ -28,6 +28,7 @@ public class AuthController {
     public String registerForm() {
         return "auth/register";
     }
+    
 
     // 登録処理
     @PostMapping("/auth/register")
