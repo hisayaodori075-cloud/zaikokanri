@@ -266,7 +266,14 @@ public class StockController {
         	    return "stock/StockInEditSearch";
         	}
 
-        ProductEntity product = productService.findById(stock.getProductId());
+        ProductEntity product =
+                productService.findByIdAndDeletedFalse(stock.getProductId());
+
+        if (product == null) {
+            model.addAttribute("errorMessage", "対象商品が存在しません");
+            model.addAttribute("stock", new StockInEntity());
+            return "stock/StockInEditSearch";
+        }
 
         model.addAttribute("stock", stock);
         model.addAttribute("product", product); // ←これ追加
